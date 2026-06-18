@@ -105,7 +105,7 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('public/frontend/js/apexcharts.js') }}"></script>
+    <script src="{{ asset('frontend/js/apexcharts.js') }}"></script>
 
     <script>
 

@@ -24,7 +24,7 @@
                 <ul class="contact-item-list">
                     <li class="mb-20">
                         <div class="contact-item-icon">
-                            <img src="{{ asset('public/frontend') }}/images/icon/location.gif" alt="icon">
+                            <img src="{{ asset('frontend') }}/images/icon/location.gif" alt="icon">
                         </div>
                         <div class="contact-item-content">
                             <h5 class="title">{{ __("Our Location") }}</h5>
@@ -33,7 +33,7 @@
                     </li>
                     <li class="mb-20">
                         <div class="contact-item-icon">
-                            <img src="{{ asset('public/frontend') }}/images/icon/mobile.gif" alt="icon">
+                            <img src="{{ asset('frontend') }}/images/icon/mobile.gif" alt="icon">
                         </div>
                         <div class="contact-item-content">
                             <h5 class="title">{{ __("Call us on") }}: {{ $contact->value->phone ?? '' }}</h5>
@@ -44,7 +44,7 @@
                     </li>
                     <li class="mb-20">
                         <div class="contact-item-icon">
-                            <img src="{{ asset('public/frontend') }}/images/icon/email.gif" alt="icon">
+                            <img src="{{ asset('frontend') }}/images/icon/email.gif" alt="icon">
                         </div>
                         <div class="contact-item-content">
                             <h5 class="title">{{ __("Email us directly") }}</h5>

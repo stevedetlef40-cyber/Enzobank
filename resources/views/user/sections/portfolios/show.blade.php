@@ -75,7 +75,7 @@
 @endsection
 
 @push('script')
-<script src="{{ asset('public/frontend/js/apexcharts.js') }}"></script>
+<script src="{{ asset('frontend/js/apexcharts.js') }}"></script>
 <script>
 async function loadPerformance() {
     const endpoint = document.querySelector('#allocationChart').dataset.endpoint;

@@ -18,7 +18,7 @@ class SystemMaintenance
     public function handle(Request $request, Closure $next)
     {
         $system_maintenance = AdminSystemMaintenance::first();
-        if( $system_maintenance->status == 1){
+        if( $system_maintenance && $system_maintenance->status == 1){
             if($request->routeIs('admin.*')){
                 return $next($request);
             }else{

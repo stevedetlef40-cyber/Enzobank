@@ -7,7 +7,7 @@
             instanceId: clientInstanceId,
         });
 
-        // navigator.serviceWorker.register('{{ asset('public/service-worker.js') }}')
+        // navigator.serviceWorker.register('{{ asset('service-worker.js') }}')
         //     .then((registration) => {
         //     messaging.useServiceWorker(registration)});
 

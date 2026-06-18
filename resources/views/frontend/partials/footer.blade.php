@@ -10,7 +10,7 @@
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         Start Footer
  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
- <footer class="footer-section bg-overlay bg_img" data-background="{{ asset('public/frontend/') }}/images/element/footer-shape.jpg">
+ <footer class="footer-section bg-overlay bg_img" data-background="{{ asset('frontend/') }}/images/element/footer-shape.jpg">
     <div class="container mx-auto">
        <div class="footer-content pt-60">
                <div class="row">

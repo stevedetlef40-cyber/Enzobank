@@ -36,7 +36,7 @@
                         <div class="profile-settings-wrapper">
                             <div class="preview-thumb profile-wallpaper">
                                 <div class="avatar-preview">
-                                    <div class="profilePicPreview bg-overlay-base bg_img" data-background="{{ asset('public/frontend/images/element/profile-thumb.webp') }}"></div>
+                                    <div class="profilePicPreview bg-overlay-base bg_img" data-background="{{ asset('frontend/images/element/profile-thumb.webp') }}"></div>
                                 </div>
                             </div>
                             <div class="profile-thumb-content">

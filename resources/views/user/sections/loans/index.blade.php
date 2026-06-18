@@ -86,7 +86,7 @@
 @endsection
 
 @push('script')
-<script src="{{ asset('public/frontend/js/apexcharts.js') }}"></script>
+<script src="{{ asset('frontend/js/apexcharts.js') }}"></script>
 <script>
     function renderLoanCharts(stats) {
         const el = document.querySelector('#loanSummaryChart');

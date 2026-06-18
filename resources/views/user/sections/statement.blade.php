@@ -1,7 +1,7 @@
 @extends('user.layouts.master')
 
 @push('css')
-    <link rel="stylesheet" href="{{ asset('public/frontend/css/daterangepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/daterangepicker.min.css') }}">
 @endpush
 
 @section('content')
@@ -116,9 +116,9 @@
 @endsection
 
 @push('script')
-    <script src="{{ asset('public/frontend/js/moment.min.js') }}"></script>
-    <script src="{{ asset('public/frontend/js/knockout-3.4.2.js') }}"></script>
-    <script src="{{ asset('public/frontend/js/daterangepicker.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/moment.min.js') }}"></script>
+    <script src="{{ asset('frontend/js/knockout-3.4.2.js') }}"></script>
+    <script src="{{ asset('frontend/js/daterangepicker.min.js') }}"></script>
 
     <script>
         $('.daterangepicker-filed').daterangepicker({

@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('public/frontend/css/baking-theme.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/baking-theme.css') }}">
     <script>document.documentElement.classList.add('no-transitions');</script>
     <!-- Theme Toggle Script (Blocking to prevent flicker) -->
     <script>
