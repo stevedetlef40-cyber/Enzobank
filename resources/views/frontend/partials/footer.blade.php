@@ -1,81 +1,95 @@
 @php
-    $app_local      = get_default_language_code();
-    $default        = App\Constants\LanguageConst::NOT_REMOVABLE;
-    $slug           = Illuminate\Support\Str::slug(App\Constants\SiteSectionConst::FOOTER_SECTION);
-    $footer         = App\Models\Admin\SiteSections::getData($slug)->first();
-    $subcribe_slug  = Illuminate\Support\Str::slug(App\Constants\SiteSectionConst::SUBSCRIBE_SECTION);
-    $subscribe      = App\Models\Admin\SiteSections::getData($subcribe_slug)->first();
-    $useful_links   = App\Models\Admin\UsefulLink::where('status',true)->get()
+    $app_local     = get_default_language_code();
+    $default       = App\Constants\LanguageConst::NOT_REMOVABLE;
+    $slug          = Illuminate\Support\Str::slug(App\Constants\SiteSectionConst::FOOTER_SECTION);
+    $footer        = App\Models\Admin\SiteSections::getData($slug)->first();
+    $subcribe_slug = Illuminate\Support\Str::slug(App\Constants\SiteSectionConst::SUBSCRIBE_SECTION);
+    $subscribe     = App\Models\Admin\SiteSections::getData($subcribe_slug)->first();
+    $useful_links  = App\Models\Admin\UsefulLink::where('status', true)->get();
+
+    $footer_desc      = $footer->value->footer->language->$app_local->description ?? $footer->value->footer->language->$default->description ?? 'Providing secure, innovative banking solutions for millions of customers worldwide.';
+    $social_links     = $footer->value->social_links ?? [];
+    $newsletter_title = $subscribe->value->language->$app_local->title ?? $subscribe->value->language->$default->title ?? 'Newsletter';
+    $newsletter_desc  = $subscribe->value->language->$app_local->description ?? $subscribe->value->language->$default->description ?? 'Subscribe to get the latest updates.';
 @endphp
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        Start Footer
- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
- <footer class="footer-section bg-overlay bg_img" data-background="{{ asset('frontend/') }}/images/element/footer-shape.jpg">
-    <div class="container mx-auto">
-       <div class="footer-content pt-60">
-               <div class="row">
-                   <div class="col-xl-4 col-lg-4 mb-50">
-                       <div class="footer-widget">
-                           <div class="footer-text">
-                            <img src="{{ $footer->value->footer->image ? get_image($footer->value->footer->image,'site-section') : get_logo($basic_settings) }}" alt="image">
-                               <p>{{ $footer->value->footer->language->$app_local->description ?? $footer->value->footer->language->$default->description ?? '' }}</p>
-                           </div>
-                           <div class="footer-social-icon">
-                                @php
-                                    $items = $footer->value->social_links ?? [];
-                                @endphp
-                               <span>{{ __("Follow us") }} :</span>
-                               @foreach ($items as $item)
-                                    <a href="{{ $item->link ?? "" }}" target="_blank"><i class="{{ $item->icon ?? ""}}"></i></a>
-                                @endforeach
-                           </div>
-                       </div>
-                   </div>
-                   <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
-                       <div class="footer-widget">
-                            <div class="footer-widget-heading">
-                                <h3>{{ __("Useful Links") }}</h3>
-                            </div>
-                            <ul>
-                                @foreach ($useful_links ?? [] as $item)
-                                    <li><a href="{{ setRoute('frontend.useful.links',$item->slug) }} ">{{ $item->title->language->$app_local->title ?? $item->title->language->$default->title ?? '' }}</a></li>
-                                @endforeach
-                            </ul>
-                       </div>
-                   </div>
-                   <div class="col-xl-4 col-lg-4 col-md-6 mb-50">
-                       <div class="footer-widget">
-                           <div class="footer-widget-heading">
-                               <h3>{{ $subscribe->value->language->$app_local->title ??  $subscribe->value->language->$default->title ?? '' }}</h3>
-                           </div>
-                           <div class="footer-text mb-25">
-                               <p>{{ $subscribe->value->language->$app_local->description ??  $subscribe->value->language->$default->description ?? '' }}</p>
-                           </div>
-                           <div class="subscribe-form">
-                               <form id="subscribe-form" action="{{ setRoute('frontend.subscribe') }} " method="POST">
-                                @csrf
-                                   <input type="email" class="form--control" name="email" placeholder="{{ __("Email Address") }}">
-                                   <button><i class="fab fa-telegram-plane"></i></button>
-                               </form>
-                           </div>
-                       </div>
-                   </div>
-               </div>
-       </div>
-   </div>
-   <div class="copyright-area">
-       <div class="container">
-           <div class="row">
-               <div class="col-12 text-center text-lg-left">
-                   <div class="copyright-text">
-                    
-                        <p>{{ __("Copyright") }} &copy; {{ date('Y') }}, {{ __("All Rights Reserved By") }} <a href="{{ setRoute('frontend.index') }}">{{ $basic_settings->site_name ?? '' }}</a></p>
+    Start Footer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+<footer class="enzo-footer">
+    <div class="enzo-footer-main">
+        <div class="container">
+            <div class="enzo-footer-grid">
+                <!-- Brand Column -->
+                <div class="enzo-footer-brand">
+                    <a href="{{ setRoute('frontend.index') }}" class="enzo-footer-logo">
+                        Enzo<span class="enzo-logo-accent">Bank</span>
+                    </a>
+                    <p class="enzo-footer-tagline">{{ $footer_desc }}</p>
+                    <div class="enzo-footer-socials">
+                        @forelse($social_links as $item)
+                            <a href="{{ $item->link ?? '#' }}" target="_blank" rel="noopener noreferrer" class="enzo-social-link" aria-label="{{ $item->icon ?? '' }}">
+                                <i class="{{ $item->icon ?? 'las la-link' }}"></i>
+                            </a>
+                        @empty
+                            <a href="#" class="enzo-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="enzo-social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="enzo-social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="enzo-social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        @endforelse
                     </div>
-               </div>
+                </div>
+
+                <!-- Company Links -->
+                <div class="enzo-footer-col">
+                    <h4 class="enzo-footer-col-title">{{ __('Company') }}</h4>
+                    <ul class="enzo-footer-links">
+                        <li><a href="{{ setRoute('frontend.about') }}">{{ __('About Us') }}</a></li>
+                        @foreach ($useful_links ?? [] as $item)
+                            <li><a href="{{ setRoute('frontend.useful.links', $item->slug) }}">{{ $item->title->language->$app_local->title ?? $item->title->language->$default->title ?? '' }}</a></li>
+                        @endforeach
+                        <li><a href="{{ setRoute('frontend.services') }}">{{ __('Services') }}</a></li>
+                        <li><a href="{{ setRoute('frontend.contact') }}">{{ __('Contact') }}</a></li>
+                    </ul>
+                </div>
+
+                <!-- Legal Links -->
+                <div class="enzo-footer-col">
+                    <h4 class="enzo-footer-col-title">{{ __('Legal') }}</h4>
+                    <ul class="enzo-footer-links">
+                        <li><a href="#">{{ __('Privacy Policy') }}</a></li>
+                        <li><a href="#">{{ __('Terms of Service') }}</a></li>
+                        <li><a href="#">{{ __('Cookie Policy') }}</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <div class="enzo-footer-col">
+                    <h4 class="enzo-footer-col-title">{{ $newsletter_title }}</h4>
+                    <p class="enzo-footer-newsletter-desc">{{ $newsletter_desc }}</p>
+                    <form id="subscribe-form" action="{{ setRoute('frontend.subscribe') }}" method="POST" class="enzo-newsletter-form">
+                        @csrf
+                        <input type="email" name="email" class="enzo-newsletter-input" placeholder="{{ __('Your email address') }}" required>
+                        <button type="submit" class="enzo-newsletter-btn">
+                            <i class="las la-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
             </div>
-       </div>
-   </div>
+        </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="enzo-footer-bottom">
+        <div class="container">
+            <p>&copy; {{ date('Y') }} <a href="{{ setRoute('frontend.index') }}">{{ $basic_settings->site_name ?? 'EnzoBank' }}</a>. {{ __('All Rights Reserved.') }}</p>
+        </div>
+    </div>
 </footer>
+
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/message/ZW7EJRXHGL3GG1" target="_blank" class="enzo-whatsapp-float" rel="noopener noreferrer" aria-label="Chat on WhatsApp">
+    <i class="lab la-whatsapp"></i>
+</a>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-       End Footer
+    End Footer
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

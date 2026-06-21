@@ -1,63 +1,44 @@
-@php
-    $app_local  = get_default_language_code();
-    $default    = App\Constants\LanguageConst::NOT_REMOVABLE;
-    $slug       = Illuminate\Support\Str::slug(App\Constants\SiteSectionConst::FEATURE_SECTION);
-    $feature    = App\Models\Admin\SiteSections::getData($slug)->first();
-
-    // Baking theme defaults
-    $baking_heading = "Why Choose Our Bakery?";
-    $baking_sub_heading = "We take pride in our traditional baking methods, using only the finest ingredients to bring you the best quality baked goods every single day.";
-    $baking_items = [
-        (object) ['language' => (object) [$app_local => (object) ['item_title' => 'Daily Freshly Baked']]],
-        (object) ['language' => (object) [$app_local => (object) ['item_title' => '100% Organic Ingredients']]],
-        (object) ['language' => (object) [$app_local => (object) ['item_title' => 'Traditional Recipes']]],
-        (object) ['language' => (object) [$app_local => (object) ['item_title' => 'Custom Cake Design']]],
-    ];
-@endphp
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    Key Features Section
+    Start Services Section
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-<section class="key-features pt-80 pb-80">
+<section class="enzo-services">
     <div class="container">
-        <div class="features-area">
-            <div class="feature-tag">
-                <h2 class="title"><i class="fas fa-bread-slice text--base mb-20"></i> {{ $feature->value->language->$app_local->first_heading ?? $feature->value->language->$default->first_heading ?? $baking_heading }}</h2>
-            </div>
-            <div class="feature-title pb-30">
-               <div class="row">
-                  <div class="col-xl-8 col-lg-10">
-                     <h3 class="title">{{ $feature->value->language->$app_local->first_sub_heading ?? $feature->value->language->$default->first_sub_heading ?? $baking_sub_heading }}</h3>
-                  </div>
-               </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="featuare-content-area">
-                        <ul class="feature-list">
-                            @php
-                                $items = $feature->value->items ?? $baking_items;
-                            @endphp
-                            @foreach ($items as $item)
-                                @if (!isset($item->status) || $item->status == true)
-                                    <li>
-                                        <i class="las la-certificate"></i> {{ $item->language->$app_local->item_title ?? $item->language->$default->item_title ?? '' }}
-                                    </li>
-                                @endif
-                            @endforeach
-                        </ul>
-                        <div class="key-deatils">
-                            <h3 class="title">{{ $feature->value->language->$app_local->second_heading ?? $feature->value->language->$default->second_heading ?? "Experience Premium Taste" }}</h3>
-                            <p>{{ $feature->value->language->$app_local->second_sub_heading ?? $feature->value->language->$default->second_sub_heading ?? "From crusty artisan sourdough to delicate french pastries, our master bakers ensure every product meets our high standards of excellence." }}</p>
-                            <div class="contact-btn">
-                                <a href="{{ setRoute('frontend.contact') }}" class="btn--base">{{ $feature->value->language->$app_local->button_name ?? $feature->value->language->$default->button_name ?? "Contact Our Bakery" }}<i class="las la-chevron-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
+        <div class="enzo-section-header text-center" data-aos="fade-up">
+            <h2 class="enzo-section-title">{{ __('Our Services') }}</h2>
+            <p class="enzo-section-sub">{{ __('Everything you need for modern banking, all in one platform') }}</p>
+        </div>
+        <div class="enzo-services-grid" data-aos="fade-up" data-aos-delay="100">
+            <div class="enzo-service-card">
+                <div class="enzo-service-icon">
+                    <i class="las la-mobile-alt"></i>
                 </div>
+                <h3 class="enzo-service-title">{{ __('Mobile Banking') }}</h3>
+                <p class="enzo-service-desc">{{ __('Bank anywhere, anytime with our feature-rich mobile app. Instant notifications and real-time balance updates.') }}</p>
+            </div>
+            <div class="enzo-service-card">
+                <div class="enzo-service-icon">
+                    <i class="las la-piggy-bank"></i>
+                </div>
+                <h3 class="enzo-service-title">{{ __('Savings Accounts') }}</h3>
+                <p class="enzo-service-desc">{{ __('Grow your money with competitive interest rates and flexible savings plans tailored to your goals.') }}</p>
+            </div>
+            <div class="enzo-service-card">
+                <div class="enzo-service-icon">
+                    <i class="las la-credit-card"></i>
+                </div>
+                <h3 class="enzo-service-title">{{ __('Credit Cards') }}</h3>
+                <p class="enzo-service-desc">{{ __('Enjoy exclusive rewards, cashback offers, and zero foreign transaction fees on all our premium cards.') }}</p>
+            </div>
+            <div class="enzo-service-card">
+                <div class="enzo-service-icon">
+                    <i class="las la-chart-line"></i>
+                </div>
+                <h3 class="enzo-service-title">{{ __('Investment Services') }}</h3>
+                <p class="enzo-service-desc">{{ __('Build wealth with our diversified investment portfolios, managed by expert financial advisors.') }}</p>
             </div>
         </div>
     </div>
 </section>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   End Key Features Section
+    End Services Section
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->

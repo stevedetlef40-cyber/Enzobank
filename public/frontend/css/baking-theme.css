@@ -2800,3 +2800,901 @@ html, body {
 .whatsapp-icon {
     position: relative;
 }
+
+/* =========================================================
+   ENZOBANK FRONTEND LANDING PAGE STYLES
+   Dark navy banking website design
+   ========================================================= */
+
+/* --- Variables --- */
+:root {
+    --enzo-navy: #0d1b2e;
+    --enzo-navy-mid: #132035;
+    --enzo-navy-light: #1a2d47;
+    --enzo-accent: #00d4ff;
+    --enzo-blue: #1e6fd9;
+    --enzo-blue-dark: #155bbf;
+    --enzo-white: #ffffff;
+    --enzo-text-light: rgba(255,255,255,0.75);
+    --enzo-text-muted: rgba(255,255,255,0.5);
+    --enzo-border: rgba(255,255,255,0.08);
+    --enzo-card-bg: #ffffff;
+    --enzo-card-text: #1a1a2e;
+    --enzo-card-muted: #6b7280;
+    --enzo-green: #25d366;
+}
+
+/* --- Header / Navbar --- */
+.enzo-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1100;
+    background: rgba(13, 27, 46, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--enzo-border);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.enzo-header.scrolled {
+    background: rgba(13, 27, 46, 0.98);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+
+.enzo-navbar {
+    width: 100%;
+}
+
+.enzo-nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.enzo-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--enzo-white) !important;
+    text-decoration: none !important;
+    letter-spacing: -0.5px;
+    flex-shrink: 0;
+}
+
+.enzo-logo-accent {
+    color: var(--enzo-accent);
+}
+
+.enzo-nav-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    gap: 8px;
+    flex: 1;
+}
+
+.enzo-nav-link {
+    color: var(--enzo-text-light) !important;
+    text-decoration: none !important;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+}
+
+.enzo-nav-link:hover,
+.enzo-nav-link.active {
+    color: var(--enzo-white) !important;
+    background: rgba(255,255,255,0.08);
+}
+
+.enzo-nav-actions {
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+/* Buttons */
+.enzo-btn-primary {
+    background: linear-gradient(135deg, var(--enzo-blue), var(--enzo-accent));
+    color: var(--enzo-white) !important;
+    text-decoration: none !important;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.enzo-btn-primary:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    color: var(--enzo-white) !important;
+}
+
+.enzo-btn-ghost {
+    background: transparent;
+    color: var(--enzo-text-light) !important;
+    text-decoration: none !important;
+    padding: 10px 22px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border: 1px solid var(--enzo-border);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+}
+
+.enzo-btn-ghost:hover {
+    color: var(--enzo-white) !important;
+    border-color: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.05);
+}
+
+.enzo-btn-outline {
+    background: transparent;
+    color: var(--enzo-white) !important;
+    text-decoration: none !important;
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    border: 2px solid rgba(255,255,255,0.4);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+}
+
+.enzo-btn-outline:hover {
+    border-color: var(--enzo-white);
+    background: rgba(255,255,255,0.05);
+    color: var(--enzo-white) !important;
+}
+
+.enzo-btn-lg {
+    padding: 14px 32px;
+    font-size: 1rem;
+    border-radius: 10px;
+}
+
+.enzo-btn-white {
+    background: var(--enzo-white);
+    color: var(--enzo-blue) !important;
+    text-decoration: none !important;
+    padding: 14px 32px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.enzo-btn-white:hover {
+    background: #f0f4ff;
+    transform: translateY(-2px);
+    color: var(--enzo-blue) !important;
+}
+
+/* Hamburger */
+.enzo-hamburger {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 8px;
+    margin-left: auto;
+}
+
+.enzo-hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--enzo-white);
+    border-radius: 2px;
+    transition: all 0.3s;
+}
+
+.enzo-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.enzo-hamburger.open span:nth-child(2) { opacity: 0; }
+.enzo-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile Menu */
+.enzo-mobile-menu {
+    display: none;
+    flex-direction: column;
+    background: var(--enzo-navy-mid);
+    border-top: 1px solid var(--enzo-border);
+    padding: 16px 24px 24px;
+}
+
+.enzo-mobile-menu.open {
+    display: flex;
+}
+
+.enzo-mobile-nav-links {
+    list-style: none;
+    margin: 0 0 16px;
+    padding: 0;
+}
+
+.enzo-mobile-nav-links li a {
+    display: block;
+    color: var(--enzo-text-light) !important;
+    text-decoration: none !important;
+    padding: 12px 0;
+    font-size: 1rem;
+    border-bottom: 1px solid var(--enzo-border);
+    transition: color 0.2s;
+}
+
+.enzo-mobile-nav-links li a:hover {
+    color: var(--enzo-white) !important;
+}
+
+.enzo-mobile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+/* --- Hero Section --- */
+.enzo-hero {
+    position: relative;
+    background: var(--enzo-navy);
+    padding: 160px 0 80px;
+    overflow: hidden;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+}
+
+.enzo-hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 50%, rgba(30, 111, 217, 0.15) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(0, 212, 255, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.enzo-hero-content {
+    max-width: 800px;
+    text-align: center;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.enzo-trust-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 212, 255, 0.1);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    color: var(--enzo-accent) !important;
+    padding: 8px 20px;
+    border-radius: 100px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 32px;
+}
+
+.badge-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--enzo-accent);
+    border-radius: 50%;
+    animation: pulse-dot 2s infinite;
+    flex-shrink: 0;
+}
+
+.enzo-hero-title {
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    color: var(--enzo-white);
+    line-height: 1.15;
+    margin-bottom: 24px;
+    letter-spacing: -1px;
+}
+
+.enzo-accent {
+    color: var(--enzo-accent);
+}
+
+.enzo-hero-sub {
+    font-size: 1.125rem;
+    color: var(--enzo-text-light);
+    line-height: 1.7;
+    margin-bottom: 40px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.enzo-hero-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 64px;
+}
+
+/* Stats Grid */
+.enzo-stats-grid {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--enzo-border);
+    border-radius: 16px;
+    padding: 28px 32px;
+    flex-wrap: wrap;
+}
+
+.enzo-stat {
+    text-align: center;
+    padding: 0 24px;
+    flex: 1;
+    min-width: 100px;
+}
+
+.enzo-stat-value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--enzo-accent);
+    line-height: 1;
+    margin-bottom: 4px;
+}
+
+.enzo-stat-label {
+    font-size: 0.8rem;
+    color: var(--enzo-text-muted);
+    font-weight: 500;
+}
+
+.enzo-stat-divider {
+    width: 1px;
+    height: 40px;
+    background: var(--enzo-border);
+    flex-shrink: 0;
+}
+
+/* --- Services Section --- */
+.enzo-services {
+    background: #f8fafc;
+    padding: 96px 0;
+}
+
+.enzo-section-header {
+    margin-bottom: 56px;
+}
+
+.enzo-section-title {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 12px;
+    letter-spacing: -0.5px;
+}
+
+.enzo-section-sub {
+    font-size: 1.0625rem;
+    color: #64748b;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.enzo-services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+}
+
+.enzo-service-card {
+    background: var(--enzo-white);
+    border-radius: 16px;
+    padding: 32px 28px;
+    border: 1px solid #e8edf2;
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.enzo-service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 48px rgba(0,0,0,0.08);
+}
+
+.enzo-service-icon {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, rgba(30,111,217,0.1), rgba(0,212,255,0.1));
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: var(--enzo-blue);
+    margin-bottom: 20px;
+}
+
+.enzo-service-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 10px;
+}
+
+.enzo-service-desc {
+    font-size: 0.9rem;
+    color: #64748b;
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* --- About Section --- */
+.enzo-about {
+    background: var(--enzo-navy);
+    padding: 96px 0;
+}
+
+.enzo-about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+}
+
+.enzo-about-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--enzo-accent);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.enzo-about-title {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    font-weight: 700;
+    color: var(--enzo-white);
+    margin-bottom: 20px;
+    line-height: 1.25;
+    letter-spacing: -0.5px;
+}
+
+.enzo-about-desc {
+    font-size: 1.0625rem;
+    color: var(--enzo-text-light);
+    line-height: 1.7;
+    margin-bottom: 32px;
+}
+
+.enzo-about-image img {
+    width: 100%;
+    border-radius: 20px;
+    object-fit: cover;
+    max-height: 400px;
+}
+
+.enzo-about-placeholder {
+    width: 100%;
+    height: 340px;
+    background: var(--enzo-navy-light);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    color: var(--enzo-accent);
+    border: 1px solid var(--enzo-border);
+}
+
+/* --- Testimonials --- */
+.enzo-testimonials {
+    background: #f8fafc;
+    padding: 96px 0;
+}
+
+.enzo-testimonials .enzo-section-title {
+    color: #0f172a;
+}
+
+.enzo-testimonials .enzo-section-sub {
+    color: #64748b;
+}
+
+.enzo-testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+}
+
+.enzo-testimonial-card {
+    background: var(--enzo-white);
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid #e8edf2;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.enzo-testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.06);
+}
+
+.enzo-testimonial-stars {
+    display: flex;
+    gap: 3px;
+    color: #f59e0b;
+    font-size: 0.9rem;
+}
+
+.enzo-testimonial-text {
+    font-size: 0.9375rem;
+    color: #374151;
+    line-height: 1.65;
+    font-style: italic;
+    margin: 0;
+    flex: 1;
+}
+
+.enzo-testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid #f1f5f9;
+}
+
+.enzo-testimonial-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.enzo-testimonial-avatar-placeholder {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--enzo-blue), var(--enzo-accent));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.enzo-testimonial-name {
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 0.9rem;
+}
+
+.enzo-testimonial-role {
+    color: #94a3b8;
+    font-size: 0.8rem;
+}
+
+/* --- CTA Section --- */
+.enzo-cta {
+    background: linear-gradient(135deg, #1e3a8a, #1e6fd9, #0284c7);
+    padding: 96px 0;
+}
+
+.enzo-cta-content {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.enzo-cta-title {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 700;
+    color: var(--enzo-white);
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+}
+
+.enzo-cta-sub {
+    font-size: 1.0625rem;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+/* --- Footer --- */
+.enzo-footer {
+    background: var(--enzo-navy);
+    color: var(--enzo-text-light);
+}
+
+.enzo-footer-main {
+    padding: 64px 0;
+    border-bottom: 1px solid var(--enzo-border);
+}
+
+.enzo-footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 2fr;
+    gap: 48px;
+}
+
+.enzo-footer-logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--enzo-white) !important;
+    text-decoration: none !important;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.enzo-footer-tagline {
+    font-size: 0.9rem;
+    color: var(--enzo-text-muted);
+    line-height: 1.65;
+    margin-bottom: 24px;
+}
+
+.enzo-footer-socials {
+    display: flex;
+    gap: 10px;
+}
+
+.enzo-social-link {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--enzo-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--enzo-text-light) !important;
+    text-decoration: none !important;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+}
+
+.enzo-social-link:hover {
+    background: var(--enzo-blue);
+    border-color: var(--enzo-blue);
+    color: white !important;
+}
+
+.enzo-footer-col-title {
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: var(--enzo-white);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+}
+
+.enzo-footer-links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.enzo-footer-links a {
+    color: var(--enzo-text-muted) !important;
+    text-decoration: none !important;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.enzo-footer-links a:hover {
+    color: var(--enzo-white) !important;
+}
+
+.enzo-footer-newsletter-desc {
+    font-size: 0.875rem;
+    color: var(--enzo-text-muted);
+    margin-bottom: 16px;
+    line-height: 1.55;
+}
+
+.enzo-newsletter-form {
+    display: flex;
+    gap: 8px;
+}
+
+.enzo-newsletter-input {
+    flex: 1;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--enzo-border);
+    color: var(--enzo-white);
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.enzo-newsletter-input::placeholder { color: var(--enzo-text-muted); }
+
+.enzo-newsletter-input:focus {
+    border-color: var(--enzo-accent);
+}
+
+.enzo-newsletter-btn {
+    background: var(--enzo-blue);
+    border: none;
+    color: white;
+    width: 42px;
+    height: 42px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.2s;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.enzo-newsletter-btn:hover { background: var(--enzo-blue-dark); }
+
+.enzo-footer-bottom {
+    padding: 20px 0;
+    text-align: center;
+}
+
+.enzo-footer-bottom p {
+    font-size: 0.85rem;
+    color: var(--enzo-text-muted);
+    margin: 0;
+}
+
+.enzo-footer-bottom a {
+    color: var(--enzo-accent) !important;
+    text-decoration: none !important;
+}
+
+/* --- WhatsApp Float (Frontend) --- */
+.enzo-whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: var(--enzo-green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white !important;
+    font-size: 1.75rem;
+    text-decoration: none !important;
+    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    z-index: 1000;
+    transition: transform 0.25s, box-shadow 0.25s;
+    animation: float-wa 3s ease-in-out infinite;
+}
+
+.enzo-whatsapp-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 30px rgba(37,211,102,0.5);
+    color: white !important;
+}
+
+@keyframes float-wa {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* --- Frontend page body offset for fixed header --- */
+body:has(.enzo-header) {
+    padding-top: 70px;
+}
+
+/* Fallback for browsers without :has() */
+.frontend-body-offset {
+    padding-top: 70px;
+}
+
+/* --- Responsive --- */
+@media (max-width: 991px) {
+    .enzo-hero {
+        padding: 120px 0 60px;
+        min-height: auto;
+    }
+
+    .enzo-hero-title { font-size: 2rem; }
+
+    .enzo-stats-grid {
+        gap: 0;
+        padding: 20px 16px;
+    }
+
+    .enzo-stat { padding: 12px; }
+    .enzo-stat-value { font-size: 1.35rem; }
+    .enzo-stat-divider { display: none; }
+
+    .enzo-about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .enzo-about-image { order: -1; }
+
+    .enzo-footer-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+    }
+
+    .enzo-footer-brand {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 575px) {
+    .enzo-hero { padding: 100px 0 48px; }
+
+    .enzo-hero-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .enzo-btn-lg { width: 100%; justify-content: center; }
+
+    .enzo-stats-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: var(--enzo-border);
+    }
+
+    .enzo-stat {
+        background: rgba(255,255,255,0.04);
+        padding: 16px;
+    }
+
+    .enzo-services-grid { grid-template-columns: 1fr; }
+
+    .enzo-testimonials-grid { grid-template-columns: 1fr; }
+
+    .enzo-footer-grid {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+
+    .enzo-whatsapp-float {
+        bottom: 20px;
+        right: 20px;
+        width: 52px;
+        height: 52px;
+        font-size: 1.5rem;
+    }
+}
+

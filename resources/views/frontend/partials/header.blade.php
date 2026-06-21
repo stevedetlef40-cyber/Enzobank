@@ -1,66 +1,99 @@
 @php
-    $menues         = DB::table('setup_pages')->where('status', 1)->get();
-    $current_url    = URL::current();
+    $menues      = DB::table('setup_pages')->where('status', 1)->get();
+    $current_url = URL::current();
 @endphp
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     Start Header
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
-<header class="header-section position-relative">
-    <div class="header">
-        <div class="header-bottom-area">
-            <div class="container custom-container">
-                <div class="header-menu-content">
-                    <nav class="navbar navbar-expand-lg p-0">
-                        <a class="site-logo site-title" href="{{ setRoute('frontend.index') }}"><img src="{{ get_logo() }}" alt="site-logo"></a>
-                        <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="fas fa-bars"></span>
-                        </button>
-                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav main-menu ms-auto">
-                                @foreach ($menues ?? [] as $item)
-                                    @php
-                                        $title = $item->title ?? "";
-                                    @endphp
-                                    <li><a href="{{ url($item->url) }}" class=" @if($current_url == url($item->url)) active @endif ">{{ __($title) }} <i class="fas fa-caret-right"></i></a></li>
-                                @endforeach
-                            </ul>
-                            <div class="theme-switch-wrapper">
-                                <label class="theme-switch" for="checkbox">
-                                    <input type="checkbox" id="checkbox" />
-                                    <div class="slider round">
-                                        <i class="las la-sun"></i>
-                                        <i class="las la-moon"></i>
-                                    </div>
-                                </label>
-                            </div>
-                            <div class="language-select">
-                                @php
-                                    $__current_local = session("local") ?? get_default_language_code();
-                                @endphp
-                                <select class="nice-select" name="lang_switcher" id="">
-                                    @foreach ($__languages as $__item)
-                                        <option value="{{ $__item->code }}" @if ($__current_local == $__item->code)
-                                            @selected(true)
-                                        @endif>{{ $__item->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>  
-                            <div class="header-action">
-                                @auth
-                                    <a href="{{ setRoute('user.dashboard') }}" class="btn--base"><i class="fas fa-th-large me-1"></i>{{ __('Dashboard') }}</a>
-                                @else
-                                    <a href="{{ setRoute('user.login') }}" class="btn--base">{{ __('Join Now') }} <i class="las la-chevron-right"></i></a>
-                                @endauth
-                            </div>
-                        </div>
-                    </nav>
-                </div>
+<header class="enzo-header" id="enzoHeader">
+    <nav class="enzo-navbar">
+        <div class="enzo-nav-container">
+            <!-- Logo -->
+            <a href="{{ setRoute('frontend.index') }}" class="enzo-logo">
+                Enzo<span class="enzo-logo-accent">Bank</span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <ul class="enzo-nav-links d-none d-lg-flex">
+                @foreach ($menues ?? [] as $item)
+                    @php $title = $item->title ?? ''; @endphp
+                    <li><a href="{{ url($item->url) }}" class="enzo-nav-link {{ $current_url == url($item->url) ? 'active' : '' }}">{{ __($title) }}</a></li>
+                @endforeach
+                <li><a href="{{ setRoute('frontend.contact') }}" class="enzo-nav-link">{{ __('Contact') }}</a></li>
+            </ul>
+
+            <!-- Desktop CTA -->
+            <div class="enzo-nav-actions d-none d-lg-flex">
+                @auth
+                    <a href="{{ setRoute('user.dashboard') }}" class="enzo-btn-primary">{{ __('Dashboard') }}</a>
+                @else
+                    <a href="{{ setRoute('user.login') }}" class="enzo-btn-ghost">{{ __('Login') }}</a>
+                    <a href="{{ setRoute('user.register') }}" class="enzo-btn-primary">{{ __('Get Started') }} →</a>
+                @endauth
+            </div>
+
+            <!-- Mobile Hamburger -->
+            <button class="enzo-hamburger d-lg-none" id="enzoMenuToggle" aria-label="Toggle navigation" aria-expanded="false">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="enzo-mobile-menu" id="enzoMobileMenu">
+            <ul class="enzo-mobile-nav-links">
+                @foreach ($menues ?? [] as $item)
+                    @php $title = $item->title ?? ''; @endphp
+                    <li><a href="{{ url($item->url) }}">{{ __($title) }}</a></li>
+                @endforeach
+                <li><a href="{{ setRoute('frontend.contact') }}">{{ __('Contact') }}</a></li>
+            </ul>
+            <div class="enzo-mobile-actions">
+                @auth
+                    <a href="{{ setRoute('user.dashboard') }}" class="enzo-btn-primary w-100 text-center">{{ __('Dashboard') }}</a>
+                @else
+                    <a href="{{ setRoute('user.login') }}" class="enzo-btn-ghost w-100 text-center mb-2">{{ __('Login') }}</a>
+                    <a href="{{ setRoute('user.register') }}" class="enzo-btn-primary w-100 text-center">{{ __('Get Started') }} →</a>
+                @endauth
             </div>
         </div>
-    </div>
+    </nav>
 </header>
 <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     End Header
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
 
+@push('script')
+<script>
+(function() {
+    const toggle = document.getElementById('enzoMenuToggle');
+    const menu = document.getElementById('enzoMobileMenu');
+    const header = document.getElementById('enzoHeader');
+
+    if (toggle && menu) {
+        toggle.addEventListener('click', function() {
+            const open = menu.classList.toggle('open');
+            toggle.classList.toggle('open', open);
+            toggle.setAttribute('aria-expanded', String(open));
+        });
+        document.addEventListener('click', function(e) {
+            if (!header.contains(e.target)) {
+                menu.classList.remove('open');
+                toggle.classList.remove('open');
+                toggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
+    // Scroll effect
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 50) {
+            header.classList.add('scrolled');
+        } else {
+            header.classList.remove('scrolled');
+        }
+    }, { passive: true });
+})();
+</script>
+@endpush
