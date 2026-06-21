@@ -2262,3 +2262,541 @@ html, body {
         margin-left: inherit !important;
     }
 }
+
+/* =====================================================
+   MOBILE BANKING APP DESIGN
+   Based on enzobank.org mobile layout from screenshot
+   ===================================================== */
+
+/* Mobile App Header */
+.mobile-app-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--bakery-surface);
+    border-bottom: 1px solid var(--bakery-border);
+    padding: 12px 16px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.mobile-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.mobile-user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--bakery-border-strong);
+    display: block;
+    flex-shrink: 0;
+}
+
+.mobile-user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mobile-greeting {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--bakery-text-main);
+    white-space: nowrap;
+}
+
+.mobile-header-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.earn-bonus-btn {
+    background: #FFF8E1;
+    color: #F57C00 !important;
+    border: 1px solid #FFE082;
+    border-radius: 999px;
+    padding: 6px 14px;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    text-decoration: none !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.2s;
+}
+
+.earn-bonus-btn:hover {
+    background: #FFE082;
+    transform: translateY(-1px);
+}
+
+[data-theme="dark"] .earn-bonus-btn {
+    background: rgba(245, 124, 0, 0.15);
+    border-color: rgba(245, 124, 0, 0.3);
+    color: #FFB74D !important;
+}
+
+.mobile-header-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.mobile-theme-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bakery-surface-elevated);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--bakery-text-muted);
+    border: 1px solid var(--bakery-border);
+    position: relative;
+}
+
+.mobile-theme-btn input {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    margin: 0;
+}
+
+.mobile-notif-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bakery-surface-elevated);
+    border-radius: 50%;
+    border: 1px solid var(--bakery-border);
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--bakery-text-muted);
+    position: relative;
+}
+
+.mobile-notif-badge {
+    position: absolute;
+    top: -3px;
+    right: -3px;
+    background: var(--bakery-error);
+    color: white;
+    font-size: 9px;
+    font-weight: 700;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bakery-surface);
+    padding: 0 3px;
+}
+
+/* Mobile Dashboard Container */
+.mobile-dashboard {
+    padding: 16px 16px 90px; /* bottom padding for bottom nav */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Mobile Balance Card */
+.mobile-balance-card {
+    background: var(--bakery-surface);
+    border: 1px solid var(--bakery-border);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.mobile-balance-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+
+.mobile-balance-currency-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--bakery-text-main);
+}
+
+.currency-flag {
+    font-size: 20px;
+    line-height: 1;
+}
+
+.currency-label {
+    color: var(--bakery-text-main);
+}
+
+.mobile-balance-currency-info .la-angle-down {
+    font-size: 13px;
+    color: var(--bakery-text-hint);
+}
+
+.mobile-balance-card-settings {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: var(--bakery-surface-elevated);
+    color: var(--bakery-text-hint);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.mobile-balance-account {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--bakery-text-hint);
+    margin-bottom: 14px;
+}
+
+.mobile-copy-btn {
+    background: transparent;
+    border: none;
+    color: var(--bakery-primary);
+    font-size: 15px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
+.mobile-balance-amount-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.mobile-balance-amount {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--bakery-text-main);
+    letter-spacing: -1px;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+.mobile-balance-amount.blurred {
+    filter: blur(8px);
+    opacity: 0.5;
+}
+
+.mobile-eye-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bakery-surface-elevated);
+    border: 1px solid var(--bakery-border);
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--bakery-text-muted);
+    transition: all 0.2s;
+}
+
+.mobile-eye-btn:hover {
+    background: var(--bakery-primary);
+    color: white;
+    border-color: var(--bakery-primary);
+}
+
+/* Mobile Action Buttons */
+.mobile-balance-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mobile-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bakery-surface-elevated);
+    border: 1px solid var(--bakery-border);
+    border-radius: 10px;
+    padding: 10px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--bakery-text-main) !important;
+    text-decoration: none !important;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.mobile-action-btn:hover {
+    background: var(--bakery-primary);
+    color: white !important;
+    border-color: var(--bakery-primary);
+    transform: translateY(-1px);
+}
+
+.mobile-action-icon-btn {
+    padding: 10px 14px;
+    font-size: 18px;
+}
+
+.mobile-action-icon-btn span {
+    display: none;
+}
+
+/* Get Started Section */
+.mobile-get-started-section {
+    background: var(--bakery-surface);
+    border: 1px solid var(--bakery-border);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.mobile-section-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--bakery-text-main);
+    margin-bottom: 16px;
+}
+
+.mobile-quick-links {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.mobile-quick-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none !important;
+}
+
+.mql-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bakery-accent-muted);
+    border-radius: 16px;
+    font-size: 22px;
+    color: var(--bakery-primary);
+    transition: all 0.2s;
+}
+
+.mobile-quick-link:hover .mql-icon {
+    background: var(--bakery-primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.mobile-quick-link span {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--bakery-text-muted);
+    text-align: center;
+}
+
+/* Recent Transactions Section */
+.mobile-transactions-section {
+    background: var(--bakery-surface);
+    border: 1px solid var(--bakery-border);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.mobile-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.mobile-view-all {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--bakery-primary) !important;
+    text-decoration: none !important;
+}
+
+/* Mobile Bottom Navigation */
+.mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1010;
+    background: var(--bakery-surface);
+    border-top: 1px solid var(--bakery-border);
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+    padding: 8px 0;
+    padding-bottom: calc(8px + env(safe-area-inset-bottom));
+    align-items: stretch;
+    justify-content: space-around;
+}
+
+.mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex: 1;
+    padding: 6px 4px;
+    text-decoration: none !important;
+    color: var(--bakery-text-hint) !important;
+    font-size: 10px;
+    font-weight: 500;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.mobile-nav-item i {
+    font-size: 22px;
+    line-height: 1;
+    color: inherit;
+    transition: transform 0.2s;
+}
+
+.mobile-nav-item span {
+    font-size: 10px;
+    color: inherit;
+    transition: none;
+}
+
+.mobile-nav-item.active {
+    color: var(--bakery-primary) !important;
+}
+
+.mobile-nav-item.active i {
+    transform: translateY(-2px);
+}
+
+.mobile-nav-item:hover {
+    color: var(--bakery-primary) !important;
+}
+
+/* WhatsApp button - circular on mobile */
+@media (max-width: 991px) {
+    .whatsapp-btn {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .whatsapp-icon {
+        font-size: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .whatsapp-widget {
+        bottom: 80px; /* above bottom nav */
+        right: 16px;
+    }
+
+    /* Hide sidebar on mobile entirely */
+    .page-wrapper > .sidebar {
+        display: none !important;
+    }
+
+    /* Full width main wrapper on mobile */
+    .page-wrapper > .main-wrapper {
+        margin-left: 0 !important;
+    }
+}
+
+/* Desktop grid display fix */
+@media (min-width: 992px) {
+    .d-lg-grid {
+        display: grid !important;
+    }
+    .mobile-bottom-nav {
+        display: none !important;
+    }
+    .mobile-app-header {
+        display: none !important;
+    }
+}
+
+/* Dark mode adjustments for mobile */
+[data-theme="dark"] .mobile-balance-card,
+[data-theme="dark"] .mobile-get-started-section,
+[data-theme="dark"] .mobile-transactions-section {
+    background: var(--bakery-surface);
+    border-color: var(--bakery-border);
+}
+
+[data-theme="dark"] .mobile-bottom-nav {
+    background: var(--bakery-surface);
+    border-color: var(--bakery-border);
+}
+
+[data-theme="dark"] .mobile-app-header {
+    background: var(--bakery-surface);
+    border-color: var(--bakery-border);
+}
+
+[data-theme="dark"] .earn-bonus-btn {
+    background: rgba(245, 124, 0, 0.15);
+    border-color: rgba(245, 124, 0, 0.3);
+    color: #FFB74D !important;
+}
+
+/* Online dot for WhatsApp */
+.online-dot {
+    width: 10px;
+    height: 10px;
+    background: #4CAF50;
+    border-radius: 50%;
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    border: 2px solid white;
+    animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+    0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.5); }
+    70% { box-shadow: 0 0 0 6px rgba(76, 175, 80, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+}
+
+.whatsapp-icon {
+    position: relative;
+}

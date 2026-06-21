@@ -1,4 +1,4 @@
-<nav class="navbar-wrapper">
+<nav class="navbar-wrapper d-none d-lg-flex">
     <div class="navbar-container">
         <div class="navbar-content">
             <!-- Navigation Left: Brand & Hierarchy -->
@@ -40,7 +40,7 @@
                             </div>
                         </label>
                     </div>
-                    
+
                     <div class="control-item notification-item">
                         @php
                             $user_notifications = get_user_notifications();
@@ -96,6 +96,40 @@
         </div>
     </div>
 </nav>
+
+<!-- Mobile App Header -->
+<header class="mobile-app-header d-flex d-lg-none">
+    <div class="mobile-header-left">
+        <a href="{{ setRoute('user.profile.index') }}" class="mobile-user-avatar">
+            <img src="{{ auth()->user()->userImage }}" alt="{{ auth()->user()->username }}">
+        </a>
+        <span class="mobile-greeting">{{ __('Hi') }}, {{ auth()->user()->firstname ?? auth()->user()->username }}</span>
+    </div>
+    <div class="mobile-header-center">
+        <a href="{{ setRoute('user.investments.offers') }}" class="earn-bonus-btn">
+            💰 {{ __('Earn 3% Bonus') }}
+        </a>
+    </div>
+    <div class="mobile-header-right">
+        <label class="mobile-theme-btn" for="mobile-theme-checkbox" aria-label="Toggle Dark Mode">
+            <input type="checkbox" id="mobile-theme-checkbox" />
+            <i class="las la-moon"></i>
+        </label>
+        @php
+            if (!isset($user_notifications)) {
+                $user_notifications = get_user_notifications();
+                $unread_count = $user_notifications->where('seen', 0)->count();
+            }
+        @endphp
+        <button class="mobile-notif-btn" id="mobileNotifToggle" aria-label="Notifications">
+            <i class="las la-bell"></i>
+            @if($unread_count > 0)
+                <span class="mobile-notif-badge">{{ $unread_count > 9 ? '9+' : $unread_count }}</span>
+            @endif
+        </button>
+    </div>
+</header>
+
 @push('script')
 <script>
     (function(){
@@ -145,25 +179,36 @@
         mqDesktop.addEventListener('change', applyInitialState);
         applyInitialState();
 
-        // --- Theme Toggle Logic ---
+        // --- Theme Toggle Logic (Desktop) ---
         const themeToggle = document.getElementById('checkbox');
         const themeStorageKey = 'bakery-theme';
 
         if (themeToggle) {
-            // Set initial toggle state based on current data-theme
             const currentTheme = document.documentElement.getAttribute('data-theme');
             themeToggle.checked = (currentTheme === 'dark');
 
             themeToggle.addEventListener('change', function() {
                 const newTheme = this.checked ? 'dark' : 'light';
-                
-                // Disable transitions temporarily for smooth switch
                 document.documentElement.classList.add('no-transitions');
-                
                 document.documentElement.setAttribute('data-theme', newTheme);
                 localStorage.setItem(themeStorageKey, newTheme);
-                
-                // Re-enable transitions after a short delay
+                setTimeout(() => {
+                    document.documentElement.classList.remove('no-transitions');
+                }, 300);
+            });
+        }
+
+        // --- Theme Toggle Logic (Mobile) ---
+        const mobileThemeToggle = document.getElementById('mobile-theme-checkbox');
+        if (mobileThemeToggle) {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            mobileThemeToggle.checked = (currentTheme === 'dark');
+
+            mobileThemeToggle.addEventListener('change', function() {
+                const newTheme = this.checked ? 'dark' : 'light';
+                document.documentElement.classList.add('no-transitions');
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('bakery-theme', newTheme);
                 setTimeout(() => {
                     document.documentElement.classList.remove('no-transitions');
                 }, 300);
@@ -178,10 +223,7 @@
             notifyToggle.addEventListener('click', function(e) {
                 e.stopPropagation();
                 const isOpen = notifyDropdown.classList.contains('show');
-                
-                // Close other open menus if any (like profile or language if they existed)
                 document.querySelectorAll('.notification-dropdown-v2.show').forEach(el => el.classList.remove('show'));
-                
                 if (!isOpen) {
                     notifyDropdown.classList.add('show');
                     this.setAttribute('aria-expanded', 'true');
@@ -191,7 +233,6 @@
                 }
             });
 
-            // Close when clicking outside
             document.addEventListener('click', function(e) {
                 if (!notifyDropdown.contains(e.target) && !notifyToggle.contains(e.target)) {
                     notifyDropdown.classList.remove('show');
@@ -199,7 +240,6 @@
                 }
             });
 
-            // Accessibility: Close on Escape key
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Escape' && notifyDropdown.classList.contains('show')) {
                     notifyDropdown.classList.remove('show');
@@ -222,17 +262,15 @@
             }
 
             try {
-                // Modern Clipboard API with permission check
                 if (navigator.clipboard && window.isSecureContext) {
                     await navigator.clipboard.writeText(accountNo.trim());
                 } else {
-                    // Fallback for older browsers
                     const textArea = document.createElement("textarea");
                     textArea.value = accountNo.trim();
                     textArea.style.position = "fixed";
                     textArea.style.left = "-9999px";
                     textArea.style.top = "-9999px";
-                    textArea.setAttribute('readonly', ''); // Prevent keyboard popup on mobile
+                    textArea.setAttribute('readonly', '');
                     document.body.appendChild(textArea);
                     textArea.focus();
                     textArea.select();
@@ -241,7 +279,6 @@
                     if (!successful) throw new Error('Fallback copy failed');
                 }
 
-                // Success Feedback with Accessibility
                 if (icon) {
                     const originalClass = icon.className;
                     icon.className = 'las la-check-circle';
@@ -249,7 +286,6 @@
                         copyBtn.classList.add('copy-success');
                         copyBtn.setAttribute('aria-label', 'Account Number Copied');
                     }
-                    
                     setTimeout(() => {
                         icon.className = originalClass;
                         if (copyBtn) {
@@ -260,23 +296,16 @@
                 }
 
                 showEnzoToast('success', 'Your EnzoBank account number has been copied!');
-                
-                // Analytics Tracking (Simulated)
-                console.log('EnzoBank Analytics: Account number copied to clipboard.');
-                
             } catch (err) {
-                console.error('EnzoBank Error: Failed to copy', err);
                 showEnzoToast('error', 'Unable to copy. Please try manually.');
             }
         };
 
-        // --- EnzoBank Branded Toast Notification ---
         function showEnzoToast(type, message) {
             let toastContainer = document.getElementById('enzo-toast-container');
             if (!toastContainer) {
                 toastContainer = document.createElement('div');
                 toastContainer.id = 'enzo-toast-container';
-                // Add aria-live for screen reader announcements
                 toastContainer.setAttribute('aria-live', 'polite');
                 toastContainer.setAttribute('role', 'status');
                 document.body.appendChild(toastContainer);
@@ -292,33 +321,25 @@
             `;
 
             toastContainer.appendChild(toast);
-
-            // Trigger animation
             setTimeout(() => toast.classList.add('show'), 10);
-
-            // Remove after duration
             setTimeout(() => {
                 toast.classList.remove('show');
                 setTimeout(() => toast.remove(), 300);
             }, 4000);
         }
 
-        // --- Smart Scrolling Navbar ---
         let lastScrollTop = 0;
         const navbar = document.querySelector('.navbar-wrapper');
-        const scrollThreshold = 100; // Only hide after scrolling 100px
+        const scrollThreshold = 100;
 
         window.addEventListener('scroll', function() {
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
             if (scrollTop > lastScrollTop && scrollTop > scrollThreshold) {
-                // Scroll Down
-                navbar.classList.add('nav-hidden');
+                if (navbar) navbar.classList.add('nav-hidden');
             } else {
-                // Scroll Up
-                navbar.classList.remove('nav-hidden');
+                if (navbar) navbar.classList.remove('nav-hidden');
             }
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop; // For Mobile or negative scrolling
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
         }, { passive: true });
 
     })();

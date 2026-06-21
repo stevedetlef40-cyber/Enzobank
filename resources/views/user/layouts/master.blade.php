@@ -14,7 +14,6 @@
         (function() {
             const savedTheme = localStorage.getItem('bakery-theme');
             const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-            const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             const theme = savedTheme || systemTheme;
             document.documentElement.setAttribute('data-theme', theme);
         })();
@@ -56,11 +55,35 @@
             <i class="lab la-whatsapp"></i>
             <span class="online-dot"></span>
         </div>
-        <div class="whatsapp-text">
+        <div class="whatsapp-text d-none d-lg-flex">
             <span>{{ __('Chat with us') }}</span>
         </div>
     </a>
 </div>
+
+<!-- Mobile Bottom Navigation -->
+<nav class="mobile-bottom-nav d-flex d-lg-none">
+    <a href="{{ setRoute('user.dashboard') }}" class="mobile-nav-item {{ request()->routeIs('user.dashboard') ? 'active' : '' }}">
+        <i class="las la-home"></i>
+        <span>{{ __('Home') }}</span>
+    </a>
+    <a href="{{ setRoute('user.investments.offers') }}" class="mobile-nav-item {{ request()->routeIs('user.investments.*') ? 'active' : '' }}">
+        <i class="las la-chart-line"></i>
+        <span>{{ __('Invest') }}</span>
+    </a>
+    <a href="{{ setRoute('user.add.money.index') }}" class="mobile-nav-item {{ request()->routeIs('user.add.money.*') ? 'active' : '' }}">
+        <i class="las la-wallet"></i>
+        <span>{{ __('Wallet') }}</span>
+    </a>
+    <a href="{{ setRoute('user.transactions.index') }}" class="mobile-nav-item {{ request()->routeIs('user.transactions.*') ? 'active' : '' }}">
+        <i class="las la-rss"></i>
+        <span>{{ __('Feed') }}</span>
+    </a>
+    <a href="{{ setRoute('user.profile.index') }}" class="mobile-nav-item {{ request()->routeIs('user.profile.*') ? 'active' : '' }}">
+        <i class="las la-user"></i>
+        <span>{{ __('Account') }}</span>
+    </a>
+</nav>
 
 @include('partials.footer-asset')
 @include('user.partials.push-notification')
