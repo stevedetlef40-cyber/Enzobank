@@ -14,8 +14,11 @@ class CurrencySeeder extends Seeder
      */
     public function run()
     {
+        // Clear existing data first
+        Currency::truncate();
+
         $currencies = array(
-            array('id' => '1','admin_id' => '1','country' => 'United States','name' => 'United States dollar','code' => 'USD','symbol' => '$','type' => 'FIAT','flag' => '1e4551f9-2216-4fcc-83b3-3a9b85c5c379.webp','rate' => '1.00000000','sender' => '1','receiver' => '1','default' => '1','status' => '1','created_at' => '2024-01-17 07:17:53','updated_at' => '2024-01-17 07:18:24')
+            array('id' => '1','admin_id' => '1','country' => 'United States','name' => 'United States dollar','code' => 'USD','symbol' => '$','type' => 'FIAT','flag' => '1e4551f9-2216-4fcc-83b3-3a9b85c5c379.webp','rate' => '1.00000000','status' => '1','sender' => '1','receiver' => '1','created_at' => '2024-01-17 07:17:53','updated_at' => '2024-01-17 07:18:24'),
         );
 
         Currency::insert($currencies);
