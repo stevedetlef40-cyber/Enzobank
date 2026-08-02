@@ -364,7 +364,7 @@ $accountNo = $user->account_no ?? '0000000000';
         if (navigator.clipboard) {
             navigator.clipboard.writeText(accountNo).then(function() {
                 var orig = btn.innerHTML;
-                btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+                btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
                 setTimeout(function() { btn.innerHTML = orig; }, 1500);
             });
         }

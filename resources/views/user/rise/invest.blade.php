@@ -80,7 +80,7 @@
     font-weight: 600;
     white-space: nowrap;
 }
-.inv-badge.active { background: rgba(34,197,94,0.12); color: var(--success); }
+.inv-badge.active { background: rgba(59,130,246,0.12); color: var(--success); }
 .inv-badge.closed { background: rgba(239,68,68,0.12); color: var(--danger); }
 .inv-badge.pending { background: rgba(245,158,11,0.12); color: #F59E0B; }
 .inv-badge.passed { background: rgba(59,130,246,0.12); color: var(--accent); }

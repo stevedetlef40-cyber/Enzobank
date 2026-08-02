@@ -89,7 +89,7 @@
 }
 .vc-create-page .form--control[type="file"]::before {
     border-radius: 8px;
-    background: var(--gradient, linear-gradient(135deg,#1D4ED8,#06B6D4));
+    background: var(--gradient, linear-gradient(135deg,#1D4ED8,#2563EB));
 }
 /* Submit button hover / press transitions */
 .vc-create-page .btn--base {

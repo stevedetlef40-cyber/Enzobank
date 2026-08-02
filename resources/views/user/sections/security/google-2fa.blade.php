@@ -87,12 +87,12 @@
         box-shadow: 0 10px 24px rgba(240,160,32,.30);
         transition: all .3s ease;
     }
-    .twofa-badge.active { background: linear-gradient(135deg,#22c55e,#16a34a); box-shadow: 0 10px 24px rgba(34,197,94,.30); }
+    .twofa-badge.active { background: linear-gradient(135deg,#3B82F6,#2563EB); box-shadow: 0 10px 24px rgba(59,130,246,.30); }
     .twofa-status-text { font-weight:700; font-size:15px; }
 
     .copy-btn { cursor:pointer; transition: background .2s ease, transform .15s ease; }
     .copy-btn:hover { background:#eef3ff; transform: scale(1.06); }
-    .copy-btn.copied { background:#dcfce7; color:#16a34a; }
+    .copy-btn.copied { background:#dbeafe; color:#2563EB; }
 
     .twofa-qr { border-radius: 16px; padding: 10px; background:#fff; border:1px solid #eef1f7; box-shadow:0 8px 24px rgba(20,30,60,.08); transition: transform .3s ease; }
     .twofa-qr:hover { transform: scale(1.03); }

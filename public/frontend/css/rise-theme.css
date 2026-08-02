@@ -356,14 +356,14 @@ input, textarea { font-family: inherit; }
 .ri-portfolio-row { display: flex; justify-content: space-between; padding: 8px 0; font-size: 14px; color: #94A3B8; }
 .ri-portfolio-row + .ri-portfolio-row { border-top: 1px solid #1E293B; }
 .ri-portfolio-value { font-weight: 600; color: #fff; }
-.ri-portfolio-value.green { color: #22C55E; }
+.ri-portfolio-value.green { color: #3B82F6; }
 .ri-comp-header { font-size: 11px; font-weight: 600; color: #4B5563; letter-spacing: 1px; margin-bottom: 4px; }
 .ri-comp-sub { font-size: 13px; color: #94A3B8; margin-bottom: 12px; }
 .ri-comp-legend { display: flex; gap: 16px; margin-bottom: 16px; font-size: 13px; color: #94A3B8; }
 .ri-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
 .ri-dot.orange { background: #F59E0B; }
 .ri-dot.blue { background: #3B82F6; }
-.ri-dot.green { background: #22C55E; }
+.ri-dot.green { background: #3B82F6; }
 .ri-asset-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #1E293B; }
 .ri-asset-icon { font-size: 24px; }
 .ri-asset-info { flex: 1; display: flex; flex-direction: column; }
@@ -510,10 +510,10 @@ input, textarea { font-family: inherit; }
 .vc-detail-value { font-size: 14px; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 8px; }
 .vc-copy-btn { color: #3B82F6; cursor: pointer; padding: 2px; }
 .vc-status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; border-radius: 20px; font-size: 13px; font-weight: 600; }
-.vc-status-badge.active { background: rgba(34,197,94,0.1); color: #22C55E; }
+.vc-status-badge.active { background: rgba(59,130,246,0.1); color: #3B82F6; }
 .vc-status-badge.inactive { background: rgba(239,68,68,0.1); color: #EF4444; }
 .vc-status-dot { width: 8px; height: 8px; border-radius: 50%; }
-.vc-status-dot.active { background: #22C55E; }
+.vc-status-dot.active { background: #3B82F6; }
 .vc-status-dot.inactive { background: #EF4444; }
 .vc-actions { display: flex; gap: 8px; }
 .vc-action-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px 14px; border: 1.5px solid #3B82F6; border-radius: 100px; font-size: 13px; font-weight: 600; color: #3B82F6; background: transparent; }
@@ -1078,9 +1078,9 @@ input, textarea { font-family: inherit; }
 /* Semantic / status color tokens per theme */
 [data-theme="dark"] {
     --inv-blue: #3B82F6;
-    --inv-success: #34D399;
-    --inv-success-text: #6EE7B7;
-    --inv-success-bg: rgba(16,185,129,0.16);
+    --inv-success: #3B82F6;
+    --inv-success-text: #93C5FD;
+    --inv-success-bg: rgba(59,130,246,0.16);
     --inv-danger: #F87171;
     --inv-danger-bg: rgba(239,68,68,0.16);
     --inv-warning: #FBBF24;
@@ -1091,9 +1091,9 @@ input, textarea { font-family: inherit; }
 }
 [data-theme="light"] {
     --inv-blue: #1D4ED8;
-    --inv-success: #059669;
-    --inv-success-text: #047857;
-    --inv-success-bg: rgba(16,185,129,0.12);
+    --inv-success: #1D4ED8;
+    --inv-success-text: #2563EB;
+    --inv-success-bg: rgba(29,78,216,0.12);
     --inv-danger: #DC2626;
     --inv-danger-bg: rgba(239,68,68,0.10);
     --inv-warning: #B45309;
@@ -1126,7 +1126,7 @@ input, textarea { font-family: inherit; }
 .ip-text-secondary { color: var(--text-secondary, #94A3B8); }
 .ip-text-muted     { color: var(--text-muted, #64748B); }
 .ip-text-blue      { color: var(--inv-blue, #3B82F6); font-weight: 500; }
-.ip-text-green     { color: var(--inv-success-text, #34D399); }
+.ip-text-green     { color: var(--inv-success-text, #93C5FD); }
 .ip-text-red       { color: var(--inv-danger, #F87171); }
 .ip-text-amber     { color: var(--inv-warning, #FBBF24); }
 
@@ -1135,7 +1135,7 @@ input, textarea { font-family: inherit; }
     display: inline-flex; align-items: center; padding: 4px 12px;
     border-radius: 20px; font-size: 12px; font-weight: 600;
 }
-.ip-pill-green { background: var(--inv-success-bg); color: var(--inv-success-text, #6EE7B7); }
+.ip-pill-green { background: var(--inv-success-bg); color: var(--inv-success-text, #93C5FD); }
 .ip-pill-amber { background: var(--inv-warning-bg); color: var(--inv-warning, #FBBF24); }
 .ip-pill-blue  { background: var(--inv-info-bg);   color: var(--inv-info, #60A5FA); }
 .ip-pill-red   { background: var(--inv-danger-bg); color: var(--inv-danger, #F87171); }
@@ -1145,7 +1145,7 @@ input, textarea { font-family: inherit; }
     display: inline-flex; align-items: center; padding: 3px 12px;
     border-radius: 20px; font-size: 11px; font-weight: 600;
 }
-.ip-status-active    { background: var(--inv-success-bg); color: var(--inv-success-text, #6EE7B7); }
+.ip-status-active    { background: var(--inv-success-bg); color: var(--inv-success-text, #93C5FD); }
 .ip-status-pending   { background: var(--inv-warning-bg); color: var(--inv-warning, #FBBF24); }
 .ip-status-completed { background: var(--inv-info-bg);   color: var(--inv-info, #60A5FA); }
 .ip-status-cancelled { background: var(--inv-danger-bg); color: var(--inv-danger, #F87171); }
@@ -1190,7 +1190,7 @@ input, textarea { font-family: inherit; }
 .ip-stat-label { font-size: 12px; color: var(--text-muted, #64748B); }
 .ip-stat-value { font-size: 18px; font-weight: 700; color: var(--text-primary, #F1F5F9); }
 .ip-stat-blue  { color: var(--inv-blue, #3B82F6); }
-.ip-stat-green { color: var(--inv-success-text, #34D399); }
+.ip-stat-green { color: var(--inv-success-text, #93C5FD); }
 
 /* --- Empty state --- */
 .ip-empty-text { color: var(--text-muted, #64748B); }
@@ -1446,55 +1446,3 @@ input, textarea { font-family: inherit; }
     .vc-tx-section-title, .rw-tx-item, .vc-card-shimmer { animation: none !important; opacity: 1 !important; transform: none !important; }
 }
 
-/* ============================================================
-   INVEST FLOW — ENZOBANK TEAL SCOPING
-   The new invest pages (user/rise/invest-*.blade.php) carry the
-   .invest-flow wrapper class. Everything in this section only
-   applies inside those pages, so the rest of the RISE app keeps
-   its original dark blue primary. Status colors resolve from
-   --inv-* variables, which stay blue for info/completed.
-   ============================================================ */
-
-[data-theme="dark"] .invest-flow {
-    --inv-blue: #14B8A6;
-    --inv-blue-bg: rgba(13,148,136,0.14);
-}
-[data-theme="light"] .invest-flow {
-    --inv-blue: #0D9488;
-    --inv-blue-bg: rgba(13,148,136,0.10);
-}
-
-/* Primary buttons */
-.invest-flow .am-btn { background: #14B8A6; }
-.invest-flow .am-btn:hover { background: #0D9488; }
-.invest-flow .am-btn:active { background: #0F766E; }
-
-/* Amount input pill + focus border */
-.invest-flow .am-input-pill { background: #14B8A6; }
-.invest-flow .am-input-wrap input:focus,
-.invest-flow .am-input-wrap select:focus { border-color: #14B8A6; }
-[data-theme="light"] .invest-flow .am-input-wrap input:focus,
-[data-theme="light"] .invest-flow .am-input-wrap select:focus { border-color: #0D9488; }
-
-/* Preview icon */
-.invest-flow .am-preview-icon { background: rgba(13,148,136,0.1); color: #14B8A6; }
-
-/* Plan select cards */
-.invest-flow .ip-select-card:hover { border-color: #14B8A6; }
-.invest-flow .ip-select-card.selected { border-color: #14B8A6; background: var(--inv-blue-bg, rgba(13,148,136,0.10)); }
-.invest-flow .ip-select-btn { border: 1.5px solid #14B8A6; color: #14B8A6; }
-.invest-flow .ip-select-card.selected .ip-select-btn { background: #14B8A6; color: #fff; }
-
-/* Crypto method cards */
-.invest-flow .cp-method-card:hover { border-color: #14B8A6; }
-.invest-flow .cp-method-card.selected { border-color: #14B8A6; background: rgba(13,148,136,0.05); }
-.invest-flow .cp-method-card.selected::after { background: #14B8A6; }
-[data-theme="light"] .invest-flow .cp-method-card.selected { background: rgba(13,148,136,0.05); }
-
-/* Earnings filter + action buttons */
-.invest-flow .tl-filter-pill.active { background: #14B8A6; color: #fff; }
-[data-theme="light"] .invest-flow .tl-filter-pill.active { background: #0D9488; color: #FFFFFF; }
-.invest-flow .vc-action-btn { border-color: #14B8A6; color: #14B8A6; }
-.invest-flow .vc-action-btn:active { background: rgba(13,148,136,0.08); }
-[data-theme="light"] .invest-flow .vc-action-btn { color: #0D9488; border-color: #0D9488; }
-[data-theme="light"] .invest-flow .vc-action-btn:active { background: rgba(13,148,136,0.08); }

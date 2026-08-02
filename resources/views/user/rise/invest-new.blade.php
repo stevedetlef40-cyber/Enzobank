@@ -10,7 +10,7 @@ $wallets = $wallets ?? collect([]);
     <h1 class="am-header-title">New Investment Plan</h1>
 </div>
 
-<div class="am-body invest-flow">
+<div class="am-body">
     <!-- Step 1: Select Plan -->
     <div class="am-card" id="stepPlan">
         <div class="am-card-title">Select Plan</div>

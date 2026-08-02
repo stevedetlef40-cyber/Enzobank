@@ -550,7 +550,7 @@ blockquote .quote-icon {
 }
 
 .bg--success {
-  background-color: #28c76f !important;
+  background-color: #2563EB !important;
 }
 
 .bg--danger {
@@ -582,7 +582,7 @@ blockquote .quote-icon {
 }
 
 .text--success {
-  color: #28c76f !important;
+  color: #2563EB !important;
 }
 
 .text--danger {
@@ -614,7 +614,7 @@ blockquote .quote-icon {
 }
 
 .border--success {
-  border: 1px solid #28c76f;
+  border: 1px solid #2563EB;
 }
 
 .border--danger {
@@ -1619,7 +1619,7 @@ input::-moz-focus-inner {
 }
 
 .btn--success {
-  background-color: #28c76f;
+  background-color: #2563EB;
 }
 
 .btn--danger {
@@ -1649,8 +1649,8 @@ input::-moz-focus-inner {
 }
 
 .badge--success {
-  border-color: #28c76f !important;
-  color: #28c76f !important;
+  border-color: #2563EB !important;
+  color: #2563EB !important;
 }
 
 .badge--danger {
@@ -1687,7 +1687,7 @@ input::-moz-focus-inner {
 }
 
 .border--success {
-  border: 1px solid #28c76f;
+  border: 1px solid #2563EB;
 }
 
 .border--danger {
@@ -3982,7 +3982,7 @@ body.dark-min-sidebar .header-link {
   z-index: 10;
 }
 .internet-wrapper .internet-icon {
-  color: #28c76f;
+  color: #2563EB;
   font-size: 24px;
 }
 .internet-wrapper .internet-content {
@@ -4529,7 +4529,7 @@ body.dark-min-sidebar .header-link {
   color: #f05050;
 }
 .dashbord-item #chart7 span {
-  color: #10c469;
+  color: #2563EB;
 }
 .dashbord-item #chart8 span {
   color: #ffbd4a;

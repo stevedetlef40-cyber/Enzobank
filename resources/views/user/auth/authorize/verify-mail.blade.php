@@ -21,7 +21,7 @@
     animation: floaty 9s ease-in-out infinite;
   }
   .blob.b1{width:240px;height:240px;background:#3b5bdb;top:-50px;left:-40px;animation-delay:0s}
-  .blob.b2{width:170px;height:170px;background:#15aabf;bottom:-30px;right:7%;animation-delay:2s}
+  .blob.b2{width:170px;height:170px;background:#3B82F6;bottom:-30px;right:7%;animation-delay:2s}
   .blob.b3{width:130px;height:130px;background:#7048e8;top:28%;right:-25px;animation-delay:4.5s}
   @keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-32px)}}
 
@@ -37,14 +37,14 @@
   .reg-otp-mail{
     width:78px;height:78px;margin:0 auto 14px;border-radius:50%;
     display:flex;align-items:center;justify-content:center;
-    background:linear-gradient(135deg,#3b5bdb,#15aabf);
+    background:linear-gradient(135deg,#1D4ED8,#3B82F6);
     color:#fff;font-size:34px;
-    box-shadow:0 12px 26px rgba(21,170,191,.45);
+    box-shadow:0 12px 26px rgba(37,99,235,.45);
     animation: mailPulse 2.6s ease-in-out infinite;
   }
   @keyframes mailPulse{
-    0%,100%{transform:translateY(0);box-shadow:0 12px 26px rgba(21,170,191,.45)}
-    50%{transform:translateY(-8px);box-shadow:0 18px 34px rgba(21,170,191,.6)}
+    0%,100%{transform:translateY(0);box-shadow:0 12px 26px rgba(37,99,235,.45)}
+    50%{transform:translateY(-8px);box-shadow:0 18px 34px rgba(37,99,235,.6)}
   }
   .reg-otp-mail i{animation: mailWiggle 3.2s ease-in-out infinite}
   @keyframes mailWiggle{0%,90%,100%{transform:rotate(0)}93%{transform:rotate(-12deg)}97%{transform:rotate(12deg)}}
@@ -64,7 +64,7 @@
     box-shadow:0 0 0 4px rgba(59,91,219,.18);
     transform:translateY(-3px);
   }
-  .reg-otp-inputs input.filled{border-color:#15aabf;background:#eefcfd}
+  .reg-otp-inputs input.filled{border-color:#3B82F6;background:#eff6ff}
 
   .reg-otp-timer{text-align:center;color:#8a93a8;font-size:13px;margin-bottom:16px}
   .reg-otp-timer #time{font-weight:700;color:#0b1f4d}
@@ -89,7 +89,7 @@
 
   .reg-otp-check{display:none;text-align:center;margin-bottom:14px}
   .reg-otp-check .ring{
-    width:72px;height:72px;border-radius:50%;background:#e6fcf2;color:#0ca678;
+    width:72px;height:72px;border-radius:50%;background:#eff6ff;color:#3B82F6;
     display:inline-flex;align-items:center;justify-content:center;font-size:36px;
     animation: popIn .5s cubic-bezier(.2,.8,.2,1) both;
   }

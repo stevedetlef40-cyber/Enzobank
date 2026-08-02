@@ -40,14 +40,14 @@
 .cd-confirm-btn:disabled { background: var(--border-strong); color: var(--text-muted); cursor: not-allowed; }
 .cd-confirm-btn:not(:disabled):hover { background: var(--blue); }
 .cd-share-link { text-decoration: none; display: inline-flex; }
-.cd-help-card { background: var(--bg-card); border: 1px solid var(--border-color); border-left: 4px solid #25D366; border-radius: 16px; padding: 20px; box-shadow: var(--card-shadow); }
+.cd-help-card { background: var(--bg-card); border: 1px solid var(--border-color); border-left: 4px solid #3B82F6; border-radius: 16px; padding: 20px; box-shadow: var(--card-shadow); }
 .cd-help-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; }
-.cd-help-icon { width: 42px; height: 42px; border-radius: 12px; background: rgba(37,211,102,0.12); color: #128C7E; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.cd-help-icon { width: 42px; height: 42px; border-radius: 12px; background: rgba(59,130,246,0.12); color: #3B82F6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .cd-help-text { flex: 1; }
 .cd-help-title { font-size: 15px; font-weight: 700; color: var(--text-primary); }
 .cd-help-sub { font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; margin-top: 3px; }
-.cd-help-cta { display: flex; align-items: center; gap: 10px; width: 100%; padding: 14px 16px; background: #25D366; color: #fff; border: none; border-radius: 12px; font-size: 14px; font-weight: 700; text-decoration: none; transition: background 0.15s; }
-.cd-help-cta:hover { background: #1EBE5D; color: #fff; }
+.cd-help-cta { display: flex; align-items: center; gap: 10px; width: 100%; padding: 14px 16px; background: #3B82F6; color: #fff; border: none; border-radius: 12px; font-size: 14px; font-weight: 700; text-decoration: none; transition: background 0.15s; }
+.cd-help-cta:hover { background: #1D4ED8; color: #fff; }
 .cd-help-cta i { font-size: 20px; }
 .cd-help-cta-arrow { margin-left: auto; }
 .cd-help-accordion { display: flex; align-items: center; justify-content: space-between; gap: 10px; width: 100%; margin-top: 12px; padding: 12px 14px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; font-size: 13px; font-weight: 600; color: var(--text-primary); cursor: pointer; text-align: left; transition: all 0.15s; }

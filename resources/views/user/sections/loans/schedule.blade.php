@@ -69,7 +69,7 @@
     font-size: 11px;
     font-weight: 600;
 }
-.sch-badge.paid { background: rgba(34,197,94,0.12); color: var(--success); }
+.sch-badge.paid { background: rgba(59,130,246,0.12); color: var(--success); }
 .sch-badge.due { background: rgba(245,158,11,0.12); color: var(--warning); }
 .sch-badge.late { background: rgba(239,68,68,0.12); color: var(--danger); }
 .sch-badge.pending { background: rgba(148,163,184,0.12); color: var(--text-muted); }

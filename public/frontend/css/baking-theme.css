@@ -2,8 +2,8 @@
 
 :root {
     /* --- Modern Patisserie Palette (Light Mode) --- */
-    --bakery-primary: #4A6A5A; /* Darkened for AA contrast */
-    --bakery-primary-light: #405c4d; /* Darkened for AA contrast on hover */
+    --bakery-primary: #2563EB; /* Darkened for AA contrast */
+    --bakery-primary-light: #1D4ED8; /* Darkened for AA contrast on hover */
     --bakery-accent: #A9BEB0;
     --bakery-accent-muted: #E4EAE5;
     
@@ -22,7 +22,7 @@
     --bakery-text-on-primary: #FFFFFF;
     
     /* Status Colors */
-    --bakery-success: #388E3C;
+    --bakery-success: #2563EB;
     --bakery-error: #D32F2F;
     --bakery-warning: #FBC02D;
     --bakery-info: #1976D2;
@@ -98,8 +98,8 @@ body, .page-wrapper, .main-wrapper, .main-body-wrapper, .navbar-wrapper, .sideba
 }
 
 [data-theme="dark"] {
-    --bakery-primary: #9AC3AE;
-    --bakery-primary-light: #B3D3C1;
+    --bakery-primary: #93C5FD;
+    --bakery-primary-light: #BFDBFE;
     --bakery-accent: #788E83;
     --bakery-accent-muted: #2A2F2D;
     --bakery-bg: #111513;
@@ -170,7 +170,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     transition: all 0.3s var(--easing-standard);
     border: none;
-    box-shadow: 0 4px 12px rgba(var(--bakery-primary-rgb, 91, 127, 107), 0.2);
+    box-shadow: 0 4px 12px rgba(var(--bakery-primary-rgb, 37, 99, 235), 0.2);
     font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, Helvetica, sans-serif;
     min-height: 48px;
     min-width: 48px;
@@ -198,7 +198,7 @@ h1, h2, h3, h4, h5, h6 {
 .btn--base:hover {
     background-color: var(--bakery-primary-light);
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(var(--bakery-primary-rgb, 91, 127, 107), 0.3);
+    box-shadow: 0 6px 16px rgba(var(--bakery-primary-rgb, 37, 99, 235), 0.3);
 }
 
 .btn-sm {
@@ -1460,7 +1460,7 @@ input:checked + .slider:before {
 .whatsapp-btn {
     display: flex;
     align-items: center;
-    background: #25D366;
+    background: #3B82F6;
     color: #fff !important;
     padding: 14px 24px;
     border-radius: 50px;
@@ -2774,7 +2774,7 @@ html, body {
 .online-dot {
     width: 10px;
     height: 10px;
-    background: #4CAF50;
+    background: #3B82F6;
     border-radius: 50%;
     position: absolute;
     top: -2px;
@@ -2803,7 +2803,7 @@ html, body {
     --enzo-navy: #0d1b2e;
     --enzo-navy-mid: #132035;
     --enzo-navy-light: #1a2d47;
-    --enzo-accent: #00d4ff;
+    --enzo-accent: #2563EB;
     --enzo-blue: #1e6fd9;
     --enzo-blue-dark: #155bbf;
     --enzo-white: #ffffff;
@@ -2813,7 +2813,7 @@ html, body {
     --enzo-card-bg: #ffffff;
     --enzo-card-text: #1a1a2e;
     --enzo-card-muted: #6b7280;
-    --enzo-green: #25d366;
+    --enzo-green: #3B82F6;
 }
 
 /* --- Header / Navbar --- */
@@ -3065,7 +3065,7 @@ html, body {
     inset: 0;
     background:
         radial-gradient(ellipse at 20% 50%, rgba(30, 111, 217, 0.15) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 20%, rgba(0, 212, 255, 0.08) 0%, transparent 50%);
+        radial-gradient(ellipse at 80% 20%, rgba(37, 99, 235, 0.12) 0%, transparent 50%);
     pointer-events: none;
 }
 
@@ -3081,8 +3081,8 @@ html, body {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(0, 212, 255, 0.1);
-    border: 1px solid rgba(0, 212, 255, 0.3);
+    background: rgba(37, 99, 235, 0.12);
+    border: 1px solid rgba(37, 99, 235, 0.35);
     color: var(--enzo-accent) !important;
     padding: 8px 20px;
     border-radius: 100px;
@@ -3220,7 +3220,7 @@ html, body {
 .enzo-service-icon {
     width: 56px;
     height: 56px;
-    background: linear-gradient(135deg, rgba(30,111,217,0.1), rgba(0,212,255,0.1));
+    background: linear-gradient(135deg, rgba(30,111,217,0.1), rgba(37,99,235,0.12));
     border-radius: 14px;
     display: flex;
     align-items: center;
@@ -3588,7 +3588,7 @@ html, body {
     color: white !important;
     font-size: 1.75rem;
     text-decoration: none !important;
-    box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+    box-shadow: 0 4px 20px rgba(37,99,235,0.4);
     z-index: 1000;
     transition: transform 0.25s, box-shadow 0.25s;
     animation: float-wa 3s ease-in-out infinite;
@@ -3596,7 +3596,7 @@ html, body {
 
 .enzo-whatsapp-float:hover {
     transform: scale(1.1);
-    box-shadow: 0 8px 30px rgba(37,211,102,0.5);
+    box-shadow: 0 8px 30px rgba(37,99,235,0.5);
     color: white !important;
 }
 

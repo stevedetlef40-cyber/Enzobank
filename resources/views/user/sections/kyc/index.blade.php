@@ -4,10 +4,10 @@
 <style>
 .kyc-badge { display:inline-block; padding:3px 12px; border-radius:20px; font-size:11px; font-weight:600; }
 .kyc-badge-pending { background:rgba(245,158,11,0.15); color:#F59E0B; }
-.kyc-badge-approved { background:rgba(34,197,94,0.15); color:#22C55E; }
+.kyc-badge-approved { background:rgba(59,130,246,0.15); color:#3B82F6; }
 .kyc-badge-rejected { background:rgba(239,68,68,0.15); color:#EF4444; }
 .kyc-message { font-size:14px; padding:12px 0; color:#94A3B8; }
-.kyc-message-approved { color:#22C55E; font-weight:500; }
+.kyc-message-approved { color:#3B82F6; font-weight:500; }
 .kyc-message-pending { color:#F59E0B; }
 .kyc-message-rejected { color:#EF4444; font-weight:500; }
 .kyc-reject-reason { background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.2); border-radius:10px; padding:14px; margin-bottom:16px; }

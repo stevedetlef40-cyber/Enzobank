@@ -48,7 +48,7 @@ $user = auth()->user();
     <div class="ps-card">
         <div class="ps-card-title" style="display:flex;align-items:center;justify-content:space-between;">
             <span>{{ __('Refer & Earn') }}</span>
-            <span style="font-size:12px;font-weight:500;color:#22C55E;background:rgba(34,197,94,0.12);padding:3px 10px;border-radius:12px;">$50 / referral</span>
+            <span style="font-size:12px;font-weight:500;color:#3B82F6;background:rgba(59,130,246,0.12);padding:3px 10px;border-radius:12px;">$50 / referral</span>
         </div>
         <p style="font-size:13px;color:#94A3B8;margin:0 0 12px;">{{ __('Share your referral link and earn $50 for each friend who joins and deposits.') }}</p>
         @php $referralLink = url('/register/' . auth()->user()->username); @endphp

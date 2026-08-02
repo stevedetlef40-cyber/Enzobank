@@ -28,7 +28,7 @@
 .rcpt-action-btn svg { width:18px; height:18px; flex-shrink:0; }
 .rcpt-action-btn.primary { background:var(--accent); border-color:var(--accent); color:var(--text-on-accent); }
 .rcpt-action-btn.primary:hover { filter:brightness(1.1); }
-.rcpt-action-btn.whatsapp { background:#25D366; border-color:#25D366; color:#fff; }
+.rcpt-action-btn.whatsapp { background:#3B82F6; border-color:#3B82F6; color:#fff; }
 .rcpt-action-btn.whatsapp:hover { filter:brightness(1.1); }
 
 /* Receipt Card */

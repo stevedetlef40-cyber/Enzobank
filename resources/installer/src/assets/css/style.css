@@ -552,7 +552,7 @@ blockquote .quote-icon {
 }
 
 .bg--success {
-  background-color: #28c76f;
+  background-color: #2563EB;
 }
 
 .bg--danger {
@@ -584,7 +584,7 @@ blockquote .quote-icon {
 }
 
 .text--success {
-  color: #28c76f;
+  color: #2563EB;
 }
 
 .text-danger {
@@ -620,7 +620,7 @@ blockquote .quote-icon {
 }
 
 .border--success {
-  border: 1px solid #28c76f;
+  border: 1px solid #2563EB;
 }
 
 .border--danger {
@@ -1177,7 +1177,7 @@ input::-moz-focus-inner {
 }
 
 .btn--success {
-  background-color: #28c76f;
+  background-color: #2563EB;
 }
 
 .btn--danger {
@@ -1205,7 +1205,7 @@ input::-moz-focus-inner {
 }
 
 .badge--success::before {
-  background-color: #28c76f;
+  background-color: #2563EB;
 }
 
 .badge--danger::before {
@@ -1233,7 +1233,7 @@ input::-moz-focus-inner {
 }
 
 .border--success {
-  border: 1px solid #28c76f;
+  border: 1px solid #2563EB;
 }
 
 .border--danger {

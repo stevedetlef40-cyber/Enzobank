@@ -3,12 +3,12 @@
 @push("css")
 <style>
 /* ── Type mapping ── */
-.tx-type-ADD-MONEY, .tx-type-Salary-Disbursement, .tx-type-COMMISSION { --tx-color: #22C55E; --tx-bg: rgba(34,197,94,0.12); }
+.tx-type-ADD-MONEY, .tx-type-Salary-Disbursement, .tx-type-COMMISSION { --tx-color: #3B82F6; --tx-bg: rgba(59,130,246,0.12); }
 .tx-type-BONUS { --tx-color: #A855F7; --tx-bg: rgba(168,85,247,0.12); }
 .tx-type-MONEY-OUT, .tx-type-WITHDRAW { --tx-color: #EF4444; --tx-bg: rgba(239,68,68,0.12); }
 .tx-type-OWN-BANK-TRANSFER { --tx-color: #3B82F6; --tx-bg: rgba(59,130,246,0.12); }
 .tx-type-OTHER-BANK-TRANSFER { --tx-color: #F59E0B; --tx-bg: rgba(245,158,11,0.12); }
-.tx-type-TRANSFER-MONEY { --tx-color: #06B6D4; --tx-bg: rgba(6,182,212,0.12); }
+.tx-type-TRANSFER-MONEY { --tx-color: #2563EB; --tx-bg: rgba(37,99,235,0.12); }
 .tx-type-VIRTUAL-CARD { --tx-color: #EC4899; --tx-bg: rgba(236,72,153,0.12); }
 .tx-type-default { --tx-color: #94A3B8; --tx-bg: rgba(148,163,184,0.08); }
 
@@ -44,7 +44,7 @@
 }
 .tl-stat-label { font-size: 11px; font-weight: 500; color: #64748B; text-transform: uppercase; letter-spacing: 0.8px; }
 .tl-stat-value { font-size: 16px; font-weight: 700; color: #fff; }
-.tl-stat-value.green { color: #22C55E; }
+.tl-stat-value.green { color: #3B82F6; }
 .tl-stat-value.red { color: #EF4444; }
 .tl-stat-value.purple { color: #A855F7; }
 
@@ -101,8 +101,8 @@
     text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
 }
 .tl-status-dot { width: 5px; height: 5px; border-radius: 50%; }
-.tl-status.success { background: rgba(34,197,94,0.12); color: #22C55E; }
-.tl-status.success .tl-status-dot { background: #22C55E; }
+.tl-status.success { background: rgba(59,130,246,0.12); color: #3B82F6; }
+.tl-status.success .tl-status-dot { background: #3B82F6; }
 .tl-status.pending { background: rgba(245,158,11,0.12); color: #F59E0B; }
 .tl-status.pending .tl-status-dot { background: #F59E0B; }
 .tl-status.rejected { background: rgba(239,68,68,0.12); color: #EF4444; }
@@ -110,7 +110,7 @@
 
 /* Amount */
 .tl-item-amount { font-size: 15px; font-weight: 700; text-align: right; flex-shrink: 0; }
-.tl-item-amount.positive { color: #22C55E; }
+.tl-item-amount.positive { color: #3B82F6; }
 .tl-item-amount.negative { color: #EF4444; }
 .tl-item-balance { font-size: 10px; color: #475569; margin-top: 2px; text-align: right; font-weight: 500; }
 

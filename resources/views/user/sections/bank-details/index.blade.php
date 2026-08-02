@@ -113,7 +113,7 @@
 .bd-where-text ul { margin: 6px 0 0; padding-left: 18px; display: flex; flex-direction: column; gap: 3px; }
 
 /* ── Security tip ── */
-.bd-tip { display: flex; gap: 10px; align-items: flex-start; background: var(--success-bg); border: 1px solid rgba(16,185,129,0.25); border-radius: 12px; padding: 12px 14px; font-size: 12px; color: var(--success-text); line-height: 1.5; }
+.bd-tip { display: flex; gap: 10px; align-items: flex-start; background: var(--success-bg); border: 1px solid rgba(37,99,235,0.25); border-radius: 12px; padding: 12px 14px; font-size: 12px; color: var(--success-text); line-height: 1.5; }
 .bd-tip svg { flex-shrink: 0; margin-top: 1px; }
 
 /* ── Toast ── */
@@ -336,7 +336,7 @@
         {{-- Add / Edit Bank Detail Form --}}
         <div class="bd-form-section">
             <h3 class="bd-form-title">
-                <span class="bd-section-icon" style="background:rgba(34,197,94,0.12);color:#22C55E;">
+                <span class="bd-section-icon" style="background:rgba(59,130,246,0.12);color:#3B82F6;">
                     <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
                 </span>
                 {{ __('Add New Bank Detail') }}

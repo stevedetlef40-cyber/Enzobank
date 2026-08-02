@@ -3623,7 +3623,7 @@
             },
             candlestick: {
               colors: {
-                upward: '#00B746',
+                upward: '#3B82F6',
                 downward: '#EF403C'
               },
               wick: {
@@ -3632,7 +3632,7 @@
             },
             boxPlot: {
               colors: {
-                upper: '#00E396',
+                upper: '#3B82F6',
                 lower: '#008FFB'
               }
             },
@@ -12720,11 +12720,11 @@
 
         switch (palette) {
           case 'palette1':
-            this.colors = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
+            this.colors = ['#008FFB', '#3B82F6', '#FEB019', '#FF4560', '#775DD0'];
             break;
 
           case 'palette2':
-            this.colors = ['#3f51b5', '#03a9f4', '#4caf50', '#f9ce1d', '#FF9800'];
+            this.colors = ['#3f51b5', '#03a9f4', '#3B82F6', '#f9ce1d', '#FF9800'];
             break;
 
           case 'palette3':
@@ -12732,7 +12732,7 @@
             break;
 
           case 'palette4':
-            this.colors = ['#4ecdc4', '#c7f464', '#81D4FA', '#fd6a6a', '#546E7A'];
+            this.colors = ['#3B82F6', '#93C5FD', '#81D4FA', '#fd6a6a', '#546E7A'];
             break;
 
           case 'palette5':
@@ -12744,7 +12744,7 @@
             break;
 
           case 'palette7':
-            this.colors = ['#D7263D', '#1B998B', '#2E294E', '#F46036', '#E2C044'];
+            this.colors = ['#D7263D', '#3B82F6', '#2E294E', '#F46036', '#E2C044'];
             break;
 
           case 'palette8':
@@ -12760,7 +12760,7 @@
             break;
 
           default:
-            this.colors = ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0'];
+            this.colors = ['#008FFB', '#3B82F6', '#FEB019', '#FF4560', '#775DD0'];
             break;
         }
 

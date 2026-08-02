@@ -85,7 +85,7 @@ html, body { height:100%; width:100%; overflow:hidden; font-family:-apple-system
 }
 .toast-msg.show { transform:translateX(-50%) translateY(0); }
 .toast-msg.error { background:#EF4444; color:#fff; }
-.toast-msg.success { background:#10B981; color:#fff; }
+.toast-msg.success { background:#2563EB; color:#fff; }
 </style>
 </head>
 <body>

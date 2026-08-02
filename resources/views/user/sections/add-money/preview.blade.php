@@ -46,11 +46,11 @@ $instance = $temp_data->data->instance ?? $temp_data->data;
             <span class="am-preview-value will-get">{{ get_amount($instance->amount->will_get, $instance->amount->default_currency) }}</span>
         </div>
         <div class="am-preview-row">
-            <div class="am-preview-icon" style="border-color:#059669;color:#059669;">
+            <div class="am-preview-icon" style="border-color:#3B82F6;color:#3B82F6;">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
             </div>
             <span class="am-preview-label">{{ __('Total Payable Amount') }}</span>
-            <span class="am-preview-value" style="color:#059669;">{{ get_amount($instance->amount->total_amount, $instance->amount->sender_cur_code) }}</span>
+            <span class="am-preview-value" style="color:#3B82F6;">{{ get_amount($instance->amount->total_amount, $instance->amount->sender_cur_code) }}</span>
         </div>
 
         <div style="margin-top:20px;">

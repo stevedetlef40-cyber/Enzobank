@@ -41,7 +41,7 @@
                    class="list-group-item list-group-item-action d-flex align-items-center gap-3"
                    style="background:rgba(30,41,59,0.5);border:1px solid rgba(148,163,184,0.1);border-radius:12px;margin-bottom:8px;padding:14px 18px;text-decoration:none;{{ !$n->is_read ? 'border-left:3px solid #3B82F6;' : '' }}">
                     <span class="notif-dot {{ $dotClass }}" style="flex-shrink:0;width:10px;height:10px;border-radius:50%;display:inline-block;
-                        @if($dotClass == 'credit') background:#22C55E;
+                        @if($dotClass == 'credit') background:#3B82F6;
                         @elseif($dotClass == 'bonus') background:#A855F7;
                         @else background:#EF4444; @endif
                     "></span>
@@ -60,7 +60,7 @@
                         </div>
                     </div>
                     @if (isset($msg->amount) && floatval($msg->amount) > 0)
-                        <span style="font-size:14px;font-weight:700;flex-shrink:0;{{ $isCredit ? 'color:#22C55E;' : 'color:#EF4444;' }}">
+                        <span style="font-size:14px;font-weight:700;flex-shrink:0;{{ $isCredit ? 'color:#3B82F6;' : 'color:#EF4444;' }}">
                             {{ $isCredit ? '+' : '-' }}${{ number_format(floatval($msg->amount), 2) }}
                         </span>
                     @endif

@@ -5,7 +5,7 @@
 .vc-locked { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 80vh; padding: 40px 20px; text-align: center; }
 .vc-locked-icon { font-size: 72px; margin-bottom: 24px; opacity: 0.6; }
 .vc-locked h2 { font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 8px; }
-.vc-locked-divider { width: 40px; height: 3px; background: linear-gradient(135deg, #3B82F6, #06B6D4); border-radius: 2px; margin: 16px auto 20px; }
+.vc-locked-divider { width: 40px; height: 3px; background: linear-gradient(135deg, #3B82F6, #2563EB); border-radius: 2px; margin: 16px auto 20px; }
 .vc-locked p { font-size: 14px; color: #94A3B8; line-height: 1.7; max-width: 400px; margin: 0 auto 8px; }
 .vc-locked-warning { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #F59E0B; background: rgba(245,158,11,0.1); padding: 10px 16px; border-radius: 8px; margin: 16px 0 24px; }
 .vc-locked-btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; background: linear-gradient(135deg, #3B82F6, #2563EB); color: #fff; font-size: 15px; font-weight: 600; border-radius: 999px; text-decoration: none; transition: all 0.2s; }

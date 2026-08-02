@@ -49,7 +49,7 @@
     height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--accent), #60A5FA);
     width: 0; transition: width 1.4s ease-out;
 }
-.la-bar-fill.green { background: linear-gradient(90deg, var(--success), #4ADE80); }
+.la-bar-fill.green { background: linear-gradient(90deg, var(--success), #3B82F6); }
 .la-bar-fill.yellow { background: linear-gradient(90deg, var(--warning), #FBBF24); }
 .la-bar-fill.orange { background: linear-gradient(90deg, #F97316, #FB923C); }
 
@@ -102,7 +102,7 @@
 .la-badge {
     display: inline-block; padding: 3px 10px; border-radius: 100px; font-size: 11px; font-weight: 600;
 }
-.la-badge.active { background: rgba(34,197,94,0.12); color: var(--success); }
+.la-badge.active { background: rgba(59,130,246,0.12); color: var(--success); }
 .la-badge.pending { background: rgba(245,158,11,0.12); color: var(--warning); }
 .la-badge.closed { background: rgba(148,163,184,0.12); color: var(--text-secondary); }
 .la-badge.defaulted { background: rgba(239,68,68,0.12); color: var(--danger); }
@@ -193,7 +193,7 @@
             <span class="la-stat-sub">{{ $activeCount }} {{ __('active') }}</span>
         </div>
         <div class="la-stat-card">
-            <div class="la-stat-icon" style="background:rgba(34,197,94,0.12);color:var(--success);">
+            <div class="la-stat-icon" style="background:rgba(59,130,246,0.12);color:var(--success);">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>
             </div>
             <span class="la-stat-label">{{ __('Remaining') }}</span>

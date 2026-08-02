@@ -10,7 +10,7 @@ $totalEarned = $totalEarned ?? 0;
     <h1 class="am-header-title">Earnings</h1>
 </div>
 
-<div class="am-body invest-flow">
+<div class="am-body">
     <!-- Total Earned -->
     <div class="am-card" style="text-align:center;">
         <div class="ip-stat-label">Total Earned</div>

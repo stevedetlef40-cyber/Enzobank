@@ -36,18 +36,18 @@ html, body { height:100%; width:100%; overflow:hidden; font-family:-apple-system
   animation: ringPulse 2s ease-in-out infinite;
 }
 @keyframes ringPulse { 0%,100% { transform:scale(1); opacity:0.5; } 50% { transform:scale(1.08); opacity:0; } }
-.fingerprint-ring.scanning::before { border-color:#22C55E; animation: ringScan 0.8s ease-in-out infinite; }
+.fingerprint-ring.scanning::before { border-color:#3B82F6; animation: ringScan 0.8s ease-in-out infinite; }
 @keyframes ringScan { 0%,100% { transform:scale(1); opacity:0.6; } 50% { transform:scale(1.12); opacity:0; } }
-.fingerprint-ring.success { background:rgba(34,197,94,0.12); }
-.fingerprint-ring.success::before { border-color:#22C55E; animation:none; transform:scale(1.05); opacity:0.3; }
+.fingerprint-ring.success { background:rgba(59,130,246,0.12); }
+.fingerprint-ring.success::before { border-color:#3B82F6; animation:none; transform:scale(1.05); opacity:0.3; }
 .fingerprint-ring.fail { background:rgba(239,68,68,0.12); animation:shake 0.4s ease; }
 .fingerprint-ring.fail::before { border-color:#EF4444; animation:none; transform:scale(1.05); opacity:0.3; }
 @keyframes shake { 0%,100% { transform:translateX(0); } 25% { transform:translateX(-8px); } 50% { transform:translateX(8px); } 75% { transform:translateX(-4px); } }
 
 .fingerprint-ring svg { width:56px; height:56px; stroke:#3B82F6; fill:none; stroke-width:1.5; position:relative; z-index:1; }
-.fingerprint-ring.success svg { stroke:#22C55E; }
+.fingerprint-ring.success svg { stroke:#3B82F6; }
 .fingerprint-ring.fail svg { stroke:#EF4444; }
-.fingerprint-ring.scanning svg { stroke:#22C55E; animation: scanGlow 0.8s ease-in-out infinite; }
+.fingerprint-ring.scanning svg { stroke:#3B82F6; animation: scanGlow 0.8s ease-in-out infinite; }
 @keyframes scanGlow { 0%,100% { opacity:0.6; } 50% { opacity:1; } }
 
 .bio-title {
@@ -66,8 +66,8 @@ html, body { height:100%; width:100%; overflow:hidden; font-family:-apple-system
   animation: fadeUp 0.6s ease-out 0.3s both;
 }
 .bio-status.idle { color:#64748B; }
-.bio-status.scanning { color:#22C55E; }
-.bio-status.success { color:#22C55E; }
+.bio-status.scanning { color:#3B82F6; }
+.bio-status.success { color:#3B82F6; }
 .bio-status.fail { color:#EF4444; }
 
 .bio-footer {
@@ -98,7 +98,7 @@ html, body { height:100%; width:100%; overflow:hidden; font-family:-apple-system
 
 .loading-dots { display:inline-flex; gap:4px; margin-left:4px; }
 .loading-dots span {
-  width:5px; height:5px; border-radius:50%; background:#22C55E;
+  width:5px; height:5px; border-radius:50%; background:#3B82F6;
   animation: dotBounce 0.6s ease-in-out infinite;
 }
 .loading-dots span:nth-child(2) { animation-delay:0.15s; }
@@ -113,7 +113,7 @@ html, body { height:100%; width:100%; overflow:hidden; font-family:-apple-system
 }
 .toast-msg.show { transform:translateX(-50%) translateY(0); }
 .toast-msg.error { background:#EF4444; color:#fff; }
-.toast-msg.success { background:#10B981; color:#fff; }
+.toast-msg.success { background:#2563EB; color:#fff; }
 </style>
 </head>
 <body>

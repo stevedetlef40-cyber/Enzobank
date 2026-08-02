@@ -102,7 +102,7 @@
 .send-recipient-info { flex: 1; }
 .send-recipient-name { font-size: 15px; font-weight: 600; color: #fff; }
 .send-recipient-detail { font-size: 12px; color: #94A3B8; }
-.send-recipient-check { color: #22C55E; flex-shrink: 0; }
+.send-recipient-check { color: #3B82F6; flex-shrink: 0; }
 
 /* Fee/Info cards */
 .send-fee-card {
@@ -320,11 +320,11 @@
                     <div class="send-fee-divider"></div>
                     <div class="send-fee-row">
                         <span class="send-fee-label">Recipient gets</span>
-                        <span class="send-fee-value" id="internalRecipientGets" style="color:#22C55E">$0.00</span>
+                        <span class="send-fee-value" id="internalRecipientGets" style="color:#3B82F6">$0.00</span>
                     </div>
                     <div class="send-fee-row">
                         <span class="send-fee-label">Arrives</span>
-                        <span class="send-fee-value" style="color:#22C55E">Instantly</span>
+                        <span class="send-fee-value" style="color:#3B82F6">Instantly</span>
                     </div>
                 </div>
 
@@ -406,7 +406,7 @@
                     </div>
                     <div class="send-fee-row">
                         <span class="send-fee-label">{{ __('Arrives') }}</span>
-                        <span class="send-fee-value" style="color:var(--success,#22C55E)">{{ __('1-2 business days') }}</span>
+                        <span class="send-fee-value" style="color:var(--success,#3B82F6)">{{ __('1-2 business days') }}</span>
                     </div>
                 </div>
                 <button type="submit" class="send-btn" id="sendOtherBtn" disabled>{{ __('Send to Bank') }}</button>

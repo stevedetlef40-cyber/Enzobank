@@ -11,7 +11,7 @@
 .cd-proof-img { max-width: 400px; border-radius: 12px; border: 1px solid #E5E7EB; margin-top: 12px; }
 .cd-badge-lg { font-size: 13px; font-weight: 700; padding: 6px 16px; border-radius: 999px; text-transform: uppercase; }
 .cd-badge-pending { background: #FEF3C7; color: #D97706; }
-.cd-badge-confirmed { background: #D1FAE5; color: #059669; }
+.cd-badge-confirmed { background: #DBEAFE; color: #3B82F6; }
 .cd-badge-rejected { background: #FEE2E2; color: #DC2626; }
 .cd-actions { margin-top: 24px; display: flex; gap: 12px; }
 .cd-reject-form { margin-top: 20px; padding: 20px; background: #F9FAFB; border-radius: 12px; }

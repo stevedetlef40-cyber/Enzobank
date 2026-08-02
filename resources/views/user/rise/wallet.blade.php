@@ -123,7 +123,7 @@
     display: flex; align-items: center; justify-content: center;
     color: #fff;
 }
-.wl-action-icon.add { background: #059669; }
+.wl-action-icon.add { background: #3B82F6; }
 .wl-action-icon.send { background: #3B82F6; }
 .wl-action-icon.out { background: #DC2626; }
 .wl-action-icon.stmt { background: #7C3AED; }

@@ -209,7 +209,7 @@
     font-weight: 500;
     color: #1e293b;
 }
-.user-detail-value.success { color: #059669; }
+.user-detail-value.success { color: #3B82F6; }
 .user-detail-value.danger { color: #dc2626; }
 .user-detail-value.warning { color: #d97706; }
 
@@ -260,8 +260,8 @@
 }
 .btn-amber { background: #f59e0b; color: #fff; }
 .btn-amber:hover { background: #d97706; }
-.btn-green { background: #059669; color: #fff; }
-.btn-green:hover { background: #047857; }
+.btn-green { background: #3B82F6; color: #fff; }
+.btn-green:hover { background: #1D4ED8; }
 .btn-blue { background: #3b82f6; color: #fff; }
 .btn-blue:hover { background: #2563eb; }
 .btn-red { background: #dc2626; color: #fff; }
@@ -290,7 +290,7 @@
             var isActive = userData.status == 1;
             var isBanned = userData.status == 0;
             var statusBadge = isActive
-                ? '<span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600;background:#d1fae5;color:#059669">Active</span>'
+                ? '<span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600;background:#dbeafe;color:#3B82F6">Active</span>'
                 : '<span style="display:inline-block;padding:3px 10px;border-radius:12px;font-size:12px;font-weight:600;background:#fee2e2;color:#dc2626">Suspended</span>';
 
             var walletHtml = '';

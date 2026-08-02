@@ -142,7 +142,7 @@
         border: 1px solid;
         font-size: 11px;
     }
-    .status-ribbon.success { background: #ECFDF5; border-color: #A7F3D0; color: #047857; }
+    .status-ribbon.success { background: #EFF6FF; border-color: #93C5FD; color: #1D4ED8; }
     .status-ribbon.pending { background: #FFFBEB; border-color: #FDE68A; color: #92400E; }
     .status-ribbon.hold { background: #EFF6FF; border-color: #BFDBFE; color: #1D4ED8; }
     .status-ribbon.rejected { background: #FEF2F2; border-color: #FECACA; color: #B91C1C; }
@@ -184,7 +184,7 @@
         font-size: 10px;
     }
     .party-label .icon.out { background: #FEE2E2; color: #B91C1C; }
-    .party-label .icon.in { background: #D1FAE5; color: #047857; }
+    .party-label .icon.in { background: #DBEAFE; color: #1D4ED8; }
     .party-row { display: flex; justify-content: space-between; gap: 12px; padding: 3px 0; font-size: 11px; }
     .party-row .k { color: #9CA3AF; flex-shrink: 0; }
     .party-row .v { font-weight: 600; color: #111827; text-align: right; word-break: break-all; }
@@ -218,7 +218,7 @@
     .amt-cell:last-child { border-right: none; }
     .amt-label { font-size: 8px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #6B7280; }
     .amt-value { font-size: 17px; font-weight: 800; margin-top: 4px; }
-    .amt-value.credit { color: #047857; }
+    .amt-value.credit { color: #1D4ED8; }
     .amt-value.debit { color: #B91C1C; }
     .amt-value.balance { color: #0B2A5B; }
     .amt-value.currency { font-size: 10px; font-weight: 600; color: #6B7280; }

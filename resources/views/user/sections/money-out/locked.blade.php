@@ -16,7 +16,7 @@
 .mo-locked-progress-head { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
 .mo-locked-progress-head strong { color: var(--text-primary); }
 .mo-locked-bar { height: 10px; border-radius: 999px; background: var(--bg-elevated); overflow: hidden; border: 1px solid var(--border-color); }
-.mo-locked-bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(135deg, var(--accent), #06B6D4); width: 0; transition: width 0.8s ease-out; }
+.mo-locked-bar-fill { height: 100%; border-radius: 999px; background: linear-gradient(135deg, var(--accent), #2563EB); width: 0; transition: width 0.8s ease-out; }
 
 .mo-locked-reasons { list-style: none; padding: 0; margin: 0 0 24px; text-align: left; display: inline-block; }
 .mo-locked-reasons li { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-secondary); padding: 7px 0; }

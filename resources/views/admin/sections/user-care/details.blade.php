@@ -97,7 +97,7 @@
                                             <td style="font-family:monospace;">{{ $bd->account_number_iban }}</td>
                                             <td>{{ $bd->country }}</td>
                                             <td>{{ $bd->swift_bic ?? '—' }}</td>
-                                            <td><span style="padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;background:{{ $bd->status ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)' }};color:{{ $bd->status ? '#22C55E' : '#EF4444' }};">{{ $bd->status ? 'Active' : 'Inactive' }}</span></td>
+                                            <td><span style="padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;background:{{ $bd->status ? 'rgba(59,130,246,0.12)' : 'rgba(239,68,68,0.12)' }};color:{{ $bd->status ? '#3B82F6' : '#EF4444' }};">{{ $bd->status ? 'Active' : 'Inactive' }}</span></td>
                                         </tr>
                                         @endforeach
                                     </tbody>

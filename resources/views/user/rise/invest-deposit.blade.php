@@ -12,7 +12,7 @@ $returnAmount = $returnAmount ?? 0;
     <h1 class="am-header-title">Complete Deposit</h1>
 </div>
 
-<div class="am-body invest-flow">
+<div class="am-body">
     <!-- Plan Summary -->
     <div class="am-card ip-accent-left">
         <div class="ip-text-muted" style="font-size:13px;margin-bottom:4px;">{{ $plan->name ?? '-' }}</div>

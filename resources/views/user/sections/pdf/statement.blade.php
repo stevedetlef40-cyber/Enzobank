@@ -66,7 +66,7 @@
     .sum-cell + .sum-cell { border-left: 1px solid #E5E7EB; }
     .sum-label { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #6B7280; }
     .sum-value { font-size: 15px; font-weight: 800; margin-top: 4px; }
-    .sum-value.credit { color: #047857; }
+    .sum-value.credit { color: #1D4ED8; }
     .sum-value.debit { color: #B91C1C; }
     .sum-value.balance { color: #0B2A5B; }
 
@@ -89,7 +89,7 @@
     .tx-desc { font-weight: 700; color: #111827; }
     .tx-id { color: #9CA3AF; font-size: 9px; margin-top: 2px; }
     .num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
-    .credit { color: #047857; font-weight: 700; }
+    .credit { color: #1D4ED8; font-weight: 700; }
     .debit { color: #B91C1C; font-weight: 700; }
     .muted { color: #C7CDD6; }
     .balance { font-weight: 700; color: #111827; }
@@ -102,7 +102,7 @@
         padding: 2px 7px;
         border-radius: 100px;
     }
-    .status.success { background: #D1FAE5; color: #047857; }
+    .status.success { background: #DBEAFE; color: #1D4ED8; }
     .status.pending { background: #FEF3C7; color: #92400E; }
     .status.hold { background: #DBEAFE; color: #1D4ED8; }
     .status.rejected { background: #FEE2E2; color: #B91C1C; }

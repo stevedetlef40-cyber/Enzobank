@@ -8,7 +8,7 @@ $referralLink = url('/register/' . $user->username);
 
 <div class="am-header">
     <h1 class="am-header-title">{{ __('Refer & Earn') }}</h1>
-    <span style="font-size:12px;font-weight:600;color:#22C55E;background:rgba(34,197,94,0.12);padding:4px 12px;border-radius:12px;">$50 / referral</span>
+    <span style="font-size:12px;font-weight:600;color:#3B82F6;background:rgba(59,130,246,0.12);padding:4px 12px;border-radius:12px;">$50 / referral</span>
 </div>
 
 <div class="am-body">
@@ -16,7 +16,7 @@ $referralLink = url('/register/' . $user->username);
     {{-- Banner --}}
     <div style="background:linear-gradient(135deg,#0F172A,#1E3A5F,#1E40AF);border-radius:16px;padding:24px 20px;position:relative;overflow:hidden;">
         <div style="position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(59,130,246,0.12);"></div>
-        <div style="position:absolute;bottom:-20px;left:-20px;width:80px;height:80px;border-radius:50%;background:rgba(34,197,94,0.08);"></div>
+        <div style="position:absolute;bottom:-20px;left:-20px;width:80px;height:80px;border-radius:50%;background:rgba(59,130,246,0.08);"></div>
         <div style="position:relative;z-index:1;">
             <div style="font-size:20px;font-weight:700;color:#fff;margin-bottom:4px;">{{ __('Share & Start Earning') }}</div>
             <div style="font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5;">{{ __('Invite your friends to join EnzoBank. You earn $50 for each friend who signs up and deposits $600 or more.') }}</div>
@@ -37,7 +37,7 @@ $referralLink = url('/register/' . $user->username);
             <div style="font-size:12px;color:var(--text-secondary);margin-top:2px;">{{ __('Wallet') }}</div>
         </div>
         <div style="background:var(--bg-elevated);border:1px solid var(--border-color);border-radius:14px;padding:16px 12px;text-align:center;">
-            <div style="font-size:24px;font-weight:800;color:#22C55E;" data-currency-amount="{{ number_format($referral_earnings ?? 0, 2) }}">${{ number_format($referral_earnings ?? 0, 2) }}</div>
+            <div style="font-size:24px;font-weight:800;color:#3B82F6;" data-currency-amount="{{ number_format($referral_earnings ?? 0, 2) }}">${{ number_format($referral_earnings ?? 0, 2) }}</div>
             <div style="font-size:12px;color:var(--text-secondary);margin-top:2px;">{{ __('Earned') }}</div>
         </div>
     </div>
@@ -88,7 +88,7 @@ $referralLink = url('/register/' . $user->username);
             </div>
             {{-- Step 4 --}}
             <div style="display:flex;gap:14px;align-items:flex-start;">
-                <div style="width:32px;height:32px;border-radius:50%;background:rgba(34,197,94,0.12);color:#22C55E;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</div>
+                <div style="width:32px;height:32px;border-radius:50%;background:rgba(59,130,246,0.12);color:#3B82F6;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">4</div>
                 <div>
                     <div style="font-size:14px;font-weight:600;color:var(--text-primary);margin-bottom:2px;">{{ __('You Earn $50') }}</div>
                     <div style="font-size:13px;color:var(--text-secondary);line-height:1.4;">{{ __('Once their deposit is confirmed, $50 is credited to your wallet. Refer more, earn more!') }}</div>
@@ -115,7 +115,7 @@ $referralLink = url('/register/' . $user->username);
                 <span style="font-size:13px;color:var(--text-secondary);line-height:1.4;">{{ __('Enter the amount you wish to withdraw (up to your available referral earnings).') }}</span>
             </div>
             <div style="display:flex;gap:12px;align-items:flex-start;">
-                <span style="width:20px;height:20px;border-radius:50%;background:rgba(34,197,94,0.1);color:#22C55E;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">4</span>
+                <span style="width:20px;height:20px;border-radius:50%;background:rgba(59,130,246,0.1);color:#3B82F6;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;">4</span>
                 <span style="font-size:13px;color:var(--text-secondary);line-height:1.4;">{{ __('Confirm the withdrawal. Funds are sent to your selected account or payment method.') }}</span>
             </div>
         </div>

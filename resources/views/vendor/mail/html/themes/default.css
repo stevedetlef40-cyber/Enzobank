@@ -76,8 +76,8 @@ img { max-width: 100%; }
     box-shadow: 0 10px 22px rgba(59, 91, 219, 0.35);
 }
 .button-green, .button-success {
-    background: linear-gradient(135deg, #0ca678, #15aabf);
-    box-shadow: 0 10px 22px rgba(21, 170, 191, 0.30);
+    background: linear-gradient(135deg, #1D4ED8, #3B82F6);
+    box-shadow: 0 10px 22px rgba(37, 99, 235, 0.30);
 }
 .button-red, .button-error {
     background: linear-gradient(135deg, #e03131, #f76707);

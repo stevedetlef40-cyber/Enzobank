@@ -55,7 +55,7 @@
 
   /* a markup attribute name */
   .atn {
-    color: teal;
+    color: #2563EB;
   }
 
   /* a markup attribute value */
@@ -70,7 +70,7 @@
 
   /* a variable name */
   .var {
-    color: teal;
+    color: #2563EB;
   }
 
   /* a function name */

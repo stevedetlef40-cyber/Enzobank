@@ -77,7 +77,7 @@
     .notif-dot {
         width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
     }
-    .notif-dot.credit { background: #22C55E; }
+    .notif-dot.credit { background: #3B82F6; }
     .notif-dot.debit { background: #EF4444; }
     .notif-dot.bonus { background: #A855F7; }
     .notif-dot.transfer { background: #F59E0B; }
@@ -85,7 +85,7 @@
     .notif-item-title { font-size: 13px; font-weight: 600; color: #F1F5F9; display: block; }
     .notif-item-sub { font-size: 11px; color: #64748B; display: block; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .notif-item-amt { font-size: 13px; font-weight: 700; flex-shrink: 0; }
-    .notif-item-amt.positive { color: #22C55E; }
+    .notif-item-amt.positive { color: #3B82F6; }
     .notif-item-amt.negative { color: #EF4444; }
     .notif-empty {
         padding: 40px 20px; text-align: center; color: #64748B; font-size: 13px;
@@ -113,7 +113,7 @@
         width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0;
         display: flex; align-items: center; justify-content: center;
     }
-    .notif-toast-icon.credit { background: rgba(34,197,94,0.15); color: #22C55E; }
+    .notif-toast-icon.credit { background: rgba(59,130,246,0.15); color: #3B82F6; }
     .notif-toast-icon.debit { background: rgba(239,68,68,0.15); color: #EF4444; }
     .notif-toast-info { flex: 1; min-width: 0; }
     .notif-toast-title { font-size: 13px; font-weight: 600; color: #F1F5F9; }

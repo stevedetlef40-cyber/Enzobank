@@ -6,10 +6,10 @@
 .cd-filter-group { display: flex; flex-direction: column; gap: 4px; }
 .cd-filter-group label { font-size: 12px; font-weight: 600; color: #6B7280; }
 .cd-filter-group select, .cd-filter-group input { padding: 8px 12px; border: 1px solid #E5E7EB; border-radius: 8px; font-size: 13px; }
-.cd-filter-btn { padding: 8px 20px; background: #0D9488; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; }
+.cd-filter-btn { padding: 8px 20px; background: #2563EB; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; }
 .cd-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 999px; text-transform: uppercase; }
 .cd-badge-pending { background: #FEF3C7; color: #D97706; }
-.cd-badge-confirmed { background: #D1FAE5; color: #059669; }
+.cd-badge-confirmed { background: #DBEAFE; color: #3B82F6; }
 .cd-badge-rejected { background: #FEE2E2; color: #DC2626; }
 </style>
 @endpush

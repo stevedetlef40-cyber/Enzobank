@@ -14,10 +14,10 @@ $(function() {
 $(function() {
   $('#chart7').easyPieChart({
       size: 80,
-      barColor: '#10c469',
+      barColor: '#2563EB',
       scaleColor: false,
       lineWidth: 5,
-      trackColor: '#10c4695a',
+      trackColor: '#2563EB5a',
       lineCap: 'circle',
       animate: 3000
   });

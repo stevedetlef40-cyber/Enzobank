@@ -125,7 +125,7 @@
                                                 @if ($wallet->user_id)
                                                     <span class="ca-coin-badge" style="background:rgba(29,78,216,0.12);color:#1D4ED8">{{ __("User") }}</span>
                                                 @else
-                                                    <span class="ca-coin-badge" style="background:rgba(5,150,105,0.12);color:#059669">{{ __("Global") }}</span>
+                                                    <span class="ca-coin-badge" style="background:rgba(37,99,235,0.12);color:#3B82F6">{{ __("Global") }}</span>
                                                 @endif
                                                 @if ($wallet->purpose)
                                                     <span class="ca-coin-badge" style="background:rgba(99,102,241,0.12);color:#6366F1">{{ __(ucfirst($wallet->purpose)) }}</span>

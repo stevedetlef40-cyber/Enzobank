@@ -64,7 +64,7 @@
                 </div>
                 <!-- Floating badges with independent reveals -->
                 <div class="build-badge build-badge-1 build-reveal" data-delay="600">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
                     <span>FDIC Insured</span>
                 </div>
                 <div class="build-badge build-badge-2 build-reveal" data-delay="750">
