@@ -1,5 +1,23 @@
 # EnzoBank (XMIN) — Agent Guide
 
+> ## 🚨 READ THIS FIRST — LIVE SITE SAFETY PROTOCOL (MANDATORY)
+>
+> **This site is LIVE (`enzobank.org`) with real users and real money flows.**
+> Before making ANY change, and after EVERY change, you MUST follow the
+> mandatory safety protocol in **`LIVE_SITE_SAFETY.md`** (same folder as this file).
+>
+> Summary of the rules:
+> 1. **Verify after EVERY change** — Blade compile → phpunit (host + container) →
+>    reload container → HTTP smoke test → log must stay clean → only then commit & push.
+> 2. **NEVER** run `migrate:fresh`, `db:wipe`, table truncates, or `route:cache` on live.
+> 3. **Tests hit the real production DB** — treat every query as destructive.
+> 4. **Never edit a file you haven't read**; never leave scratch scripts behind.
+> 5. If something breaks: revert immediately (`git checkout`/`git revert`), reload,
+>    re-verify, and report.
+>
+> Full checklist, forbidden operations, rollback steps, and live gotchas are in
+> `LIVE_SITE_SAFETY.md`. Read it before your first edit.
+
 ## Project Identity
 
 - **App name**: XMIN (branded as EnzoBank / iBanking)
