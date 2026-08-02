@@ -5,7 +5,7 @@
 $investment = $investment ?? null;
 @endphp
 
-<div class="am-body" style="padding-top:60px;display:flex;flex-direction:column;align-items:center;gap:24px;">
+<div class="am-body invest-flow" style="padding-top:60px;display:flex;flex-direction:column;align-items:center;gap:24px;">
     <!-- Success Animation -->
     <div style="width:80px;height:80px;border-radius:50%;background:var(--inv-success-bg, rgba(16,185,129,0.1));display:flex;align-items:center;justify-content:center;animation: scaleUp 0.5s ease-out;">
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--inv-success-text, #059669)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation: drawCheck 0.6s ease-out 0.2s forwards;stroke-dasharray:50;stroke-dashoffset:50;">

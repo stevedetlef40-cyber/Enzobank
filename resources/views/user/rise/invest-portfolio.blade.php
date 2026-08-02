@@ -12,7 +12,7 @@ $totalEarnings = $totalEarnings ?? 0;
     <h1 class="am-header-title">My Investments</h1>
 </div>
 
-<div class="am-body">
+<div class="am-body invest-flow">
     <!-- Stats Row -->
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
         <div class="am-card" style="text-align:center;padding:16px 10px;">
