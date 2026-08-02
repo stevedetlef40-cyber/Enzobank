@@ -46,6 +46,7 @@ use App\Http\Controllers\Admin\SalaryDisbursementLogsController;
 use App\Http\Controllers\Admin\HolidayController;
 use App\Http\Controllers\Admin\LoanProductController;
 use App\Http\Controllers\Admin\InvestmentAssetController;
+use App\Http\Controllers\Admin\InvestmentController;
 
 // All Admin Route Is Here
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -100,6 +101,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('edit/{id}', 'edit')->name('edit');
         Route::put('update/{id}', 'update')->name('update');
         Route::delete('delete/{id}', 'destroy')->name('delete');
+    });
+
+    // Crypto Investment Plans & Reviews
+    Route::controller(InvestmentController::class)->prefix('invest')->name('invest.')->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('plans', 'plans')->name('plans');
+        Route::post('approve/{id}', 'approve')->name('approve');
+        Route::post('reject/{id}', 'reject')->name('reject');
+        Route::post('credit/{id}', 'credit')->name('credit');
+        Route::post('plans/store', 'planStore')->name('plans.store');
+        Route::put('plans/update/{id}', 'planUpdate')->name('plans.update');
+        Route::post('plans/status/{id}', 'planStatus')->name('plans.status');
+        Route::delete('plans/delete/{id}', 'planDelete')->name('plans.delete');
     });
 
     Route::controller(HolidayController::class)->prefix('holidays')->name('holidays.')->group(function () {

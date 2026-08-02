@@ -100,6 +100,7 @@ class InvestController extends Controller
 
         $proofUrl = null;
         if ($request->hasFile('proof')) {
+            \Illuminate\Support\Facades\File::ensureDirectoryExists(public_path('uploads/invest-proof'));
             $proofUrl = 'uploads/invest-proof/' . $request->file('proof')->hashName();
             $request->file('proof')->move(public_path('uploads/invest-proof'), $request->file('proof')->hashName());
         }
