@@ -181,6 +181,13 @@
     cursor: pointer;
 }
 .send-card-gate-btn:hover { opacity: 0.92; color: #fff; }
+
+/* Copy buttons for international details card */
+.send-copy { width: 28px; height: 28px; border-radius: 7px; border: 1px solid rgba(148,163,184,0.35); background: rgba(148,163,184,0.08); color: var(--text-secondary,#94A3B8); cursor: pointer; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.15s; }
+.send-copy:hover { border-color: var(--accent,#3B82F6); color: var(--accent,#3B82F6); background: rgba(59,130,246,0.1); }
+.send-copy[disabled] { opacity: 0.35; cursor: not-allowed; }
+.send-toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(10px); background: var(--accent,#3B82F6); color: #fff; padding: 12px 24px; border-radius: 999px; font-size: 14px; font-weight: 600; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 100; box-shadow: 0 8px 24px rgba(0,0,0,0.18); }
+.send-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 @endpush
 
@@ -200,22 +207,44 @@
     <div class="send-tab-content active" id="tab-internal">
         <div class="am-card">
             {{-- Sender's auto-generated international details --}}
-            <div style="background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.15);border-radius:10px;padding:12px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
-                <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-                    <span style="font-size:16px;">🏦</span>
-                    <strong style="font-size:14px;color:var(--text-primary,#fff);">{{ __('Your EnzoBank International Details') }}</strong>
+            @php
+                $sendUser = auth()->user();
+                $sendBank = $sendUser->network_bank_name ?? 'EnzoBank';
+                $sendAcc  = $sendUser->network_account_number;
+                $sendIban = $sendUser->network_iban;
+                $sendSwift = $sendUser->network_swift ?? 'ENZOUS33';
+                $sendShare = implode("\n", [
+                    $sendBank . ' - International Details',
+                    'Bank Name: ' . $sendBank,
+                    'Account Number: ' . ($sendAcc ?: '-'),
+                    'IBAN: ' . ($sendIban ?: '-'),
+                    'SWIFT / BIC: ' . $sendSwift,
+                ]);
+            @endphp
+            <div style="background:rgba(59,130,246,0.06);border:1px solid rgba(59,130,246,0.15);border-radius:10px;padding:12px 16px;margin-bottom:16px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <span style="font-size:16px;">🏦</span>
+                        <strong style="font-size:14px;color:var(--text-primary,#fff);">{{ __('Your EnzoBank International Details') }}</strong>
+                    </div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <button type="button" class="send-copy-all" data-copyall="{{ $sendShare }}" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;background:var(--accent,#3B82F6);color:var(--text-on-accent,#fff);border:none;cursor:pointer;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                            {{ __('Copy All') }}
+                        </button>
+                        <a href="{{ route('user.bank.details.index') }}" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;background:var(--bg-secondary,#1E293B);color:var(--text-primary,#fff);text-decoration:none;transition:all 0.15s;white-space:nowrap;" title="{{ __('Manage your external bank details') }}">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                            {{ __('Manage Bank Details') }}
+                        </a>
+                    </div>
                 </div>
-                <a href="{{ route('user.bank.details.index') }}" style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:8px;font-size:12px;font-weight:600;background:var(--accent,#3B82F6);color:var(--text-on-accent,#fff);text-decoration:none;transition:all 0.15s;white-space:nowrap;" title="{{ __('Manage your external bank details') }}">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-                    {{ __('Manage Bank Details') }}
-                </a>
-                <div style="font-size:13px;color:var(--text-secondary,#94A3B8);line-height:1.8;flex:1;min-width:200px;">
-                    <div><strong style="color:var(--text-primary,#fff);">Bank Name:</strong> {{ auth()->user()->network_bank_name ?? 'EnzoBank' }}</div>
-                    <div><strong style="color:var(--text-primary,#fff);">Account Number:</strong> <span style="font-family:monospace;">{{ auth()->user()->network_account_number }}</span></div>
-                    <div><strong style="color:var(--text-primary,#fff);">IBAN:</strong> <span style="font-family:monospace;">{{ auth()->user()->network_iban }}</span></div>
-                    <div><strong style="color:var(--text-primary,#fff);">SWIFT/BIC:</strong> <span style="font-family:monospace;">{{ auth()->user()->network_swift ?? 'ENZOUS33' }}</span></div>
+                <div style="font-size:13px;color:var(--text-secondary,#94A3B8);line-height:1.8;margin-top:10px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;"><span><strong style="color:var(--text-primary,#fff);">Bank Name:</strong> {{ $sendBank }}</span><button type="button" class="send-copy" data-copy="{{ $sendBank }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;"><span><strong style="color:var(--text-primary,#fff);">Account Number:</strong> <span style="font-family:monospace;">{{ $sendAcc ?: '-' }}</span></span><button type="button" class="send-copy" data-copy="{{ $sendAcc ?: '' }}" {{ $sendAcc ? '' : 'disabled' }}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;"><span><strong style="color:var(--text-primary,#fff);">IBAN:</strong> <span style="font-family:monospace;">{{ $sendIban ?: '-' }}</span></span><button type="button" class="send-copy" data-copy="{{ $sendIban ?: '' }}" {{ $sendIban ? '' : 'disabled' }}><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;"><span><strong style="color:var(--text-primary,#fff);">SWIFT/BIC:</strong> <span style="font-family:monospace;">{{ $sendSwift }}</span></span><button type="button" class="send-copy" data-copy="{{ $sendSwift }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button></div>
                 </div>
-                <p style="margin:8px 0 0;font-size:11px;color:var(--text-muted,#64748B);width:100%;">Share these details with other EnzoBank users to receive transfers instantly.</p>
+                <p style="margin:8px 0 0;font-size:11px;color:var(--text-muted,#64748B);">Share these details with other EnzoBank users to receive transfers instantly. Tap a copy icon or "Copy All" to paste into chat or email.</p>
             </div>
 
             {{-- Bank Details Required Banner --}}
@@ -513,6 +542,36 @@ if (obForm) {
         }
     });
 }
+
+// ── Copy to clipboard (international details) ──
+var sendToast = document.getElementById('sendToast');
+function sendShowToast(msg) {
+    if (!sendToast) { sendToast = document.createElement('div'); sendToast.className = 'send-toast'; document.body.appendChild(sendToast); }
+    sendToast.textContent = msg;
+    sendToast.classList.add('show');
+    clearTimeout(sendToast._t);
+    sendToast._t = setTimeout(function() { sendToast.classList.remove('show'); }, 2200);
+}
+function sendCopy(text, msg) {
+    if (!text) { sendShowToast('Nothing to copy'); return; }
+    function done() { sendShowToast(msg || 'Copied to clipboard'); }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(function() { fallback(); });
+    } else { fallback(); }
+    function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.focus(); ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) { sendShowToast('Press Ctrl+C to copy'); }
+        ta.remove();
+    }
+}
+document.querySelectorAll('.send-copy').forEach(function(btn) {
+    btn.addEventListener('click', function() { sendCopy(this.getAttribute('data-copy'), 'Copied'); });
+});
+document.querySelectorAll('.send-copy-all').forEach(function(btn) {
+    btn.addEventListener('click', function() { sendCopy(this.getAttribute('data-copyall'), 'All details copied'); });
+});
 </script>
 @endpush
 @endsection
