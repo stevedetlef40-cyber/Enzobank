@@ -212,17 +212,25 @@ $typeLabels = [
     "CAPITAL-RETURN" => "Capital Return", "VIRTUAL-CARD" => "Virtual Card",
     "MOBILE-WALLET-TRANSFER" => "Mobile Wallet", "Salary Disbursement" => "Salary",
 ];
-function txLabel($type) { global $typeLabels; return $typeLabels[$type] ?? ucwords(str_replace(["-","_"], " ", strtolower($type))); }
-function txIsCredit($tx) {
-    if (($tx->attribute ?? "") === "RECEIVED") return true;
-    return in_array($tx->type ?? "", ["ADD-MONEY","BONUS","COMMISSION","CAPITAL-RETURN","TRANSFER-MONEY","Salary Disbursement"])
-        && (!in_array($tx->type ?? "", ["TRANSFER-MONEY","OWN-BANK-TRANSFER","OTHER-BANK-TRANSFER"]) || ($tx->receiver_id ?? null) == auth()->id());
+if (!function_exists("txLabel")) {
+    function txLabel($type) { global $typeLabels; return $typeLabels[$type] ?? ucwords(str_replace(["-","_"], " ", strtolower($type))); }
 }
-function txStatusClass($status) {
-    return match((int)$status) { 1 => "success", 2 => "pending", 3 => "pending", 4 => "rejected", 5 => "pending", default => "pending" };
+if (!function_exists("txIsCredit")) {
+    function txIsCredit($tx) {
+        if (($tx->attribute ?? "") === "RECEIVED") return true;
+        return in_array($tx->type ?? "", ["ADD-MONEY","BONUS","COMMISSION","CAPITAL-RETURN","TRANSFER-MONEY","Salary Disbursement"])
+            && (!in_array($tx->type ?? "", ["TRANSFER-MONEY","OWN-BANK-TRANSFER","OTHER-BANK-TRANSFER"]) || ($tx->receiver_id ?? null) == auth()->id());
+    }
 }
-function txStatusText($status) {
-    return match((int)$status) { 1 => "Completed", 2 => "Pending", 3 => "On Hold", 4 => "Rejected", 5 => "Waiting", default => "Unknown" };
+if (!function_exists("txStatusClass")) {
+    function txStatusClass($status) {
+        return match((int)$status) { 1 => "success", 2 => "pending", 3 => "pending", 4 => "rejected", 5 => "pending", default => "pending" };
+    }
+}
+if (!function_exists("txStatusText")) {
+    function txStatusText($status) {
+        return match((int)$status) { 1 => "Completed", 2 => "Pending", 3 => "On Hold", 4 => "Rejected", 5 => "Waiting", default => "Unknown" };
+    }
 }
 
 $statsCredit = 0; $statsDebit = 0; $statsBonus = 0;
@@ -416,7 +424,7 @@ $currentUserId = auth()->id();
                         <span class="tl-detail-value">{{ $tx->created_at ? $tx->created_at->format("M d, Y  h:i A") : "" }}</span>
                     </div>
                     <div class="tl-detail-item" style="grid-column: 1 / -1; text-align: right; margin-top: 8px;">
-                        <a href="{{ route('user.pdf.download', $tx->trx_id) }}" class="am-btn" style="width:auto;padding:10px 20px;border-radius:100px;font-size:13px;display:inline-flex;align-items:center;gap:6px;">
+                        <a href="{{ route('user.fund-transfer.pdf.download', $tx->trx_id) }}" class="am-btn" style="width:auto;padding:10px 20px;border-radius:100px;font-size:13px;display:inline-flex;align-items:center;gap:6px;">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                             {{ __('Download Receipt') }}
                         </a>
