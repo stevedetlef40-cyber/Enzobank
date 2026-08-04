@@ -22,7 +22,6 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
@@ -62,15 +61,8 @@ class StrowalletVirtualCardController extends Controller
         }
 
         $page_title = 'Virtual Card';
-        $myCards = StrowalletVirtualCard::auth()->latest()->limit($this->card_limit)->get()->map(function ($card) {
-            // Sync balance from the provider so the local DB reflects actual card spending.
-            $live = card_details($card->card_id, $this->api->config->strowallet_public_key, $this->api->config->strowallet_url);
-            if (! empty($live['status']) && ! empty($live['data'])) {
-                updateStroWalletCardBalance(auth()->user(), $card->card_id, $live);
-            }
-
-            return $card;
-        });
+        // Cards are generated locally, so there is no external provider to sync with.
+        $myCards = StrowalletVirtualCard::auth()->latest()->limit($this->card_limit)->get();
         $customer = $user->strowallet_customer;
         $customer_email = ($customer && isset($customer->customerEmail))
             ? $customer->customerEmail
@@ -109,28 +101,14 @@ class StrowalletVirtualCardController extends Controller
         $page_title = __('Create Virtual Card');
         $user = userGuard()['user'];
         $cardCharge = TransactionSetting::where('slug', 'virtual_card')->where('status', true)->first();
-        if ($user->strowallet_customer != null) {
-            // get customer api response
-            $customer = $user->strowallet_customer;
-            if (! isset($customer->customerId) || empty($customer->customerId)) {
-                $customer = (array) $customer;
-                $customer['status'] = GlobalConst::CARD_HIGH_KYC_STATUS;
-                $user->strowallet_customer = (object) $customer;
-                $user->save();
-            } else {
-                $getCustomerInfo = get_customer($this->api->config->strowallet_public_key, $this->api->config->strowallet_url, $customer->customerId);
-                if ($getCustomerInfo['status'] == false) {
-                    return back()->with(['error' => [$getCustomerInfo['message'] ?? __('Something went wrong! Please try again.')]]);
-                }
-                $customer = (array) $customer;
-                $customer_status_info = $getCustomerInfo['data'];
-                foreach ($customer_status_info as $key => $value) {
-                    $customer[$key] = $value;
-                }
-
-                $user->strowallet_customer = (object) $customer;
-                $user->save();
-            }
+        // Customer is created locally (no provider), so ensure the local record
+        // always carries a customer id and an approved KYC status.
+        if ($user->strowallet_customer != null && empty($user->strowallet_customer->customerId)) {
+            $customer = (array) $user->strowallet_customer;
+            $customer['customerId'] = 'local-cust-'.$user->id;
+            $customer['status'] = GlobalConst::CARD_HIGH_KYC_STATUS;
+            $user->strowallet_customer = (object) $customer;
+            $user->save();
         }
 
         return view('user.sections.virtual-card-strowallet.create', compact('page_title', 'user', 'cardCharge'));
@@ -186,23 +164,31 @@ class StrowalletVirtualCardController extends Controller
                         'id_image' => $validated['id_image_font'],
                     ]);
                 }
-                $idImage = $kyc_info->idImageData;
-                $userPhoto = $kyc_info->faceImageData;
-
                 $validated = Arr::except($validated, ['id_image_font', 'user_image']);
-                $createCustomer = stro_wallet_create_user($validated, $this->api->config->strowallet_public_key, $this->api->config->strowallet_url, $idImage, $userPhoto);
-                if ($createCustomer['status'] == false) {
-                    $kyc_info->delete();
 
-                    return $this->apiErrorHandle($createCustomer['message']);
-
-                }
-                $user->strowallet_customer = (object) $createCustomer['data'];
+                // No external provider: store the customer details locally and mark the
+                // KYC as approved so the card purchase form is unlocked immediately.
+                $user->strowallet_customer = (object) [
+                    'customerId' => 'local-cust-'.$user->id,
+                    'customerEmail' => $validated['customer_email'] ?? $user->email,
+                    'firstName' => $validated['first_name'] ?? '',
+                    'lastName' => $validated['last_name'] ?? '',
+                    'phoneNumber' => $user->full_mobile ?? '',
+                    'line1' => $validated['address'] ?? '',
+                    'houseNumber' => $validated['house_number'] ?? '',
+                    'zipCode' => $validated['zip_code'] ?? '',
+                    'city' => 'Accra',
+                    'state' => 'Accra',
+                    'country' => 'Ghana',
+                    'status' => GlobalConst::CARD_HIGH_KYC_STATUS,
+                ];
                 $user->save();
             }
 
             return redirect()->route('user.strowallet.virtual.card.create')->with(['success' => [__('Customer has been created successfully.')]]);
         } catch (Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Strowallet createCustomer exception: '.$e->getMessage(), ['trace' => $e->getTraceAsString()]);
+
             return back()->with(['error' => [__('Something went wrong! Please try again.')]]);
         }
     }
@@ -263,26 +249,17 @@ class StrowalletVirtualCardController extends Controller
                     'face_image' => $validated['user_image'] ?? $customer_kyc->face_image,
                 ]);
 
-                $idImage = $customer_kyc->idImageData;
-                $userPhoto = $customer_kyc->faceImageData;
-
+                // Locally managed customer: no provider sync needed. Keep the local
+                // KYC record as the source of truth and refresh the stored names.
                 $validated = Arr::except($validated, ['id_image_font', 'user_image']);
-                $updateCustomer = update_customer($validated, $this->api->config->strowallet_public_key, $this->api->config->strowallet_url, $idImage, $userPhoto, $user->strowallet_customer);
-                if ($updateCustomer['status'] == false) {
-                    return $this->apiErrorHandle($updateCustomer['message']);
+                $customer = (array) $user->strowallet_customer;
+                if (! empty($validated['first_name'])) {
+                    $customer['firstName'] = $validated['first_name'];
                 }
-                // get customer api response
-                $customer = $user->strowallet_customer;
-                $getCustomerInfo = get_customer($this->api->config->strowallet_public_key, $this->api->config->strowallet_url, $updateCustomer['data']['customerId']);
-                if ($getCustomerInfo['status'] == false) {
-                    return back()->with(['error' => [$getCustomerInfo['message'] ?? __('Something went wrong! Please try again.')]]);
+                if (! empty($validated['last_name'])) {
+                    $customer['lastName'] = $validated['last_name'];
                 }
-                $customer = (array) $customer;
-                $customer_status_info = $getCustomerInfo['data'];
-
-                foreach ($customer_status_info as $key => $value) {
-                    $customer[$key] = $value;
-                }
+                $customer['status'] = GlobalConst::CARD_HIGH_KYC_STATUS;
                 $user->strowallet_customer = (object) $customer;
                 $user->save();
 
@@ -357,8 +334,8 @@ class StrowalletVirtualCardController extends Controller
         if ($customer_card >= $this->card_limit) {
             return back()->with(['error' => [__('Sorry! You can not create more than').' '.$this->card_limit.' '.__('card using the same email address.')]]);
         }
-        // for live code
-        $created_card = create_strowallet_virtual_card($user, $request->card_amount, $customer, $this->api->config->strowallet_public_key, $this->api->config->strowallet_url, $formData);
+        // Generate the card locally (no external provider).
+        $created_card = generate_local_virtual_card($user, $formData, $request->card_amount, $customer);
 
         if ($created_card['status'] == false) {
             return back()->with(['error' => [$created_card['message']]]);
@@ -526,25 +503,11 @@ class StrowalletVirtualCardController extends Controller
             return back()->with(['error' => [__('Something is wrong in your card')]]);
         }
 
-        // Always sync the balance from the provider so the user sees the real card balance.
-        $card_details = card_details($card_id, $this->api->config->strowallet_public_key, $this->api->config->strowallet_url);
-        if (! empty($card_details['status']) && ! empty($card_details['data'])) {
-            updateStroWalletCardBalance(auth()->user(), $card_id, $card_details);
-        }
-
+        // Cards are generated locally with all details, so there is nothing to
+        // fetch from a provider. Backfill any legacy pending rows for safety.
         if ($myCard->card_status == 'pending') {
-            if ($card_details['status'] == false) {
-                return back()->with(['error' => [__('Your Card Is Pending! Please Contact With Admin.')]]);
-            }
-
-            $myCard->user_id = Auth::user()->id;
-            $myCard->card_status = $card_details['data']['card_detail']['card_status'];
-            $myCard->card_number = $card_details['data']['card_detail']['card_number'];
-            $myCard->last4 = $card_details['data']['card_detail']['last4'];
-            // Keep the server-generated, encrypted CVV; only backfill it for legacy
-            // rows that were created before encryption was introduced.
+            $myCard->card_status = 'active';
             $myCard->cvv = $myCard->cvv ?: encryptCvv(generateCVV());
-            $myCard->expiry = $card_details['data']['card_detail']['expiry'];
             $myCard->save();
         }
         $cardApi = $this->api;
@@ -613,75 +576,27 @@ class StrowalletVirtualCardController extends Controller
 
                 return Response::error($error, null, 400);
             }
-            $client = new \GuzzleHttp\Client;
-            $public_key = $this->api->config->strowallet_public_key;
-            $base_url = $this->api->config->strowallet_url;
-
-            $providerOk = false;
-            $providerMsg = null;
-            try {
-                $response = $client->request('POST', $base_url.'action/status/?action=freeze&card_id='.$card->card_id.'&public_key='.$public_key, [
-                    'headers' => ['accept' => 'application/json'],
-                ]);
-                $data = json_decode($response->getBody(), true);
-                $providerOk = ! empty($data['status']);
-                $providerMsg = $data['message'] ?? null;
-            } catch (\Exception $e) {
-                // Provider unreachable (e.g. local/synthetic card): fall back to a local status change.
-                $providerOk = false;
-            }
-
-            if ($providerOk) {
-                $card->is_active = 0;
-                $card->save();
-                $success = ['success' => [__('Card Freeze successfully!')]];
-
-                return Response::success($success, null, 200);
-            }
-
-            // Provider returned an explicit error — surface it.
-            if ($providerMsg !== null) {
-                return Response::error(['error' => [$providerMsg]], null, 400);
-            }
-
-            // Provider unreachable: apply the change locally so the card state stays consistent.
-            $card->is_active = 0;
+            // Locally managed card: flip the status directly, no provider call.
+            $card->is_active = false;
             $card->save();
             $success = ['success' => [__('Card Freeze successfully!')]];
 
             return Response::success($success, null, 200);
         } else {
             $card = StrowalletVirtualCard::where('id', $request->data_target)->where('is_active', false)->first();
-            $client = new \GuzzleHttp\Client;
-            $public_key = $this->api->config->strowallet_public_key;
-            $base_url = $this->api->config->strowallet_url;
+            if (! $card) {
+                $error = ['error' => [__('Card not found or already unfrozen.')]];
 
-            $providerOk = false;
-            $providerMsg = null;
-            try {
-                $response = $client->request('POST', $base_url.'action/status/?action=unfreeze&card_id='.$card->card_id.'&public_key='.$public_key, [
-                    'headers' => ['accept' => 'application/json'],
-                ]);
-                $data = json_decode($response->getBody(), true);
-                $providerOk = ! empty($data['status']);
-                $providerMsg = $data['message'] ?? null;
-            } catch (\Exception $e) {
-                $providerOk = false;
+                return Response::error($error, null, 404);
+            }
+            if (($card->card_status ?? '') === 'canceled') {
+                $error = ['error' => [__('Canceled cards cannot be unfrozen.')]];
+
+                return Response::error($error, null, 400);
             }
 
-            if ($providerOk) {
-                $card->is_active = 1;
-                $card->save();
-                $success = ['success' => [__('Card UnFreeze successfully!')]];
-
-                return Response::success($success, null, 200);
-            }
-
-            if ($providerMsg !== null) {
-                return Response::error(['error' => [$providerMsg]], null, 400);
-            }
-
-            $card->is_active = 1;
+            // Locally managed card: flip the status directly, no provider call.
+            $card->is_active = true;
             $card->save();
             $success = ['success' => [__('Card UnFreeze successfully!')]];
 
@@ -715,40 +630,13 @@ class StrowalletVirtualCardController extends Controller
             return Response::error(['error' => [__('Card already canceled')]], null, 400);
         }
 
-        $client = new \GuzzleHttp\Client;
-        $public_key = $this->api->config->strowallet_public_key;
-        $base_url = $this->api->config->strowallet_url;
+        // Locally managed card: cancel directly, no provider call.
+        $card->card_status = 'canceled';
+        $card->is_active = false;
+        $card->save();
+        $success = ['success' => [__('Card canceled successfully!')]];
 
-        try {
-            $response = $client->request('POST', $base_url.'action/status/?action=cancel&card_id='.$card->card_id.'&public_key='.$public_key, [
-                'headers' => [
-                    'accept' => 'application/json',
-                ],
-            ]);
-            $data = json_decode($response->getBody(), true);
-        } catch (\Exception $e) {
-            // Provider unreachable (e.g. local/synthetic card): cancel locally so the
-            // user can still manage their card.
-            $card->card_status = 'canceled';
-            $card->is_active = 0;
-            $card->save();
-            $success = ['success' => [__('Card canceled successfully!')]];
-
-            return Response::success($success, null, 200);
-        }
-
-        if (isset($data['status'])) {
-            $card->card_status = 'canceled';
-            $card->is_active = 0;
-            $card->save();
-            $success = ['success' => [__('Card canceled successfully!')]];
-
-            return Response::success($success, null, 200);
-        } else {
-            $error = ['error' => [$data['message'] ?? __('Something went wrong! Please try again.')]];
-
-            return Response::error($error, null, 400);
-        }
+        return Response::success($success, null, 200);
     }
 
     public function makeDefaultOrRemove(Request $request)
@@ -820,60 +708,34 @@ class StrowalletVirtualCardController extends Controller
             return back()->with(['error' => [__('Sorry, insufficient balance.')]]);
         }
 
-        $public_key = $this->api->config->strowallet_public_key;
-        $base_url = $this->api->config->strowallet_url;
-        $mode = $this->api->config->strowallet_mode ?? GlobalConst::SANDBOX;
-        $form_params = [
-            'card_id' => $myCard->card_id,
-            'amount' => $amount,
-            'public_key' => $public_key,
-        ];
-        if ($mode === GlobalConst::SANDBOX) {
-            $form_params['mode'] = 'sandbox';
-        }
-
-        $client = new \GuzzleHttp\Client;
-
-        $response = $client->request('POST', $base_url.'fund-card/', [
-            'headers' => [
-                'accept' => 'application/json',
-            ],
-            'form_params' => $form_params,
-        ]);
-
-        $result = $response->getBody();
-        $decodedResult = json_decode($result, true);
-        if (! empty($decodedResult['success']) && $decodedResult['success'] == true) {
-            // added fund amount to card
-            $myCard->balance += $amount;
-            $myCard->save();
-            $trx_id = generateTrxString('transactions', 'trx_id', 'CF-', 14);
-            $transaction_id = $this->insertCardFund($trx_id, $user, $wallet, $amount, $myCard, $payable, $fixedCharge, $percent_charge, $total_charge);
-            $this->createTransactionDeviceRecord($transaction_id);
-            if ($basic_setting->email_notification == true) {
-                $data = [
-                    'trx_id' => $trx_id,
-                    'title' => 'Virtual Card (Fund Amount)',
-                    'request_amount' => $amount,
-                    'total_charge' => $total_charge,
-                    'payable' => $payable,
-                    'request_currency' => get_default_currency_code(),
-                    'card_amount' => $myCard->balance,
-                    'card_pan' => $myCard->card_number ?? '---- ----- ---- ----',
-                    'status' => 'Success',
-                ];
-                try {
-                    Notification::route('mail', $user->email)->notify(new CardFundNotification($user, (object) $data));
-                } catch (Exception $e) {
-                }
-
+        // Locally managed card: credit the balance directly, no provider call.
+        $myCard->balance += $amount;
+        $myCard->save();
+        $trx_id = generateTrxString('transactions', 'trx_id', 'CF-', 14);
+        $transaction_id = $this->insertCardFund($trx_id, $user, $wallet, $amount, $myCard, $payable, $fixedCharge, $percent_charge, $total_charge);
+        $this->createTransactionDeviceRecord($transaction_id);
+        if ($basic_setting->email_notification == true) {
+            $data = [
+                'trx_id' => $trx_id,
+                'title' => 'Virtual Card (Fund Amount)',
+                'request_amount' => $amount,
+                'total_charge' => $total_charge,
+                'payable' => $payable,
+                'request_currency' => get_default_currency_code(),
+                'card_amount' => $myCard->balance,
+                'card_pan' => $myCard->card_number ?? '---- ----- ---- ----',
+                'charges' => $total_charge,
+                'status' => 'Success',
+            ];
+            try {
+                Notification::route('mail', $user->email)->notify(new CardFundNotification($user, (object) $data));
+            } catch (Exception $e) {
             }
-            user_notification_data_save($user->id, $type = PaymentGatewayConst::TYPEVIRTUALCARD, $title = 'Virtual Card (Card Fund)', $transaction_id, $amount, $gateway = null, $currency = get_default_currency_code(), $message = 'Card Fund Successful.');
 
-            $this->notification($payable, $user, $type = 'Card Fund');
-        } else {
-            return redirect()->back()->with(['error' => [@$decodedResult['message'].' ,'.__('Please Contact With Administration.')]]);
         }
+        user_notification_data_save($user->id, $type = PaymentGatewayConst::TYPEVIRTUALCARD, $title = 'Virtual Card (Card Fund)', $transaction_id, $amount, $gateway = null, $currency = get_default_currency_code(), $message = 'Card Fund Successful.');
+
+        $this->notification($payable, $user, $type = 'Card Fund');
 
         return redirect()->back()->with(['success' => [__('Card Funded Successfully.')]]);
     }
@@ -926,47 +788,46 @@ class StrowalletVirtualCardController extends Controller
         $page_title = __('Virtual Card Transaction');
         $id = $card->card_id;
         $emptyMessage = 'No Transaction Found!';
-        $start_date = date('Y-m-d', strtotime(date('Y-m-d', strtotime(date('Y-m-d'))).'-12 month'));
-        $end_date = date('Y-m-d');
-        $curl = curl_init();
-        $public_key = $this->api->config->strowallet_public_key;
-        $base_url = $this->api->config->strowallet_url;
 
-        curl_setopt_array($curl, [
-            CURLOPT_URL => $base_url.'card-transactions/',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => json_encode([
-                'public_key' => $public_key,
-                'card_id' => $card->card_id,
-            ]),
-            CURLOPT_HTTPHEADER => [
-                'accept: application/json',
-                'content-type: application/json',
+        // Locally managed cards have no external transaction feed: show the wallet
+        // transactions that were created against this card (buy/fund).
+        $transactions = Transaction::where('user_id', $user->id)
+            ->where('type', PaymentGatewayConst::TYPEVIRTUALCARD)
+            ->orderBy('id', 'desc')
+            ->get()
+            ->filter(function ($trx) use ($card) {
+                $details = (array) $trx->details;
+                $cardInfo = $details['card_info'] ?? null;
+                if (is_object($cardInfo)) {
+                    $cardInfo = (array) $cardInfo;
+                } elseif (is_string($cardInfo)) {
+                    $cardInfo = json_decode($cardInfo, true) ?: [];
+                }
+                $cardInfo = is_array($cardInfo) ? $cardInfo : [];
+
+                return isset($cardInfo['card_id']) && $cardInfo['card_id'] == $card->card_id;
+            })
+            ->map(function ($trx) {
+                return [
+                    'id' => $trx->trx_id,
+                    'narrative' => ucwords(str_replace('_', ' ', $trx->remark ?? 'Virtual Card')),
+                    'status' => 'success',
+                    'amount' => getAmount($trx->request_amount, 2),
+                    'currency' => $trx->request_currency,
+                    'createdAt' => $trx->created_at->format('Y-m-d'),
+                    'method' => 'Virtual Card',
+                    'reference' => $trx->trx_id,
+                ];
+            })
+            ->values();
+
+        $data = [
+            'status' => true,
+            'message' => 'Card Details Retrieved Successfully.',
+            'data' => [
+                'card_transactions' => $transactions,
             ],
-        ]);
-
-        $response = curl_exec($curl);
-        curl_close($curl);
-        $result = json_decode($response, true);
-
-        if (isset($result['success']) == true && $result['success'] == true) {
-            $data = [
-                'status' => true,
-                'message' => 'Card Details Retrieved Successfully.',
-                'data' => $result['response'],
-            ];
-        } else {
-            $data = [
-                'status' => false,
-                'message' => $result['message'] ?? 'Something is wrong! Contact With Admin',
-                'data' => null,
-            ];
-        }
+        ];
 
         return view('user.sections.virtual-card-strowallet.trx', compact('page_title', 'card', 'data'));
     }

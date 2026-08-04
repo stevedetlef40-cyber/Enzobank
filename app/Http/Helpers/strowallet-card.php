@@ -272,3 +272,83 @@ function updateStroWalletCardBalance($user, $card_id, $response)
 
     return $card->balance ?? 0;
 }
+
+if (! function_exists('luhnCheckDigit')) {
+    /**
+     * Compute the Luhn check digit for a card-number body so the final PAN is
+     * a valid, self-checking number.
+     */
+    function luhnCheckDigit(string $body): string
+    {
+        $sum = 0;
+        $len = strlen($body);
+        for ($i = 0; $i < $len; $i++) {
+            $digit = (int) $body[$len - 1 - $i];
+            if ($i % 2 === 0) {
+                $digit *= 2;
+                if ($digit > 9) {
+                    $digit -= 9;
+                }
+            }
+            $sum += $digit;
+        }
+
+        return (string) ((10 - ($sum % 10)) % 10);
+    }
+}
+
+if (! function_exists('generateVirtualCardPan')) {
+    /**
+     * Generate a unique, Luhn-valid 16-digit Visa PAN (starts with 4) that is
+     * not already assigned to another virtual card in the database.
+     */
+    function generateVirtualCardPan(): string
+    {
+        while (true) {
+            $body = '4'.str_pad((string) random_int(0, 99999999999999), 14, '0', STR_PAD_LEFT);
+            $pan = $body.luhnCheckDigit($body);
+            if (! StrowalletVirtualCard::where('card_number', $pan)->exists()) {
+                return $pan;
+            }
+        }
+    }
+}
+
+if (! function_exists('generate_local_virtual_card')) {
+    /**
+     * Generate a fully self-contained virtual card (PAN, expiry, CVV) without
+     * any external provider. Returns a payload shaped like the legacy Strowallet
+     * create-card response so existing controller code can consume it unchanged.
+     */
+    function generate_local_virtual_card($user, $formData, $amount, $customer)
+    {
+        $pan = generateVirtualCardPan();
+        $expiry = now()->addYears(4)->format('m/y');
+        $customerId = ($customer instanceof stdClass || is_object($customer))
+            ? ($customer->customerId ?? 'local-cust-'.$user->id)
+            : ($customer['customerId'] ?? 'local-cust-'.$user->id);
+        $customerEmail = ($customer instanceof stdClass || is_object($customer))
+            ? ($customer->customerEmail ?? $user->email)
+            : ($customer['customerEmail'] ?? $user->email);
+
+        return [
+            'status' => true,
+            'message' => 'Create Card Successfully.',
+            'data' => [
+                'name_on_card' => $formData['name_on_card'] ?? $user->username ?? 'Virtual Card',
+                'card_id' => 'VC-'.Str::uuid(),
+                'card_created_date' => now()->format('Y-m-d'),
+                'card_type' => 'Virtual Debit',
+                'card_user_id' => $user->id,
+                'reference' => 'VC-'.strtoupper(Str::random(12)),
+                'card_status' => 'active',
+                'customer_id' => $customerId,
+                'customer_email' => $customerEmail,
+                'card_number' => $pan,
+                'last4' => substr($pan, -4),
+                'cvv' => generateCVV(),
+                'expiry' => $expiry,
+            ],
+        ];
+    }
+}

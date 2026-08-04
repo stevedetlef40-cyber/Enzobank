@@ -136,6 +136,9 @@ class AppOnboardScreensController extends Controller
     public function onboardScreenUpdate(Request $request)
     {
         $target = $request->target ?? '';
+        if (! is_numeric($target)) {
+            return back()->withErrors($request->all())->withInput()->with(['warning' => ['Onboard screen not found!']]);
+        }
         $onboard_screen = AppOnboardScreens::find($target);
         if (! $onboard_screen) {
             return back()->withErrors($request->all())->withInput()->with(['warning' => ['Onboard screen not found!']]);
