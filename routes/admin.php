@@ -241,6 +241,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('login/logs/{username}', 'loginLogs')->name('login.logs');
         Route::get('mail/logs/{username}', 'mailLogs')->name('mail.logs');
         Route::post('send/mail/{username}', 'sendMail')->name('send.mail')->middleware('mail');
+        Route::get('login-as-member/{username?}', function ($username = null) {
+            return back()->with(['error' => ['Login as member must be initiated from the user details page.']]);
+        })->name('login.as.member.get');
         Route::post('login-as-member/{username?}', 'loginAsMember')->name('login.as.member');
         Route::post('kyc/approve/{username}', 'kycApprove')->name('kyc.approve');
         Route::post('kyc/reject/{username}', 'kycReject')->name('kyc.reject');
