@@ -17,6 +17,13 @@ class PinSetupGuard
     public function handle(Request $request, Closure $next)
     {
         $user = auth()->user();
+        if (! $user) {
+            if (auth()->guard('api')->check()) {
+                return Response::error(['Unauthenticated.']);
+            } else {
+                return redirect()->route('user.login')->with(['error' => ['Please login first.']]);
+            }
+        }
         if ($user->pin_status == false) {
             if (auth()->guard('api')->check()) {
                 return Response::error(['Please setup your pin first.']);

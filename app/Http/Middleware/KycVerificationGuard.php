@@ -20,6 +20,7 @@ class KycVerificationGuard
     {
         $basic_settings = BasicSettingsProvider::get();
         $guard = userGuard()['type'];
+        $kyc_verification_status = false;
         if ($guard === 'USER') {
             $kyc_verification_status = $basic_settings->kyc_verification;
         }

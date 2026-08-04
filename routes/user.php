@@ -64,10 +64,10 @@ Route::prefix('user')->name('user.')->group(function () {
         Route::post('cancel/response/{gateway}', 'postCancel')->name('payment.cancel.post')->withoutMiddleware(['auth', 'verification.guard', 'user.google.two.factor']);
 
         // redirect with HTML form route
-        Route::get('redirect/form/{gateway}', 'redirectUsingHTMLForm')->name('payment.redirect.form')->withoutMiddleware(['auth', 'verification.guard', 'user.google.two.factor']);
+        Route::get('redirect/form/{gateway}', 'redirectUsingHTMLForm')->name('payment.redirect.form')->withoutMiddleware(['auth', 'verification.guard', 'user.google.two.factor', 'kyc.verification.guard', 'pin.setup.guard']);
 
         // redirect with Btn Pay
-        Route::get('redirect/btn/checkout/{gateway}', 'redirectBtnPay')->name('payment.btn.pay')->withoutMiddleware(['auth', 'verification.guard', 'user.google.two.factor']);
+        Route::get('redirect/btn/checkout/{gateway}', 'redirectBtnPay')->name('payment.btn.pay')->withoutMiddleware(['auth', 'verification.guard', 'user.google.two.factor', 'kyc.verification.guard', 'pin.setup.guard']);
 
         Route::post('authorize/payment/submit', 'authorizePaymentSubmit')->name('authorize.payment.submit')->withoutMiddleware(['auth', 'verification.guard', 'user.google.two.factor']);
 

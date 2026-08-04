@@ -452,6 +452,10 @@ function files_path($slug)
         ],
     ];
 
+    if (! isset($data[$slug])) {
+        return (object) ['path' => '', 'width' => null, 'height' => null];
+    }
+
     return (object) $data[$slug];
 }
 
@@ -1809,6 +1813,10 @@ function userGuard()
         $user = auth()->guard('admin')->user();
         $userType = 'ADMIN';
         $guard = 'admin';
+    } else {
+        $user = null;
+        $userType = null;
+        $guard = null;
     }
 
     return [
