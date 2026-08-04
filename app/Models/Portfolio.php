@@ -11,7 +11,8 @@ class Portfolio extends Model
 
     protected $guarded = ['id'];
 
-    public function scopeAuth($query) {
+    public function scopeAuth($query)
+    {
         return $query->where('user_id', auth()->user()->id);
     }
 
@@ -30,4 +31,3 @@ class Portfolio extends Model
         return $this->hasMany(PortfolioTransaction::class);
     }
 }
-

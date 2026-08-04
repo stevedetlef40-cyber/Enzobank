@@ -21,15 +21,17 @@ class BusinessDay
         } catch (\Throwable $e) {
             $exists = false;
         }
-        return !$exists;
+
+        return ! $exists;
     }
 
     public static function nextBusinessDay(Carbon $date, ?string $region = null): Carbon
     {
         $d = $date->copy();
-        while (!self::isBusinessDay($d, $region)) {
+        while (! self::isBusinessDay($d, $region)) {
             $d->addDay();
         }
+
         return $d;
     }
 }

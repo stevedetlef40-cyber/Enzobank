@@ -3,9 +3,9 @@
 namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\HtmlString;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
+use Illuminate\Support\HtmlString;
 
 class websiteSubscribeNotification extends Notification
 {
@@ -44,11 +44,11 @@ class websiteSubscribeNotification extends Notification
     {
         $subject = $this->form_data['subject'];
         $message = $this->form_data['message'];
-        
+
         return (new MailMessage)
-                    ->greeting($subject)
-                    ->subject($subject)
-                    ->line(new HtmlString($message));
+            ->greeting($subject)
+            ->subject($subject)
+            ->line(new HtmlString($message));
     }
 
     /**

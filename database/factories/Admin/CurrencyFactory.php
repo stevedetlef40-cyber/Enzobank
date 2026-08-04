@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class CurrencyFactory extends Factory
 {
     protected $model = Currency::class;
+
     /**
      * Define the model's default state.
      *
@@ -19,13 +20,13 @@ class CurrencyFactory extends Factory
     public function definition()
     {
         return [
-            'country'   => $this->faker->country,
-            'name'      => "-",
-            'code'      => $this->faker->currencyCode(),
-            'symbol'    => "-",
-            'admin_id'  => 1,
-            'type'      => "FIAT",
-            'rate'      => 1.00,
+            'country' => $this->faker->country,
+            'name' => '-',
+            'code' => $this->faker->currencyCode(),
+            'symbol' => '-',
+            'admin_id' => 1,
+            'type' => 'FIAT',
+            'rate' => 1.00,
         ];
     }
 }

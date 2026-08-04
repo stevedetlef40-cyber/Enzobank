@@ -12,10 +12,10 @@ class SystemMaintenance extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'slug'      => 'string',
-        'title'     => 'string',
-        'details'   => 'string',
-        'status'    => 'boolean',
+        'slug' => 'string',
+        'title' => 'string',
+        'details' => 'string',
+        'status' => 'boolean',
     ];
 
     public function scopeActive($query)

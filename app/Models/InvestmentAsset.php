@@ -12,17 +12,17 @@ class InvestmentAsset extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'name'          => 'string',
-        'symbol'        => 'string',
-        'asset_type'    => 'string',
-        'risk_level'    => 'string',
+        'name' => 'string',
+        'symbol' => 'string',
+        'asset_type' => 'string',
+        'risk_level' => 'string',
         'current_price' => 'decimal:6',
-        'status'        => 'boolean',
+        'status' => 'boolean',
         'offering_type' => 'string',
-        'risk_score'    => 'integer',
-        'base_yield'    => 'decimal:4',
-        'tiers'         => 'array',
-        'maturities'    => 'array',
+        'risk_score' => 'integer',
+        'base_yield' => 'decimal:4',
+        'tiers' => 'array',
+        'maturities' => 'array',
     ];
 
     public function holdings()

@@ -41,7 +41,6 @@ class Admin extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
     protected $appends = [
         'fullname',
         'stringStatus',
@@ -52,11 +51,10 @@ class Admin extends Authenticatable
         'roles',
     ];
 
-    public function getFullnameAttribute() {
-        return $this->firstname . " " . $this->lastname;
+    public function getFullnameAttribute()
+    {
+        return $this->firstname.' '.$this->lastname;
     }
-
-
 
     /**
      * Send the password reset notification.
@@ -69,65 +67,75 @@ class Admin extends Authenticatable
         $this->notify(new ResetPassword($token));
     }
 
-    public function getStringStatusAttribute() {
+    public function getStringStatusAttribute()
+    {
         $status = [
-            true    => "Active",
-            false   => "Banned",
+            true => 'Active',
+            false => 'Banned',
         ];
 
         return $status[$this->status];
     }
 
-    public function getEditDataAttribute() {
+    public function getEditDataAttribute()
+    {
         $data = [
-            'firstname'     => $this->firstname,
-            'lastname'      => $this->lastname,
-            'username'      => $this->username,
-            'email'         => $this->email,
-            'phone'         => $this->phone,
-            'image'         => $this->image,
-            'roles'         => $this->roles,
+            'firstname' => $this->firstname,
+            'lastname' => $this->lastname,
+            'username' => $this->username,
+            'email' => $this->email,
+            'phone' => $this->phone,
+            'image' => $this->image,
+            'roles' => $this->roles,
         ];
 
         return json_encode($data);
     }
 
-    public function roles() {
-        return $this->hasMany(AdminHasRole::class,"admin_id");
+    public function roles()
+    {
+        return $this->hasMany(AdminHasRole::class, 'admin_id');
     }
 
-    public function getRolesCollection() {
+    public function getRolesCollection()
+    {
         $roles = $this->roles;
         $roles_array = [];
-        foreach($roles as $item) {
+        foreach ($roles as $item) {
             if ($item->role) {
                 $roles_array[] = $item->role->name;
             }
         }
+
         return array_values(array_unique($roles_array));
     }
 
-    public function getRolesString() {
+    public function getRolesString()
+    {
         $roles = $this->getRolesCollection();
-        return implode(" | ",$roles);
+
+        return implode(' | ', $roles);
     }
 
-    public function isSuperAdmin() {
+    public function isSuperAdmin()
+    {
         $roles = $this->getRolesCollection();
-        if(in_array(AdminRoleConst::SUPER_ADMIN,$roles)) {
+        if (in_array(AdminRoleConst::SUPER_ADMIN, $roles)) {
             return true;
         }
+
         return false;
     }
 
-    public function scopeNotAuth($query) {
-        return $query->whereNot("id",auth()->user()->id);
+    public function scopeNotAuth($query)
+    {
+        return $query->whereNot('id', auth()->user()->id);
     }
 
-    public function scopeSearch($query,$data) {
-        return $query->where(function($q) use ($data) {
-            $q->where("username","like","%".$data."%");
-        })->orWhere("email","like","%".$data."%")->orWhere("phone","like","%".$data."%");
+    public function scopeSearch($query, $data)
+    {
+        return $query->where(function ($q) use ($data) {
+            $q->where('username', 'like', '%'.$data.'%');
+        })->orWhere('email', 'like', '%'.$data.'%')->orWhere('phone', 'like', '%'.$data.'%');
     }
-
 }

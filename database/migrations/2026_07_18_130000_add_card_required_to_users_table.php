@@ -19,7 +19,7 @@ return new class extends Migration
         if ($driver === 'pgsql') {
             DB::statement('ALTER TABLE users ADD COLUMN IF NOT EXISTS card_required BOOLEAN NOT NULL DEFAULT TRUE');
         } else {
-            if (!Schema::hasColumn('users', 'card_required')) {
+            if (! Schema::hasColumn('users', 'card_required')) {
                 DB::statement('ALTER TABLE users ADD COLUMN card_required BOOLEAN NOT NULL DEFAULT TRUE');
             }
         }

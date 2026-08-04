@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('user_authorizations', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
-            $table->integer("code");
-            $table->text("token")->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->integer('code');
+            $table->text('token')->nullable();
             $table->timestamps();
         });
     }

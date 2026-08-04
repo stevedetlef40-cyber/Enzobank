@@ -16,29 +16,33 @@ class AdminRole extends Model
         'editData',
     ];
 
-    public function getEditDataAttribute() {
+    public function getEditDataAttribute()
+    {
         $data = [
-            'id'        => $this->id,
-            'name'      => $this->name,
+            'id' => $this->id,
+            'name' => $this->name,
         ];
 
         return json_encode($data);
     }
 
-    public function scopeActive($query) {
-        return $query->where("status",\DB::raw('true'));
+    public function scopeActive($query)
+    {
+        return $query->where('status', \DB::raw('true'));
     }
 
-    public function scopeNotSuperAdmin($query) {
-        $query->whereNot("name",AdminRoleConst::SUPER_ADMIN);
+    public function scopeNotSuperAdmin($query)
+    {
+        $query->whereNot('name', AdminRoleConst::SUPER_ADMIN);
     }
 
-    public function createdBy() {
+    public function createdBy()
+    {
         return $this->belongsTo(Admin::class);
     }
 
-    public function assignRole() {
+    public function assignRole()
+    {
         return $this->hasMany(AdminHasRole::class);
     }
-
 }

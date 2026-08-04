@@ -16,13 +16,13 @@ return new class extends Migration
         Schema::create('currencies', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('admin_id');
-            $table->string('country',100)->index();
-            $table->string('name',100)->index();
-            $table->string('code',20)->unique()->index();
-            $table->string('symbol',20);
-            $table->enum('type',['CRYPTO','FIAT'])->default('FIAT');
-            $table->string('flag',255)->nullable();
-            $table->decimal('rate',28,8)->default(1);
+            $table->string('country', 100)->index();
+            $table->string('name', 100)->index();
+            $table->string('code', 20)->unique()->index();
+            $table->string('symbol', 20);
+            $table->enum('type', ['CRYPTO', 'FIAT'])->default('FIAT');
+            $table->string('flag', 255)->nullable();
+            $table->decimal('rate', 28, 8)->default(1);
             $table->boolean('sender')->default(false);
             $table->boolean('receiver')->default(false);
             $table->boolean('default')->default(false);

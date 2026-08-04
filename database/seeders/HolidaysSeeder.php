@@ -22,4 +22,3 @@ class HolidaysSeeder extends Seeder
         }
     }
 }
-

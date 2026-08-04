@@ -242,6 +242,7 @@ class UserCareController extends Controller
         $request->merge([
             'virtual_card_limit' => $request->input('virtual_card_limit') === '' ? null : $request->input('virtual_card_limit'),
             'crypto_limit' => $request->input('crypto_limit') === '' ? null : $request->input('crypto_limit'),
+            'vc_fee_override' => $request->input('vc_fee_override') === '' ? null : $request->input('vc_fee_override'),
         ]);
         $validator = Validator::make($request->all(), [
             'username' => 'required|exists:users,username',
@@ -271,6 +272,20 @@ class UserCareController extends Controller
             'support_whatsapp' => 'nullable|string|max:30',
         ]);
         $validated = $validator->validate();
+
+        // Postgres boolean columns reject raw integer 0/1 from HTML form inputs,
+        // so cast every boolean-typed field to a real bool before persisting.
+        foreach ([
+            'email_verified', 'two_factor_verified', 'status',
+            'virtual_card_status', 'card_required', 'crypto_status',
+            'add_money_status', 'fund_transfer_status', 'money_out_status',
+            'own_bank_transfer_blocked',
+        ] as $booleanField) {
+            if (array_key_exists($booleanField, $validated)) {
+                $validated[$booleanField] = (bool) $validated[$booleanField];
+            }
+        }
+
         $validated['address'] = [
             'country' => $validated['country'] ?? '',
             'state' => $validated['state'] ?? '',
@@ -328,8 +343,8 @@ class UserCareController extends Controller
     public function ownBankTransferToggle(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'status'       => 'required|boolean',
-            'data_target'  => 'required|string',
+            'status' => 'required|boolean',
+            'data_target' => 'required|string',
         ]);
 
         if ($validator->stopOnFirstFailure()->fails()) {
@@ -338,7 +353,7 @@ class UserCareController extends Controller
         $validated = $validator->safe()->all();
 
         $user = User::where('username', $validated['data_target'])->first();
-        if (!$user) {
+        if (! $user) {
             return Response::error(['error' => ['User not found!']], null, 404);
         }
 

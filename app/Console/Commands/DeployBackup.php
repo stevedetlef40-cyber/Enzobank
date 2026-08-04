@@ -3,8 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
 class DeployBackup extends Command
@@ -45,7 +43,7 @@ class DeployBackup extends Command
         $connection = config('database.default');
         $config = config("database.connections.{$connection}");
 
-        if (!$config) {
+        if (! $config) {
             $this->error("Database connection '{$connection}' not found in config.");
             exit(1);
         }
@@ -55,15 +53,15 @@ class DeployBackup extends Command
 
     protected function backup()
     {
-        $this->info("Starting Database Backup for Deployment...");
-        
+        $this->info('Starting Database Backup for Deployment...');
+
         $config = $this->getDbConfig();
         $driver = $config['driver'] ?? 'mysql';
-        
-        $filename = "backup_" . date('Y-m-d_H-i-s') . ".sql";
-        $path = storage_path('app/backups/' . $filename);
-        
-        if (!File::exists(storage_path('app/backups'))) {
+
+        $filename = 'backup_'.date('Y-m-d_H-i-s').'.sql';
+        $path = storage_path('app/backups/'.$filename);
+
+        if (! File::exists(storage_path('app/backups'))) {
             File::makeDirectory(storage_path('app/backups'), 0755, true);
         }
 
@@ -91,31 +89,34 @@ class DeployBackup extends Command
         exec($cmd, $output, $returnVar);
 
         if ($returnVar !== 0) {
-            $this->error("Backup failed using " . ($driver === 'pgsql' ? 'pg_dump' : 'mysqldump') . ". Ensure it is installed and in your PATH.");
+            $this->error('Backup failed using '.($driver === 'pgsql' ? 'pg_dump' : 'mysqldump').'. Ensure it is installed and in your PATH.');
+
             return 1;
         }
 
-        $this->info("Backup successfully created at: " . $path);
+        $this->info('Backup successfully created at: '.$path);
+
         return 0;
     }
 
     protected function rollback()
     {
-        $this->info("Starting Database Rollback...");
-        
+        $this->info('Starting Database Rollback...');
+
         $backups = File::files(storage_path('app/backups'));
         if (empty($backups)) {
-            $this->error("No backups found in storage/app/backups.");
+            $this->error('No backups found in storage/app/backups.');
+
             return 1;
         }
 
         // Sort by modification time to get the latest
-        usort($backups, function($a, $b) {
+        usort($backups, function ($a, $b) {
             return $b->getMTime() - $a->getMTime();
         });
 
         $latestBackup = $backups[0];
-        $this->info("Rolling back to: " . $latestBackup->getFilename());
+        $this->info('Rolling back to: '.$latestBackup->getFilename());
 
         $config = $this->getDbConfig();
         $driver = $config['driver'] ?? 'mysql';
@@ -144,11 +145,13 @@ class DeployBackup extends Command
         exec($cmd, $output, $returnVar);
 
         if ($returnVar !== 0) {
-            $this->error("Rollback failed. Check database credentials and " . ($driver === 'pgsql' ? 'psql' : 'mysql') . " binary.");
+            $this->error('Rollback failed. Check database credentials and '.($driver === 'pgsql' ? 'psql' : 'mysql').' binary.');
+
             return 1;
         }
 
-        $this->info("Rollback successful.");
+        $this->info('Rollback successful.');
+
         return 0;
     }
 }

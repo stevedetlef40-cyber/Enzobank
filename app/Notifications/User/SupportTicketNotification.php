@@ -15,8 +15,8 @@ class SupportTicketNotification extends Notification
      *
      * @return void
      */
-
     protected $data;
+
     public function __construct($data)
     {
         $this->data = $data;
@@ -44,10 +44,10 @@ class SupportTicketNotification extends Notification
         $data = $this->data;
 
         return (new MailMessage)
-                    ->greeting("Hello ".$data['name']." !")
-                    ->subject("Support ticket  created successful")
-                    ->line('Thanks for reaching out. We got your support ticket. Your ticket ID:'. $data['token'])
-                    ->line('We will respond as soon as possible. Please wait patiently.');
+            ->greeting('Hello '.$data['name'].' !')
+            ->subject('Support ticket  created successful')
+            ->line('Thanks for reaching out. We got your support ticket. Your ticket ID:'.$data['token'])
+            ->line('We will respond as soon as possible. Please wait patiently.');
     }
 
     /**

@@ -8,13 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class TemporaryData extends Model
 {
     use HasFactory;
-    protected $table = "temporary_datas";
+
+    protected $table = 'temporary_datas';
 
     protected $guarded = ['id'];
 
     protected $casts = ['data' => 'object'];
 
-    public function scopeSearch($query,$token) {
-        return $query->where('identifier',$token);
+    public function scopeSearch($query, $token)
+    {
+        return $query->where('identifier', $token);
     }
 }

@@ -18,16 +18,17 @@ class InvestmentOfferController extends Controller
         $assets = $query->orderBy('name')->paginate(12);
         $assetPayload = $assets->getCollection()->map(function ($a) {
             return [
-                'id'          => $a->id,
-                'name'        => $a->name,
-                'symbol'      => $a->symbol,
-                'type'        => $a->offering_type,
-                'risk'        => (int) $a->risk_score,
-                'base_yield'  => (float) $a->base_yield,
-                'tiers'       => $a->tiers,
-                'maturities'  => $a->maturities,
+                'id' => $a->id,
+                'name' => $a->name,
+                'symbol' => $a->symbol,
+                'type' => $a->offering_type,
+                'risk' => (int) $a->risk_score,
+                'base_yield' => (float) $a->base_yield,
+                'tiers' => $a->tiers,
+                'maturities' => $a->maturities,
             ];
         });
+
         return view('user.sections.investments.offers', compact('page_title', 'assets', 'assetPayload'));
     }
 }

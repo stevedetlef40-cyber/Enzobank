@@ -9,10 +9,10 @@ class PushNotificationRecord extends Model
 {
     use HasFactory;
 
-    protected $guarded  = ['id'];
+    protected $guarded = ['id'];
 
     protected $casts = [
-        'response'      => 'object',
-        'message'       => 'object',
+        'response' => 'object',
+        'message' => 'object',
     ];
 }

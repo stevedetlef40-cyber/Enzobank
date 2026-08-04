@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('useful_links', function (Blueprint $table) {
             $table->id();
-            $table->string("type");
-            $table->text("title");
-            $table->string("slug");
-            $table->string("url");
-            $table->longText("content");
-            $table->boolean("status")->default(true);
-            $table->boolean("editable")->default(false);
+            $table->string('type');
+            $table->text('title');
+            $table->string('slug');
+            $table->string('url');
+            $table->longText('content');
+            $table->boolean('status')->default(true);
+            $table->boolean('editable')->default(false);
             $table->timestamps();
         });
     }

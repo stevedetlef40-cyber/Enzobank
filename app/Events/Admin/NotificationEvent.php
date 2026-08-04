@@ -17,12 +17,12 @@ class NotificationEvent implements ShouldBroadcast
     {
         $this->message = $message;
     }
-  
+
     public function broadcastOn()
     {
         return ['admin'];
     }
-  
+
     public function broadcastAs()
     {
         return 'dashbord-push';

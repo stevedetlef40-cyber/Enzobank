@@ -10,7 +10,6 @@ class SecurityHardening
     /**
      * Handle an incoming request and apply banking-grade security headers.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
@@ -50,7 +49,7 @@ class SecurityHardening
         $csp .= "img-src 'self' data: https:; ";
         $csp .= "connect-src 'self' https:; ";
         $csp .= "frame-ancestors 'none';";
-        
+
         $response->headers->set('Content-Security-Policy', $csp);
 
         return $response;

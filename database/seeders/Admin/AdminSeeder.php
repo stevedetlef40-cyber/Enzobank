@@ -2,8 +2,8 @@
 
 namespace Database\Seeders\Admin;
 
-use Illuminate\Database\Seeder;
 use App\Models\Admin\Admin;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 class AdminSeeder extends Seeder
@@ -17,49 +17,49 @@ class AdminSeeder extends Seeder
     {
         $data = [
             [
-                'firstname'     => "Super",
-                'lastname'      => "Admin",
-                'username'      => "superadmin",
-                'email'         => "superadmin@appdevs.net",
-                'password'      => Hash::make("appdevs"),
-                'created_at'    => now(),
-                'status'        => true,
+                'firstname' => 'Super',
+                'lastname' => 'Admin',
+                'username' => 'superadmin',
+                'email' => 'superadmin@appdevs.net',
+                'password' => Hash::make('appdevs'),
+                'created_at' => now(),
+                'status' => true,
             ],
             [
-                'firstname'     => "Sub",
-                'lastname'      => "Admin",
-                'username'      => "subadmin",
-                'email'         => "subadmin@appdevs.net",
-                'password'      => Hash::make("appdevs"),
-                'created_at'    => now(),
-                'status'        => true,
+                'firstname' => 'Sub',
+                'lastname' => 'Admin',
+                'username' => 'subadmin',
+                'email' => 'subadmin@appdevs.net',
+                'password' => Hash::make('appdevs'),
+                'created_at' => now(),
+                'status' => true,
             ],
             [
-                'firstname'     => "Support",
-                'lastname'      => "Admin",
-                'username'      => "supportadmin",
-                'email'         => "supportadmin@appdevs.net",
-                'password'      => Hash::make("appdevs"),
-                'created_at'    => now(),
-                'status'        => true,
+                'firstname' => 'Support',
+                'lastname' => 'Admin',
+                'username' => 'supportadmin',
+                'email' => 'supportadmin@appdevs.net',
+                'password' => Hash::make('appdevs'),
+                'created_at' => now(),
+                'status' => true,
             ],
             [
-                'firstname'     => "Editor",
-                'lastname'      => "Admin",
-                'username'      => "editoradmin",
-                'email'         => "editoradmin@appdevs.net",
-                'password'      => Hash::make("appdevs"),
-                'created_at'    => now(),
-                'status'        => true,
+                'firstname' => 'Editor',
+                'lastname' => 'Admin',
+                'username' => 'editoradmin',
+                'email' => 'editoradmin@appdevs.net',
+                'password' => Hash::make('appdevs'),
+                'created_at' => now(),
+                'status' => true,
             ],
             [
-                'firstname'     => "Moderator",
-                'lastname'      => "Admin",
-                'username'      => "moderatoradmin",
-                'email'         => "moderatoradmin@gizzyfx.com",
-                'password'      => Hash::make("gizzyfx"),
-                'created_at'    => now(),
-                'status'        => true,
+                'firstname' => 'Moderator',
+                'lastname' => 'Admin',
+                'username' => 'moderatoradmin',
+                'email' => 'moderatoradmin@gizzyfx.com',
+                'password' => Hash::make('gizzyfx'),
+                'created_at' => now(),
+                'status' => true,
             ],
         ];
 

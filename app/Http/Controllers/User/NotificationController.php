@@ -4,13 +4,12 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\UserNotification;
-use Illuminate\Http\Request;
 
 class NotificationController extends Controller
 {
     public function index()
     {
-        $page_title = "Notifications";
+        $page_title = 'Notifications';
         $notifications = UserNotification::auth()
             ->latest('id')
             ->paginate(20);

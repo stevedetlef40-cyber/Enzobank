@@ -16,29 +16,33 @@ class AdminRolePermission extends Model
         'hasPermissions',
     ];
 
-    public function role() {
-        return $this->belongsTo(AdminRole::class,"admin_role_id");
+    public function role()
+    {
+        return $this->belongsTo(AdminRole::class, 'admin_role_id');
     }
 
-    public function getStringStatusAttribute() {
+    public function getStringStatusAttribute()
+    {
         $status = [
-            true    => "Active",
-            false   => "Deactive",
+            true => 'Active',
+            false => 'Deactive',
         ];
 
         return $status[$this->status];
     }
-    
-    public function getEditDataAttribute() {
+
+    public function getEditDataAttribute()
+    {
         $data = [
-            'id'        => $this->id,
-            'name'      => $this->name,
+            'id' => $this->id,
+            'name' => $this->name,
         ];
 
         return json_encode($data);
     }
 
-    public function hasPermissions() {
-        return $this->hasMany(AdminRoleHasPermission::class,"admin_role_permission_id");
+    public function hasPermissions()
+    {
+        return $this->hasMany(AdminRoleHasPermission::class, 'admin_role_permission_id');
     }
 }

@@ -11,30 +11,36 @@ class UserNotification extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts        = [
-        'user_id'           => 'integer',
-        'transaction_id'    => 'integer',
-        'type'              => 'string',
-        'message'           => 'object',
+    protected $casts = [
+        'user_id' => 'integer',
+        'transaction_id' => 'integer',
+        'type' => 'string',
+        'message' => 'object',
     ];
 
     protected $with = [
         'user',
     ];
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function scopeGetByType($query,$types) {
-        if(is_array($types)) return $query->whereIn('type',$types);
+    public function scopeGetByType($query, $types)
+    {
+        if (is_array($types)) {
+            return $query->whereIn('type', $types);
+        }
     }
 
-    public function scopeNotAuth($query) {
-        $query->where("user_id","!=",auth()->user()->id);
+    public function scopeNotAuth($query)
+    {
+        $query->where('user_id', '!=', auth()->user()->id);
     }
 
-    public function scopeAuth($query) {
-        $query->where("user_id",auth()->user()->id);
+    public function scopeAuth($query)
+    {
+        $query->where('user_id', auth()->user()->id);
     }
 }

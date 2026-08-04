@@ -15,8 +15,8 @@ class AppSettingsSeeder extends Seeder
     public function run()
     {
         $data = [
-            'version'   => '1.0.0',
-            'splash_screen_image'     => 'splash.webp'
+            'version' => '1.0.0',
+            'splash_screen_image' => 'splash.webp',
         ];
 
         AppSettings::firstOrCreate($data);

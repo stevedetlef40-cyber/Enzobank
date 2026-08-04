@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Http\Helpers\Response;
+use App\Models\Admin\Extension;
 use Exception;
 use Illuminate\Http\Request;
-use App\Models\Admin\Extension;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Helpers\Response;
-
 
 class ExtensionsController extends Controller
 {
@@ -19,8 +18,9 @@ class ExtensionsController extends Controller
      */
     public function index()
     {
-        $page_title = "Extensions";
+        $page_title = 'Extensions';
         $extensions = Extension::orderBy('id', 'desc')->paginate(8);
+
         return view('admin.sections.extensions.index', compact(
             'page_title',
             'extensions',
@@ -32,7 +32,7 @@ class ExtensionsController extends Controller
         $extension = Extension::findOrFail($id);
         $validation_rule = [];
         foreach ($extension->shortcode as $key => $val) {
-            $validation_rule[$key] = "required";
+            $validation_rule[$key] = 'required';
         }
 
         $request->validate($validation_rule);
@@ -42,28 +42,30 @@ class ExtensionsController extends Controller
         }
         $extension->shortcode = $shortcode;
         $extension->update();
+
         return back()->with(['success' => ['Extension has been udpate successfully']]);
     }
-
 
     public function statusUpdate(Request $request)
     {
 
         $validator = Validator::make($request->all(), [
-            'status'                    => 'required|boolean',
-            'data_target'               => 'required|string',
+            'status' => 'required|boolean',
+            'data_target' => 'required|string',
         ]);
         if ($validator->stopOnFirstFailure()->fails()) {
             $error = ['error' => $validator->errors()];
-            return Response::error($error,null,400);
+
+            return Response::error($error, null, 400);
         }
         $validated = $validator->validate();
         $item_id = $validated['data_target'];
 
         $extension = Extension::find($item_id);
-        if (!$extension) {
+        if (! $extension) {
             $error = ['error' => ['Extension is not found!.']];
-            return Response::error($error,null,404);
+
+            return Response::error($error, null, 404);
         }
 
         try {
@@ -72,10 +74,12 @@ class ExtensionsController extends Controller
             ]);
         } catch (Exception $e) {
             $error = ['error' => ['Something went wrong!. Please try again.']];
-            return Response::error($error,null,500);
+
+            return Response::error($error, null, 500);
         }
 
         $success = ['success' => ['Extension status is updated successfully!']];
-        return Response::success($success,null,200);
+
+        return Response::success($success, null, 200);
     }
 }

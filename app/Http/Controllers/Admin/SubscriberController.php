@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Models\Frontend\Subscribe;
+use App\Notifications\websiteSubscribeNotification;
 use Exception;
 use Illuminate\Http\Request;
-use App\Models\Frontend\Subscribe;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\websiteSubscribeNotification;
+use Illuminate\Support\Facades\Validator;
 
 class SubscriberController extends Controller
 {
@@ -19,25 +19,30 @@ class SubscriberController extends Controller
      */
     public function index()
     {
-        $page_title = "Website Subscribers";
-        $subscribers = Subscribe::orderByDesc("id")->paginate(15);
-        return view('admin.sections.subscriber.index',compact('page_title','subscribers'));
+        $page_title = 'Website Subscribers';
+        $subscribers = Subscribe::orderByDesc('id')->paginate(15);
+
+        return view('admin.sections.subscriber.index', compact('page_title', 'subscribers'));
     }
 
-    public function sendMail(Request $request) {
-        $validator = Validator::make($request->all(),[
-            'subject'       => "required|string|max:255",
-            'message'       => "required|string|max:5000",
+    public function sendMail(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string|max:5000',
         ]);
-        if($validator->fails()) return back()->withErrors($validator)->withInput()->with('modal','send-mail-subscribers');
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput()->with('modal', 'send-mail-subscribers');
+        }
         $validated = $validator->validate();
 
-        try{
-            $subscribers = Subscribe::get()->pluck("email")->toArray();
-            Notification::route("mail",$subscribers)->notify(new websiteSubscribeNotification($validated));
-        }catch(Exception $e) {
+        try {
+            $subscribers = Subscribe::get()->pluck('email')->toArray();
+            Notification::route('mail', $subscribers)->notify(new websiteSubscribeNotification($validated));
+        } catch (Exception $e) {
             return back()->with(['error' => ['Mail send failed! Please try again']]);
         }
+
         return back()->with(['success' => ['Mail successfully sended']]);
     }
 }

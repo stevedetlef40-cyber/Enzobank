@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('admin_role_has_permissions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('admin_role_permission_id');
-            $table->string('route',100);
-            $table->string('title',100)->nullable();
+            $table->string('route', 100);
+            $table->string('title', 100)->nullable();
             $table->unsignedBigInteger('last_edit_by');
             $table->timestamps();
 

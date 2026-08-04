@@ -12,9 +12,10 @@ class BankDetailsController extends Controller
 {
     public function index()
     {
-        $page_title = "Bank Details";
+        $page_title = 'Bank Details';
         $user = Auth::user()->load('bankDetails');
         $countries = $this->worldCountries();
+
         return view('user.sections.bank-details.index', compact('page_title', 'user', 'countries'));
     }
 
@@ -24,21 +25,22 @@ class BankDetailsController extends Controller
     private function worldCountries(): array
     {
         $path = resource_path('world/countries.json');
-        if (!file_exists($path)) {
+        if (! file_exists($path)) {
             return [];
         }
         $data = json_decode(file_get_contents($path), true) ?: [];
+
         return array_values(array_unique(array_filter(array_column($data, 'name'))));
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'recipient_name'   => 'required|string|max:255',
-            'bank_name'        => 'required|string|max:255',
+            'recipient_name' => 'required|string|max:255',
+            'bank_name' => 'required|string|max:255',
             'account_number_iban' => 'required|string|max:34',
-            'country'          => 'required|string|max:100',
-            'swift_bic'        => 'nullable|string|max:11',
+            'country' => 'required|string|max:100',
+            'swift_bic' => 'nullable|string|max:11',
         ]);
 
         if ($validator->fails()) {
@@ -58,11 +60,11 @@ class BankDetailsController extends Controller
         $detail = UserBankDetail::where('user_id', Auth::id())->findOrFail($id);
 
         $validator = Validator::make($request->all(), [
-            'recipient_name'   => 'required|string|max:255',
-            'bank_name'        => 'required|string|max:255',
+            'recipient_name' => 'required|string|max:255',
+            'bank_name' => 'required|string|max:255',
             'account_number_iban' => 'required|string|max:34',
-            'country'          => 'required|string|max:100',
-            'swift_bic'        => 'nullable|string|max:11',
+            'country' => 'required|string|max:100',
+            'swift_bic' => 'nullable|string|max:11',
         ]);
 
         if ($validator->fails()) {

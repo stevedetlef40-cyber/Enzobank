@@ -14,16 +14,16 @@ return new class extends Migration
     public function up()
     {
         if (Schema::hasTable('strowallet_virtual_cards')) {
-            DB::statement("ALTER TABLE strowallet_virtual_cards ALTER COLUMN card_user_id DROP NOT NULL");
-            DB::statement("ALTER TABLE strowallet_virtual_cards ALTER COLUMN card_created_date DROP NOT NULL");
+            DB::statement('ALTER TABLE strowallet_virtual_cards ALTER COLUMN card_user_id DROP NOT NULL');
+            DB::statement('ALTER TABLE strowallet_virtual_cards ALTER COLUMN card_created_date DROP NOT NULL');
         }
     }
 
     public function down()
     {
         if (Schema::hasTable('strowallet_virtual_cards')) {
-            DB::statement("ALTER TABLE strowallet_virtual_cards ALTER COLUMN card_user_id SET NOT NULL");
-            DB::statement("ALTER TABLE strowallet_virtual_cards ALTER COLUMN card_created_date SET NOT NULL");
+            DB::statement('ALTER TABLE strowallet_virtual_cards ALTER COLUMN card_user_id SET NOT NULL');
+            DB::statement('ALTER TABLE strowallet_virtual_cards ALTER COLUMN card_created_date SET NOT NULL');
         }
     }
 };

@@ -12,22 +12,27 @@ class AdminNotification extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'message'   => 'object',
+        'message' => 'object',
     ];
 
     protected $with = [
         'admin',
     ];
 
-    public function admin() {
+    public function admin()
+    {
         return $this->belongsTo(Admin::class);
     }
 
-    public function scopeGetByType($query,$types) {
-        if(is_array($types)) return $query->whereIn('type',$types);
+    public function scopeGetByType($query, $types)
+    {
+        if (is_array($types)) {
+            return $query->whereIn('type', $types);
+        }
     }
 
-    public function scopeNotAuth($query) {
-        $query->where("admin_id","!=",auth()->user()->id);
+    public function scopeNotAuth($query)
+    {
+        $query->where('admin_id', '!=', auth()->user()->id);
     }
 }

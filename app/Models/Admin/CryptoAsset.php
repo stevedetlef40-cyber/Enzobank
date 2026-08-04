@@ -15,8 +15,8 @@ class CryptoAsset extends Model
         'credentials' => 'object',
     ];
 
-
-    public function gateway() {
-        return $this->belongsTo(PaymentGateway::class,'payment_gateway_id');
+    public function gateway()
+    {
+        return $this->belongsTo(PaymentGateway::class, 'payment_gateway_id');
     }
 }

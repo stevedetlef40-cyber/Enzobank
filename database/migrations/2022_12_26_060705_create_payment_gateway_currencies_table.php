@@ -17,16 +17,16 @@ return new class extends Migration
             $table->id();
             // $table->string('slug',120)->nullable();
             $table->unsignedBigInteger('payment_gateway_id');
-            $table->string('name',100);
-            $table->string('alias',120)->unique();
-            $table->string('currency_code',20);
-            $table->string('currency_symbol',20)->nullable();
-            $table->string('image',255)->nullable();
-            $table->decimal('min_limit',28,8,true)->unsigned()->default(0);
-            $table->decimal('max_limit',28,8,true)->unsigned()->default(0);
-            $table->decimal('percent_charge',28,8,true)->unsigned()->default(0);
-            $table->decimal('fixed_charge',28,8,true)->unsigned()->default(0);
-            $table->decimal('rate',28,8,true)->unsigned()->default(0);
+            $table->string('name', 100);
+            $table->string('alias', 120)->unique();
+            $table->string('currency_code', 20);
+            $table->string('currency_symbol', 20)->nullable();
+            $table->string('image', 255)->nullable();
+            $table->decimal('min_limit', 28, 8, true)->unsigned()->default(0);
+            $table->decimal('max_limit', 28, 8, true)->unsigned()->default(0);
+            $table->decimal('percent_charge', 28, 8, true)->unsigned()->default(0);
+            $table->decimal('fixed_charge', 28, 8, true)->unsigned()->default(0);
+            $table->decimal('rate', 28, 8, true)->unsigned()->default(0);
             $table->timestamps();
 
             $table->foreign('payment_gateway_id')->references('id')->on('payment_gateways')->onDelete('cascade')->onUpdate('cascade');

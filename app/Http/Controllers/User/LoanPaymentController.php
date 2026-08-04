@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\User;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class LoanPaymentController extends Controller
@@ -20,9 +20,11 @@ class LoanPaymentController extends Controller
         try {
             // @todo: implement full loan payment processing
             DB::commit();
+
             return redirect()->back()->with(['success' => ['Payment processed successfully.']]);
         } catch (Exception $e) {
             DB::rollBack();
+
             return redirect()->back()->with(['error' => ['Payment failed. Please try again.']]);
         }
     }

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('heading')->nullable();
             $table->text('title')->nullable();
             $table->text('details')->nullable();
-            $table->string('image',255)->unique();
+            $table->string('image', 255)->unique();
             $table->boolean('status')->default(true);
             $table->unsignedBigInteger('last_edit_by')->nullable();
             $table->timestamps();

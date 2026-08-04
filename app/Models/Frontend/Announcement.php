@@ -2,10 +2,8 @@
 
 namespace App\Models\Frontend;
 
-use App\Constants\GlobalConst;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\Frontend\AnnouncementCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Announcement extends Model
 {
@@ -14,19 +12,21 @@ class Announcement extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'data'      => 'object',
+        'data' => 'object',
     ];
 
     public function getRouteKeyName()
     {
-        return "slug";
+        return 'slug';
     }
 
-    public function category() {
-        return $this->belongsTo(AnnouncementCategory::class,"announcement_category_id");
+    public function category()
+    {
+        return $this->belongsTo(AnnouncementCategory::class, 'announcement_category_id');
     }
 
-    public function scopeActive($query) {
-        return $query->where("status",\DB::raw('true'));
+    public function scopeActive($query)
+    {
+        return $query->where('status', \DB::raw('true'));
     }
 }

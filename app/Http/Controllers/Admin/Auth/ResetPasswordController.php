@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Admin\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\ResetsPasswords;
-use Illuminate\Support\Facades\Password;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Password;
 
 class ResetPasswordController extends Controller
 {
-
     use ResetsPasswords;
 
     /**
@@ -18,7 +17,6 @@ class ResetPasswordController extends Controller
      *
      * If no token is present, display the link request form.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function showResetForm(Request $request)
@@ -29,7 +27,6 @@ class ResetPasswordController extends Controller
             ['token' => $token, 'email' => $request->email]
         );
     }
-
 
     /**
      * Get the password reset validation rules.
@@ -45,8 +42,6 @@ class ResetPasswordController extends Controller
         ];
     }
 
-
-
     /**
      * Get the broker to be used during password reset.
      *
@@ -56,7 +51,6 @@ class ResetPasswordController extends Controller
     {
         return Password::broker('admins');
     }
-
 
     /**
      * Get the guard to be used during password reset.
@@ -68,11 +62,9 @@ class ResetPasswordController extends Controller
         return Auth::guard('admin');
     }
 
-
     /**
      * Get the response for a successful password reset.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  string  $response
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
@@ -80,5 +72,4 @@ class ResetPasswordController extends Controller
     {
         return redirect()->route('admin.login')->with(['success' => ['Successfully updated password. Please login']]);
     }
-
 }

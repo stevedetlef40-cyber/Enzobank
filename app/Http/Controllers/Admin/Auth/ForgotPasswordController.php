@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
 {
@@ -36,26 +36,25 @@ class ForgotPasswordController extends Controller
     /**
      * Get the needed authentication credentials from the request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     protected function credentials(Request $request)
     {
         $credential = $request->credential;
-        if(!filter_var($credential, FILTER_VALIDATE_EMAIL)) {
+        if (! filter_var($credential, FILTER_VALIDATE_EMAIL)) {
             $request->merge(['username' => $credential]);
+
             return $request->only('username');
         }
 
         $request->merge(['email' => $credential]);
+
         return $request->only('email');
     }
-
 
     /**
      * Validate the email for the given request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return void
      */
     protected function validateEmail(Request $request)
@@ -66,7 +65,6 @@ class ForgotPasswordController extends Controller
     /**
      * Get the response for a successful password reset link.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  string  $response
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
@@ -74,7 +72,6 @@ class ForgotPasswordController extends Controller
     {
         return back()->with(['success' => ['Password Reset Link sended to your email address.']]);
     }
-
 
     /**
      * Get the broker to be used during password reset.
@@ -86,7 +83,6 @@ class ForgotPasswordController extends Controller
         return Password::broker('admins');
     }
 
-
     /**
      * Send the password reset notification.
      *
@@ -97,5 +93,4 @@ class ForgotPasswordController extends Controller
     {
         $this->notify(new ResetPassword($token));
     }
-
 }

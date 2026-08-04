@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('user_notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("user_id")->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId("transaction_id")->constrained('transactions')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string("type",100)->nullable();
-            $table->text('message',1000);
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('transaction_id')->constrained('transactions')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('type', 100)->nullable();
+            $table->text('message', 1000);
             $table->timestamps();
         });
     }

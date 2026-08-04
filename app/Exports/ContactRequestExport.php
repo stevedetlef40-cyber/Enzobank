@@ -2,24 +2,23 @@
 
 namespace App\Exports;
 
-use Maatwebsite\Excel\Excel;
 use App\Models\Frontend\ContactRequest;
 use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Excel;
 
 class ContactRequestExport implements FromCollection, WithHeadings, WithMapping
 {
+    /**
+     * Optional Writer Type
+     */
+    private $writerType = Excel::XLSX;
 
     /**
-    * Optional Writer Type
-    */
-    private $writerType = Excel::XLSX;
-    
-    /**
-    * Optional headers
-    */
+     * Optional headers
+     */
     private $headers = [
         'Content-Type' => 'text/csv',
     ];
@@ -36,8 +35,8 @@ class ContactRequestExport implements FromCollection, WithHeadings, WithMapping
     }
 
     /**
-    * @param mixed $contact
-    */
+     * @param  mixed  $contact
+     */
     public function map($contact): array
     {
         return [
@@ -45,15 +44,15 @@ class ContactRequestExport implements FromCollection, WithHeadings, WithMapping
             $contact->name,
             $contact->email,
             $contact->message,
-            Carbon::parse($contact->created_at)->format("d-m-Y H:i A")
+            Carbon::parse($contact->created_at)->format('d-m-Y H:i A'),
         ];
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
-        return ContactRequest::get(['id','name','email','message','created_at']);
+        return ContactRequest::get(['id', 'name', 'email', 'message', 'created_at']);
     }
 }

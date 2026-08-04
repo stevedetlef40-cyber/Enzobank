@@ -2,9 +2,8 @@
 
 namespace App\Providers\Admin;
 
-
-class CurrencyProvider {
-
+class CurrencyProvider
+{
     public $currency;
 
     public function __construct($currency = null)
@@ -12,16 +11,18 @@ class CurrencyProvider {
         $this->currency = $currency;
     }
 
-
-    public function set($currency) {
+    public function set($currency)
+    {
         return $this->currency = $currency;
     }
-    
-    public function getData() {
+
+    public function getData()
+    {
         return $this->currency;
     }
 
-    public static function default() {
+    public static function default()
+    {
         return app(CurrencyProvider::class)->getData();
     }
 }

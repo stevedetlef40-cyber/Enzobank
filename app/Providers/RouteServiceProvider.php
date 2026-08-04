@@ -29,37 +29,37 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::middleware('system.maintenance.api','api')
+            Route::middleware('system.maintenance.api', 'api')
                 ->prefix('api')
                 ->group(base_path('routes/api.php'));
 
-            Route::middleware('web','system.maintenance')
+            Route::middleware('web', 'system.maintenance')
                 ->group(base_path('routes/web.php'));
 
-            Route::middleware(['web','auth','verification.guard', 'user.google.two.factor','system.maintenance'])
+            Route::middleware(['web', 'auth', 'verification.guard', 'user.google.two.factor', 'system.maintenance'])
                 ->group(base_path('routes/user.php'));
 
             Route::middleware(['web', 'auth:admin', 'app.mode', 'admin.role.guard'])
                 ->group(base_path('routes/admin.php'));
 
-            Route::middleware('web','system.maintenance')
+            Route::middleware('web', 'system.maintenance')
                 ->group(base_path('routes/auth.php'));
 
-            Route::middleware('web','system.maintenance')
+            Route::middleware('web', 'system.maintenance')
                 ->group(base_path('routes/global.php'));
 
-            Route::middleware('web','system.maintenance') // declare frontend routes
+            Route::middleware('web', 'system.maintenance') // declare frontend routes
                 ->group(base_path('routes/frontend.php'));
 
-            Route::middleware(['system.maintenance.api','api']) // User API Routes (v1)
+            Route::middleware(['system.maintenance.api', 'api']) // User API Routes (v1)
                 ->prefix('api')
                 ->group(base_path('routes/api/user.php'));
 
-            Route::middleware(['system.maintenance.api','api']) // Auth API Routes - User/Merchant/Agent (v1)
+            Route::middleware(['system.maintenance.api', 'api']) // Auth API Routes - User/Merchant/Agent (v1)
                 ->prefix('api')
                 ->group(base_path('routes/api/auth.php'));
 
-            Route::middleware(['system.maintenance.api','api']) // User API Routes (v1)
+            Route::middleware(['system.maintenance.api', 'api']) // User API Routes (v1)
                 ->prefix('api')
                 ->group(base_path('routes/api/global.php'));
 
@@ -79,17 +79,16 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
-
     /**
      * Configure/Place installer routes.
      *
      * @return void
      */
-    protected function mapInstallerRoute() {
-        if(file_exists(base_path('resources/installer/src/routes/web.php'))) {
+    protected function mapInstallerRoute()
+    {
+        if (file_exists(base_path('resources/installer/src/routes/web.php'))) {
             Route::middleware('web')
                 ->group(base_path('resources/installer/src/routes/web.php'));
         }
     }
-
 }

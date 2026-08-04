@@ -14,9 +14,9 @@ return new class extends Migration
             $table->date('due_date');
             $table->decimal('amount_due', 19, 4);
             $table->decimal('amount_paid', 19, 4)->default(0);
-            $table->enum('status', ['due','paid','late'])->default('due');
+            $table->enum('status', ['due', 'paid', 'late'])->default('due');
             $table->timestamps();
-            $table->index(['loan_id','status']);
+            $table->index(['loan_id', 'status']);
         });
     }
 
@@ -25,4 +25,3 @@ return new class extends Migration
         Schema::dropIfExists('loan_payments');
     }
 };
-

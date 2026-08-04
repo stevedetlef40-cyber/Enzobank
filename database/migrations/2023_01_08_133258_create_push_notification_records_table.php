@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->text('user_ids')->nullable();
             $table->text('device_ids')->nullable();
-            $table->string('method',50);
-            $table->text('response',5000)->nullable();
-            $table->text('message',500)->nullable();
+            $table->string('method', 50);
+            $table->text('response', 5000)->nullable();
+            $table->text('message', 500)->nullable();
             $table->unsignedBigInteger('send_by');
             $table->timestamps();
 

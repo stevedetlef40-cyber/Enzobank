@@ -71,7 +71,7 @@ return [
     |
     */
 
-    'timezone' => env('APP_TIMEZONE','Asia/Dhaka'),
+    'timezone' => env('APP_TIMEZONE', 'Asia/Dhaka'),
 
     /*
     |--------------------------------------------------------------------------
@@ -225,7 +225,6 @@ return [
         // Get Client Browser Information
         Jenssegers\Agent\AgentServiceProvider::class,
 
-
         // Import/Export Excel
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
@@ -243,13 +242,13 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'Image'     => Intervention\Image\Facades\Image::class,
-        'Webp'      => Buglinjo\LaravelWebp\Facades\Webp::class,
-        'Response'  => App\Http\Helpers\Response::class,
-        'Agent'     => Jenssegers\Agent\Facades\Agent::class,
-        'Excel'     => Maatwebsite\Excel\Facades\Excel::class,
-        'Agent'     => Jenssegers\Agent\Facades\Agent::class,
-        'Paystack'  => Unicodeveloper\Paystack\Facades\Paystack::class,
+        'Image' => Intervention\Image\Facades\Image::class,
+        'Webp' => Buglinjo\LaravelWebp\Facades\Webp::class,
+        'Response' => App\Http\Helpers\Response::class,
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Agent' => Jenssegers\Agent\Facades\Agent::class,
+        'Paystack' => Unicodeveloper\Paystack\Facades\Paystack::class,
     ])->toArray(),
 
 ];

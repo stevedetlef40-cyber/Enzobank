@@ -12,11 +12,11 @@ class InvestmentPlan extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'min_amount'   => 'decimal:8',
-        'max_amount'   => 'decimal:8',
-        'roi_percent'  => 'decimal:2',
+        'min_amount' => 'decimal:8',
+        'max_amount' => 'decimal:8',
+        'roi_percent' => 'decimal:2',
         'duration_days' => 'integer',
-        'is_active'    => 'boolean',
+        'is_active' => 'boolean',
     ];
 
     public function investments()

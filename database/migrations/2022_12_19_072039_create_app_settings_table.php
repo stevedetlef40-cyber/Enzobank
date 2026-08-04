@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('app_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('version',50)->nullable();
-            $table->string('splash_screen_image',255)->nullable();
+            $table->string('version', 50)->nullable();
+            $table->string('splash_screen_image', 255)->nullable();
             $table->string('url_title')->nullable();
-            $table->string('android_url',255)->nullable();
+            $table->string('android_url', 255)->nullable();
             $table->string('iso_url')->nullable();
             $table->timestamps();
         });

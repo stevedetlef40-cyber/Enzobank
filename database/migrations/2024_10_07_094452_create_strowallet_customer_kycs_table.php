@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('strowallet_customer_kycs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
-            $table->string('id_image',255)->nullable();
-            $table->string('face_image',255)->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->string('id_image', 255)->nullable();
+            $table->string('face_image', 255)->nullable();
             $table->timestamps();
 
-            $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

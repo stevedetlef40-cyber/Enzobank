@@ -12,9 +12,9 @@ class PortfolioTransaction extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'quantity'    => 'decimal:10',
-        'price'       => 'decimal:6',
-        'fee'         => 'decimal:6',
+        'quantity' => 'decimal:10',
+        'price' => 'decimal:6',
+        'fee' => 'decimal:6',
         'executed_at' => 'datetime',
     ];
 
@@ -28,4 +28,3 @@ class PortfolioTransaction extends Model
         return $this->belongsTo(InvestmentAsset::class, 'investment_asset_id');
     }
 }
-

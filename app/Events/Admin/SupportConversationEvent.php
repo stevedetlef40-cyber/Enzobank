@@ -13,6 +13,7 @@ class SupportConversationEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $support_ticket;
+
     public $conversation;
 
     /**
@@ -20,7 +21,7 @@ class SupportConversationEvent implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(UserSupportTicket $support_ticket,$conversation)
+    public function __construct(UserSupportTicket $support_ticket, $conversation)
     {
         $this->support_ticket = $support_ticket;
         $this->conversation = $conversation;
@@ -33,9 +34,8 @@ class SupportConversationEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return ["support.conversation.".$this->support_ticket->token];
+        return ['support.conversation.'.$this->support_ticket->token];
     }
-
 
     public function broadcastAs()
     {

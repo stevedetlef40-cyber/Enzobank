@@ -48,9 +48,9 @@ class SendEmailToAll extends Notification
         $firstname = $notifiable->firstname;
 
         return (new MailMessage)
-                    ->greeting('Hey ' . $firstname . "!")
-                    ->subject($subject)
-                    ->line(new HtmlString($message));
+            ->greeting('Hey '.$firstname.'!')
+            ->subject($subject)
+            ->line(new HtmlString($message));
     }
 
     /**

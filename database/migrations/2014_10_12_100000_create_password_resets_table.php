@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('admin_password_resets', function (Blueprint $table) {
             $table->id();
-            $table->string('email',255)->index();
+            $table->string('email', 255)->index();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });

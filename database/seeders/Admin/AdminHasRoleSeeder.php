@@ -16,29 +16,29 @@ class AdminHasRoleSeeder extends Seeder
     {
         $data = [
             [
-                'admin_id'      => 1,
+                'admin_id' => 1,
                 'admin_role_id' => 1,
-                'last_edit_by'  => 1,
+                'last_edit_by' => 1,
             ],
             [
-                'admin_id'      => 2,
+                'admin_id' => 2,
                 'admin_role_id' => 2,
-                'last_edit_by'  => 1,
+                'last_edit_by' => 1,
             ],
             [
-                'admin_id'      => 2,
+                'admin_id' => 2,
                 'admin_role_id' => 2,
-                'last_edit_by'  => 1,
+                'last_edit_by' => 1,
             ],
             [
-                'admin_id'      => 2,
+                'admin_id' => 2,
                 'admin_role_id' => 2,
-                'last_edit_by'  => 1,
+                'last_edit_by' => 1,
             ],
             [
-                'admin_id'      => 2,
+                'admin_id' => 2,
                 'admin_role_id' => 2,
-                'last_edit_by'  => 1,
+                'last_edit_by' => 1,
             ],
         ];
 

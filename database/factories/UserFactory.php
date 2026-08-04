@@ -26,14 +26,14 @@ class UserFactory extends Factory
             'email' => fake()->unique()->safeEmail(),
             'status' => fake()->boolean(),
             'referral_id' => fake()->numberBetween(1, 100),
-            'email_verified' =>fake()->boolean(),
-            'sms_verified' =>fake()->boolean(),
-            'kyc_verified' =>fake()->boolean(),
+            'email_verified' => fake()->boolean(),
+            'sms_verified' => fake()->boolean(),
+            'kyc_verified' => fake()->boolean(),
             // 'two_factor_status' =>fake()->boolean(),
-            'two_factor_verified' =>fake()->boolean(),
+            'two_factor_verified' => fake()->boolean(),
             // 'accept' =>fake()->boolean(),
             'email_verified_at' => now(),
-            'password' => Hash::make("rokondev"), // password
+            'password' => Hash::make('rokondev'), // password
             'remember_token' => Str::random(10),
         ];
     }

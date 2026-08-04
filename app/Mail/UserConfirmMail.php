@@ -1,5 +1,7 @@
 <?php
+
 namespace App\Mail;
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -9,7 +11,9 @@ class UserConfirmMail extends Mailable
     use Queueable, SerializesModels;
 
     public $first_name;
+
     public $email;
+
     /**
      * Create a new message instance.
      *
@@ -23,6 +27,6 @@ class UserConfirmMail extends Mailable
 
     public function build()
     {
-        return $this->view('mail-templates.user._user_mail_confirm')->with(['name' =>  $this->first_name, 'email' => $this->email]);
+        return $this->view('mail-templates.user._user_mail_confirm')->with(['name' => $this->first_name, 'email' => $this->email]);
     }
 }

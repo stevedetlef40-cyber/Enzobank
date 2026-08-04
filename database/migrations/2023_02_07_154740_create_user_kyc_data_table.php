@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('user_kyc_data', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
-            $table->text("data",5000);
-            $table->text("reject_reason",2000)->nullable();
+            $table->unsignedBigInteger('user_id');
+            $table->text('data', 5000);
+            $table->text('reject_reason', 2000)->nullable();
             $table->timestamps();
 
-            $table->foreign("user_id")->references("id")->on("users")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

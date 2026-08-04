@@ -12,6 +12,6 @@ class SetupSeo extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'tags'      => 'object',
+        'tags' => 'object',
     ];
 }

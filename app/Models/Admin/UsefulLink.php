@@ -11,16 +11,16 @@ class UsefulLink extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts   = [
-        'id'           => 'integer',
-        'type'         => 'string',
-        'title'        => 'object',
-        'slug'         => 'string',
-        'url'          => 'string',
-        'content'      => 'object',
-        'status'       => 'integer',
-        'editable'     => 'integer',
-        'created_at'   => 'date:Y-m-d',
-        'updated_at'   => 'date:Y-m-d',
+    protected $casts = [
+        'id' => 'integer',
+        'type' => 'string',
+        'title' => 'object',
+        'slug' => 'string',
+        'url' => 'string',
+        'content' => 'object',
+        'status' => 'integer',
+        'editable' => 'integer',
+        'created_at' => 'date:Y-m-d',
+        'updated_at' => 'date:Y-m-d',
     ];
 }

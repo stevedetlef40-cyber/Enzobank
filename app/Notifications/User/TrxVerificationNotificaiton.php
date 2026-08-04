@@ -11,6 +11,7 @@ class TrxVerificationNotificaiton extends Notification
     use Queueable;
 
     protected $data;
+
     protected $otp_exp_sec;
 
     /**
@@ -46,13 +47,14 @@ class TrxVerificationNotificaiton extends Notification
         $fullname = $notifiable->fullname;
         $data = $this->data;
         $otp_exp_sec = $this->otp_exp_sec;
+
         return (new MailMessage)
-                    ->subject("Transaction Verification")
-                    ->greeting("Hello ".$fullname . "!")
-                    ->line('Need to verify your account before any transaction.')
-                    ->line(mail_otp_box($data->code, 'Your transaction verification code'))
-                    ->line("Verification code expire after: ".$otp_exp_sec. ' seconds')
-                    ->line('Thank you for using our application!');
+            ->subject('Transaction Verification')
+            ->greeting('Hello '.$fullname.'!')
+            ->line('Need to verify your account before any transaction.')
+            ->line(mail_otp_box($data->code, 'Your transaction verification code'))
+            ->line('Verification code expire after: '.$otp_exp_sec.' seconds')
+            ->line('Thank you for using our application!');
     }
 
     /**

@@ -13,6 +13,7 @@ class SetAppModeCookie
         if (method_exists($response, 'cookie')) {
             $response->cookie('app_mode', '1', 43800);
         }
+
         return $response;
     }
 }

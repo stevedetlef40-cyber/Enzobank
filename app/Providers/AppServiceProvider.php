@@ -2,13 +2,13 @@
 
 namespace App\Providers;
 
-use URL;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\DB;
+use URL;
 
-ini_set('memory_limit','-1');
+ini_set('memory_limit', '-1');
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,20 +27,20 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-            public function boot()
+    public function boot()
     {
         Paginator::useBootstrapFive();
         Schema::defaultStringLength(191);
-        if($this->app->environment('production')) 
-        {
+        if ($this->app->environment('production')) {
             \URL::forceScheme('https');
         }
 
         // Override pgsql connection to use custom PostgresConnection for boolean handling
         DB::extend('pgsql', function ($config, $name) {
-            $connector = new \Illuminate\Database\Connectors\PostgresConnector();
+            $connector = new \Illuminate\Database\Connectors\PostgresConnector;
             $pdo = $connector->connect($config);
             $config['name'] = $name;
+
             return new \App\Database\PostgresConnection($pdo, $config['database'] ?? '', $config['prefix'] ?? '', $config);
         });
 
@@ -53,6 +53,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('url', function ($app) {
             $routes = $app['router']->getRoutes();
             $app->instance('routes', $routes);
+
             return new \App\Routing\VersionedUrlGenerator(
                 $routes,
                 $app->rebinding('request', function ($app, $request) {

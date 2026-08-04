@@ -11,7 +11,6 @@ class ResetPassword extends Notification
 {
     use Queueable;
 
-
     protected $token;
 
     /**
@@ -44,18 +43,18 @@ class ResetPassword extends Notification
     public function toMail($notifiable)
     {
         $basic_settings = BasicSettingsProvider::get();
-        $reset_url =  url(route('admin.password.reset', [
+        $reset_url = url(route('admin.password.reset', [
             'token' => $this->token,
             'email' => $notifiable->getEmailForPasswordReset(),
         ], false));
 
         return (new MailMessage)
-                    ->view('mail-templates.admin.auth.password-reset',[
-                        'reset_url'         => $reset_url,
-                        'site_url'          => url('/'),
-                        'site_name'         => $basic_settings->site_name ?? "",
-                        'logo'              => get_logo_public_path($basic_settings),
-                    ]);
+            ->view('mail-templates.admin.auth.password-reset', [
+                'reset_url' => $reset_url,
+                'site_url' => url('/'),
+                'site_name' => $basic_settings->site_name ?? '',
+                'logo' => get_logo_public_path($basic_settings),
+            ]);
     }
 
     /**

@@ -17,10 +17,10 @@ return new class extends Migration
             $table->unsignedInteger('term_months');
             $table->date('start_date')->nullable();
             $table->decimal('balance_principal', 19, 4)->default(0);
-            $table->enum('status', ['pending','active','closed','defaulted'])->default('pending');
+            $table->enum('status', ['pending', 'active', 'closed', 'defaulted'])->default('pending');
             $table->date('next_due_date')->nullable();
             $table->timestamps();
-            $table->index(['user_id','status']);
+            $table->index(['user_id', 'status']);
         });
     }
 
@@ -29,4 +29,3 @@ return new class extends Migration
         Schema::dropIfExists('loans');
     }
 };
-

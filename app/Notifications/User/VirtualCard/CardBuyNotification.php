@@ -4,23 +4,26 @@ namespace App\Notifications\User\VirtualCard;
 
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class CardBuyNotification extends Notification
 {
     use Queueable;
+
     public $user;
+
     public $data;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($user,$data)
+    public function __construct($user, $data)
     {
-        $this->user     = $user;
-        $this->data     = $data;
+        $this->user = $user;
+        $this->data = $data;
     }
 
     /**
@@ -42,19 +45,20 @@ class CardBuyNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $user       = $this->user;
-        $data       = $this->data;
-        $date       = Carbon::now();
-        $dateTime   = $date->format('Y-m-d h:i:s A');
+        $user = $this->user;
+        $data = $this->data;
+        $date = Carbon::now();
+        $dateTime = $date->format('Y-m-d h:i:s A');
+
         return (new MailMessage)
-            ->greeting(__("Hello")." ".$user->fullname." !")
+            ->greeting(__('Hello').' '.$user->fullname.' !')
             ->subject($data->title)
-            ->line(__("Transaction ID").": " . $data->trx_id)
-            ->line(__("Request Amount").": " . get_amount($data->request_amount,$data->request_currency))
-            ->line(__("Fees & Charges").": " . get_amount($data->charges,$data->request_currency))
-            ->line(__("Total Payable Amount").": " . get_amount($data->payable,$data->request_currency))
-            ->line(__("Status").": " . $data->status)
-            ->line(__("Date And Time").": " . $dateTime)
+            ->line(__('Transaction ID').': '.$data->trx_id)
+            ->line(__('Request Amount').': '.get_amount($data->request_amount, $data->request_currency))
+            ->line(__('Fees & Charges').': '.get_amount($data->charges, $data->request_currency))
+            ->line(__('Total Payable Amount').': '.get_amount($data->payable, $data->request_currency))
+            ->line(__('Status').': '.$data->status)
+            ->line(__('Date And Time').': '.$dateTime)
             ->line(__('Thank you for using our application!'));
     }
 

@@ -36,7 +36,7 @@ return new class extends Migration
             $table->text('address')->nullable();
             $table->boolean('email_verified')->comment('1 == Verifiend, 0 == Not verifiend')->default(false);
             $table->boolean('sms_verified')->comment('1 == Verifiend, 0 == Not verifiend')->default(false);
-            $table->boolean('kyc_verified')->comment("0: Default, 1: Approved, 2: Pending, 3:Rejected")->default(0);
+            $table->boolean('kyc_verified')->comment('0: Default, 1: Approved, 2: Pending, 3:Rejected')->default(0);
             $table->integer('ver_code')->nullable();
             $table->timestamp('ver_code_send_at')->nullable();
             $table->boolean('two_factor_verified')->default(false);

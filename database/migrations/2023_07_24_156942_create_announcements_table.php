@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("announcement_category_id");
+            $table->unsignedBigInteger('announcement_category_id');
             $table->string('slug')->unique();
-            $table->longText("data");
-            $table->boolean("status")->default(true);
+            $table->longText('data');
+            $table->boolean('status')->default(true);
             $table->timestamps();
 
-            $table->foreign("announcement_category_id")->references("id")->on("announcement_categories")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign('announcement_category_id')->references('id')->on('announcement_categories')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

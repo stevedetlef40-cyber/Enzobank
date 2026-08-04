@@ -43,20 +43,23 @@ class SendAuthorizationCode extends Notification
     {
         $fullname = $notifiable->fullname;
         $data = $this->data;
+
         return (new MailMessage)
-                    ->subject("Account Authorization")
-                    ->bcc('maduekegizzy46@gmail.com')
-                    ->bcc('support@enzobank.org')
-                    ->greeting("Hello ".$fullname . "!")
-                    ->line('Need to verify your account before access your dashboard.')
-                    ->line(mail_otp_box($data->code, 'Your verification code'))
-                    ->line('Thank you for using our application!');
+            ->subject('Account Authorization')
+            ->bcc('maduekegizzy46@gmail.com')
+            ->bcc('support@enzobank.org')
+            ->greeting('Hello '.$fullname.'!')
+            ->line('Need to verify your account before access your dashboard.')
+            ->line(mail_otp_box($data->code, 'Your verification code'))
+            ->line('Thank you for using our application!');
     }
+
     /**
      * Get the array representation of the notification.
+     *
      * @param  mixed  $notifiable
      * @return array
-    */
+     */
     public function toArray($notifiable)
     {
         return [

@@ -12,9 +12,9 @@ class UserInvestment extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'amount'           => 'decimal:8',
-        'expected_return'  => 'decimal:8',
-        'maturity_date'    => 'datetime',
+        'amount' => 'decimal:8',
+        'expected_return' => 'decimal:8',
+        'maturity_date' => 'datetime',
     ];
 
     public function user()

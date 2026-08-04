@@ -12,23 +12,24 @@ class BasicSettings extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'mail_config'              => 'object',
-        'sms_config'               => 'object',
+        'mail_config' => 'object',
+        'sms_config' => 'object',
         'push_notification_config' => 'object',
-        'broadcast_config'         => 'object',
-        'site_logo_dark'           => 'string',
-        'site_logo'                => 'string',
-        'site_fav_dark'            => 'string',
-        'site_fav'                 => 'string',
-        'email_notification'          => 'integer',
-        'email_verification'          => 'integer',
-        'agree_policy'              => 'integer',
-        'user_registration'          => 'integer',
+        'broadcast_config' => 'object',
+        'site_logo_dark' => 'string',
+        'site_logo' => 'string',
+        'site_fav_dark' => 'string',
+        'site_fav' => 'string',
+        'email_notification' => 'integer',
+        'email_verification' => 'integer',
+        'agree_policy' => 'integer',
+        'user_registration' => 'integer',
     ];
 
     public function scopeSitename($query, $pageTitle)
     {
-        $pageTitle = empty($pageTitle) ? '' : ' - ' . $pageTitle;
-        return $this->site_name . $pageTitle;
+        $pageTitle = empty($pageTitle) ? '' : ' - '.$pageTitle;
+
+        return $this->site_name.$pageTitle;
     }
 }

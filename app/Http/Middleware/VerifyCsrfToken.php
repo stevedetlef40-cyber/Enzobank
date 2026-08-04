@@ -15,9 +15,9 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'user/username/check',
         'user/check/email',
-        'user/add-money/success/response/' . PaymentGatewayConst::SSLCOMMERZ,
-        'user/add-money/cancel/response/' . PaymentGatewayConst::SSLCOMMERZ,
-        'user/add-money/success/response/' . PaymentGatewayConst::RAZORPAY,
-        'user/add-money/cancel/response/' . PaymentGatewayConst::RAZORPAY,
+        'user/add-money/success/response/'.PaymentGatewayConst::SSLCOMMERZ,
+        'user/add-money/cancel/response/'.PaymentGatewayConst::SSLCOMMERZ,
+        'user/add-money/success/response/'.PaymentGatewayConst::RAZORPAY,
+        'user/add-money/cancel/response/'.PaymentGatewayConst::RAZORPAY,
     ];
 }

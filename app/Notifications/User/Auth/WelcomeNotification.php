@@ -17,9 +17,7 @@ class WelcomeNotification extends Notification
      *
      * @return void
      */
-    public function __construct()
-    {
-    }
+    public function __construct() {}
 
     /**
      * Get the notification's delivery channels.
@@ -74,7 +72,7 @@ class WelcomeNotification extends Notification
             ->line('These are your international banking details. Share them with friends, family or business partners anywhere in the world to receive instant transfers straight into your EnzoBank account.')
             ->line(new HtmlString($detailsHtml))
             ->line('You can now send and receive international transfers, manage virtual cards, and track all your transactions from your secure dashboard.')
-            ->line('Need assistance? Contact us at <a href="mailto:support@enzobank.org">support@enzobank.org</a> or WhatsApp <a href="https://wa.me/' . $whatsapp . '">' . format_whatsapp_display($whatsapp) . '</a>.')
+            ->line('Need assistance? Contact us at <a href="mailto:support@enzobank.org">support@enzobank.org</a> or WhatsApp <a href="https://wa.me/'.$whatsapp.'">'.format_whatsapp_display($whatsapp).'</a>.')
             ->salutation('EnzoBank Support Team')
             ->with(['support_whatsapp' => $whatsapp]);
     }

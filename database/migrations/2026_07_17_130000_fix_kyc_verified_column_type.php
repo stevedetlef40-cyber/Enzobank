@@ -16,7 +16,7 @@ return new class extends Migration
         if (Schema::hasColumn('users', 'kyc_verified')) {
             $type = DB::selectOne("select data_type from information_schema.columns where table_name='users' and column_name='kyc_verified'");
             if ($type && $type->data_type === 'boolean') {
-                DB::statement("ALTER TABLE users ALTER COLUMN kyc_verified DROP DEFAULT, ALTER COLUMN kyc_verified TYPE smallint USING kyc_verified::int, ALTER COLUMN kyc_verified SET DEFAULT 0");
+                DB::statement('ALTER TABLE users ALTER COLUMN kyc_verified DROP DEFAULT, ALTER COLUMN kyc_verified TYPE smallint USING kyc_verified::int, ALTER COLUMN kyc_verified SET DEFAULT 0');
             }
         }
     }

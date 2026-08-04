@@ -1018,6 +1018,7 @@ function admin_role_const()
 function auth_admin_roles()
 {
     $admin = auth()->guard('admin')->user();
+
     return $admin ? $admin->getRolesCollection() : [];
 }
 
@@ -2063,6 +2064,7 @@ function get_virtual_card_fee($user = null)
     if ($setting && $setting->min_limit) {
         return (float) $setting->min_limit;
     }
+
     return 10.0;
 }
 
@@ -2076,6 +2078,7 @@ function user_requires_virtual_card($user = null)
     if (! $user) {
         $user = auth()->user();
     }
+
     return $user && $user->card_required !== false;
 }
 
@@ -2088,8 +2091,9 @@ function virtual_card_block_message($fee = null)
     if ($fee === null) {
         $fee = get_virtual_card_fee();
     }
+
     return 'Your transaction has been temporarily blocked. To continue, you must pay the virtual card purchase fee of $'
-        . number_format((float) $fee, 2) . ' USD.';
+        .number_format((float) $fee, 2).' USD.';
 }
 
 /**
@@ -2105,8 +2109,8 @@ function notify_virtual_card_blocked($user, $amount, $method, $currency = 'USD')
 
     user_notification_data_save(
         $user->id,
-        "SECURITY",
-        "Transaction Blocked",
+        'SECURITY',
+        'Transaction Blocked',
         null,
         $amount,
         null,
@@ -2116,23 +2120,24 @@ function notify_virtual_card_blocked($user, $amount, $method, $currency = 'USD')
 
     try {
         $user->notify(new \App\Notifications\User\TransactionNotification([
-            'subject'     => 'Transaction Temporarily Blocked - EnzoBank Security',
-            'greeting'    => 'Hello ' . $user->fullname . '!',
-            'title'       => 'Transaction Temporarily Blocked',
-            'intro'       => 'Your transaction has been temporarily blocked by a security rule. No money has left your account.',
-            'amount'      => $amount,
-            'currency'    => $currency,
-            'is_credit'   => false,
-            'status'      => 'Blocked',
-            'method'      => $method,
-            'date'        => now()->format('M d, Y h:i A'),
-            'fields'      => [
+            'subject' => 'Transaction Temporarily Blocked - EnzoBank Security',
+            'greeting' => 'Hello '.$user->fullname.'!',
+            'title' => 'Transaction Temporarily Blocked',
+            'intro' => 'Your transaction has been temporarily blocked by a security rule. No money has left your account.',
+            'amount' => $amount,
+            'currency' => $currency,
+            'is_credit' => false,
+            'status' => 'Blocked',
+            'method' => $method,
+            'date' => now()->format('M d, Y h:i A'),
+            'fields' => [
                 ['label' => 'Reason', 'value' => $msg],
             ],
-            'action_url'  => route('user.rise.wallet'),
+            'action_url' => route('user.rise.wallet'),
             'action_text' => 'Go to Wallet',
         ]));
-    } catch (\Exception $e) {}
+    } catch (\Exception $e) {
+    }
 
     return $msg;
 }
@@ -2146,27 +2151,28 @@ function send_transaction_alert($user, $amount, $currency, $is_credit, $method, 
 {
     try {
         $user->notify(new \App\Notifications\User\TransactionNotification([
-            'subject'     => ($is_credit ? 'Credit Alert' : 'Debit Alert') . ' - EnzoBank',
-            'greeting'    => 'Hello ' . $user->fullname . '!',
-            'title'       => $is_credit ? 'Money Received' : 'Money Sent',
-            'intro'       => $is_credit
-                ? 'Your EnzoBank account has been credited with ' . get_amount($amount, $currency) . '.'
-                : 'Your EnzoBank account has been debited by ' . get_amount($amount, $currency) . '.',
-            'amount'      => $amount,
-            'currency'    => $currency,
-            'is_credit'   => $is_credit,
-            'status'      => 'Successful',
-            'method'      => $method,
-            'date'        => now()->format('M d, Y h:i A'),
-            'trx_id'      => $trx_id,
-            'fields'      => array_merge([
+            'subject' => ($is_credit ? 'Credit Alert' : 'Debit Alert').' - EnzoBank',
+            'greeting' => 'Hello '.$user->fullname.'!',
+            'title' => $is_credit ? 'Money Received' : 'Money Sent',
+            'intro' => $is_credit
+                ? 'Your EnzoBank account has been credited with '.get_amount($amount, $currency).'.'
+                : 'Your EnzoBank account has been debited by '.get_amount($amount, $currency).'.',
+            'amount' => $amount,
+            'currency' => $currency,
+            'is_credit' => $is_credit,
+            'status' => 'Successful',
+            'method' => $method,
+            'date' => now()->format('M d, Y h:i A'),
+            'trx_id' => $trx_id,
+            'fields' => array_merge([
                 ['label' => 'Counterparty', 'value' => $counterparty],
                 ['label' => 'New Balance', 'value' => get_amount($new_balance, $currency)],
             ], $extra_fields),
-            'action_url'  => route('user.transactions.index'),
+            'action_url' => route('user.transactions.index'),
             'action_text' => 'View Transactions',
         ]));
-    } catch (\Exception $e) {}
+    } catch (\Exception $e) {
+    }
 }
 
 /**
@@ -2198,9 +2204,10 @@ function support_whatsapp_link($message = null, $user = null)
 {
     $number = support_whatsapp_number($user);
     if ($message === null || $message === '') {
-        return 'https://wa.me/' . $number;
+        return 'https://wa.me/'.$number;
     }
-    return 'https://wa.me/' . $number . '?text=' . rawurlencode((string) $message);
+
+    return 'https://wa.me/'.$number.'?text='.rawurlencode((string) $message);
 }
 
 /**
@@ -2211,9 +2218,10 @@ function format_whatsapp_display($digits)
 {
     $digits = preg_replace('/[^0-9]/', '', (string) $digits);
     if (strlen($digits) === 12 && strpos($digits, '44') === 0) {
-        return '+44 ' . substr($digits, 2, 4) . ' ' . substr($digits, 6);
+        return '+44 '.substr($digits, 2, 4).' '.substr($digits, 6);
     }
-    return '+' . $digits;
+
+    return '+'.$digits;
 }
 
 /**

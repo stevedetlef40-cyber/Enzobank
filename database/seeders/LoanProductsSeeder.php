@@ -18,15 +18,14 @@ class LoanProductsSeeder extends Seeder
             LoanProduct::updateOrCreate(
                 ['name' => $p['name']],
                 [
-                    'description'   => $p['description'],
+                    'description' => $p['description'],
                     'interest_rate' => $p['interest_rate'],
-                    'term_months'   => $p['term_months'],
-                    'min_amount'    => $p['min_amount'],
-                    'max_amount'    => $p['max_amount'],
-                    'status'        => $p['status'],
+                    'term_months' => $p['term_months'],
+                    'min_amount' => $p['min_amount'],
+                    'max_amount' => $p['max_amount'],
+                    'status' => $p['status'],
                 ]
             );
         }
     }
 }
-

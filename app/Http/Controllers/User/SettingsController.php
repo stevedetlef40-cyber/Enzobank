@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserProfile;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class SettingsController extends Controller
 {
@@ -19,24 +18,27 @@ class SettingsController extends Controller
     {
         return view('frontend.pages.user.dashboard');
     }
+
     public function profile($username)
     {
         $user_row = User::with('kyc_profile')->where('username', $username)->first();
         $user = json_decode(json_encode($user_row), true);
         $countries = get_all_countries();
+
         return view('frontend.pages.user.profile', compact('user', 'countries'));
     }
+
     public function profileUpdate(Request $request, $username)
     {
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string',
-            'last_name'  => 'required|string',
-            'mobile'     => 'nullable|string',
-            'address'   => 'nullable|string',
-            'image'     => 'nullable|image|mimes:jpg,png,jpeg,webp,svg|max:10000',
-            'country'   => 'nullable|string',
-            'state'     => 'nullable|string',
-            'city'      => 'nullable|string',
+            'last_name' => 'required|string',
+            'mobile' => 'nullable|string',
+            'address' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,webp,svg|max:10000',
+            'country' => 'nullable|string',
+            'state' => 'nullable|string',
+            'city' => 'nullable|string',
             'zip_code' => 'nullable|numeric',
         ]);
         $validated = $validator->validate();
@@ -44,10 +46,10 @@ class SettingsController extends Controller
 
         if ($request->hasfile('image')) {
             $image = $request->file('image');
-            $imageName  = Str::uuid() . '.' . $image->getClientOriginalExtension();
+            $imageName = Str::uuid().'.'.$image->getClientOriginalExtension();
             create_dir('public/frontend/user');
-            delete_file(get_files_path('user-profile').'/'. $user->image);
-            Image::make($image)->resize(200, 200)->save(get_files_path('user-profile').'/'. $imageName);
+            delete_file(get_files_path('user-profile').'/'.$user->image);
+            Image::make($image)->resize(200, 200)->save(get_files_path('user-profile').'/'.$imageName);
         } else {
 
             $imageName = $user->image;
@@ -61,7 +63,7 @@ class SettingsController extends Controller
         $user->update();
 
         $userProife = UserProfile::where('user_id', $user->id)->firstOrFail();
-        
+
         $userProife->country = $request->country;
         $userProife->state = $request->state ?? null;
         $userProife->city = $request->city ?? null;
@@ -75,9 +77,9 @@ class SettingsController extends Controller
     {
         if ($request->isMethod('POST')) {
             $data = $request->all();
-            //Check if current password is correct or not
+            // Check if current password is correct or not
             if (Hash::check($data['current_password'], Auth::user()->password)) {
-                //Check new and confirm password is matching
+                // Check new and confirm password is matching
                 if ($data['new_password'] == $data['again_new_password']) {
                     $user = User::find(Auth::user()->id);
                     $user->password = bcrypt($request->new_password);
@@ -85,13 +87,15 @@ class SettingsController extends Controller
                     Auth::logout();
                     $request->session()->invalidate();
                     $request->session()->regenerateToken();
-                    return redirect('/user/login')->with(['success' =>  ['Password Changed successfully login again!']]);
+
+                    return redirect('/user/login')->with(['success' => ['Password Changed successfully login again!']]);
                 } else {
                     return redirect()->back()->with(['error' => ['New password & confirm password is not same!']]);
                 }
             } else {
                 return redirect()->back()->with(['error' => ['Password not updated!']]);
             }
+
             return redirect()->back();
         }
     }
@@ -100,10 +104,9 @@ class SettingsController extends Controller
     {
         $data = $request->all();
         if (Hash::check($data['current_password'], Auth::user()->password)) {
-            echo "true";
+            echo 'true';
         } else {
-            echo "false";
+            echo 'false';
         }
     }
-
 }

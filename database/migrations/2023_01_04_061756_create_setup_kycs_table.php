@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('setup_kycs', function (Blueprint $table) {
             $table->id();
-            $table->string("slug",100)->unique();
-            $table->string("user_type",50);
-            $table->text("fields",5000)->nullable();
-            $table->boolean("status")->default(true);
-            $table->unsignedBigInteger("last_edit_by");
+            $table->string('slug', 100)->unique();
+            $table->string('user_type', 50);
+            $table->text('fields', 5000)->nullable();
+            $table->boolean('status')->default(true);
+            $table->unsignedBigInteger('last_edit_by');
             $table->timestamps();
         });
     }

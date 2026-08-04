@@ -3,8 +3,6 @@
 namespace App\Traits\PaymentGateway;
 
 use App\Models\Admin\CryptoAsset;
-use Exception;
-use Illuminate\Support\Facades\Http;
 
 /**
  * Tatum Blockchain Gateway — stub trait for route registration.
@@ -41,12 +39,13 @@ trait Tatum
     public function tatumRegisteredChains(string $target): array
     {
         $chains = [
-            'ETH'   => ['chain' => 'ethereum', 'coin' => 'ETH'],
-            'BTC'   => ['chain' => 'bitcoin',  'coin' => 'BTC'],
+            'ETH' => ['chain' => 'ethereum', 'coin' => 'ETH'],
+            'BTC' => ['chain' => 'bitcoin',  'coin' => 'BTC'],
             'MATIC' => ['chain' => 'polygon',  'coin' => 'MATIC'],
-            'BNB'   => ['chain' => 'binance',  'coin' => 'BNB'],
-            'TRX'   => ['chain' => 'tron',     'coin' => 'TRX'],
+            'BNB' => ['chain' => 'binance',  'coin' => 'BNB'],
+            'TRX' => ['chain' => 'tron',     'coin' => 'TRX'],
         ];
+
         return $chains[strtoupper($target)] ?? ['chain' => 'ethereum', 'coin' => 'ETH'];
     }
 
@@ -58,7 +57,7 @@ trait Tatum
     public function tatumSubscriptionForAccountTransaction(CryptoAsset $cryptoAsset, string $address): object
     {
         return (object) [
-            'id' => 'stub_' . uniqid(),
+            'id' => 'stub_'.uniqid(),
         ];
     }
 

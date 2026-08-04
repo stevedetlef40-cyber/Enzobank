@@ -12,7 +12,7 @@ class EarningsLog extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'amount'      => 'decimal:8',
+        'amount' => 'decimal:8',
         'credited_at' => 'datetime',
     ];
 

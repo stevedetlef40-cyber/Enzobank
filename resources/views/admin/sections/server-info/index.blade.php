@@ -145,7 +145,7 @@
                                 </ul>
                             </td>
                             <td>{{ __("Server IP Address") }}</td>
-                            <td><span>{{ $_SERVER['REMOTE_ADDR'] }}</span></td>
+                            <td><span>{{ $_SERVER['REMOTE_ADDR'] ?? '' }}</span></td>
                         </tr>
                         <tr>
                             <td>
@@ -154,7 +154,7 @@
                                 </ul>
                             </td>
                             <td>{{ __("Server Protocol") }}</td>
-                            <td><span>{{ $_SERVER['SERVER_PROTOCOL'] }}</span></td>
+                            <td><span>{{ $_SERVER['SERVER_PROTOCOL'] ?? '' }}</span></td>
                         </tr>
                         <tr>
                             <td>

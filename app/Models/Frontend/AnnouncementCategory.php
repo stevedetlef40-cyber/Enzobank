@@ -2,9 +2,8 @@
 
 namespace App\Models\Frontend;
 
-use App\Models\Frontend\Announcement;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class AnnouncementCategory extends Model
 {
@@ -13,11 +12,11 @@ class AnnouncementCategory extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'name'    => "object",
+        'name' => 'object',
     ];
 
-
-    public function announcements() {
+    public function announcements()
+    {
         return $this->hasMany(Announcement::class);
     }
 }

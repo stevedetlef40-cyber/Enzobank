@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\InvestmentPlan;
-use App\Models\UserInvestment;
-use App\Models\EarningsLog;
-use App\Models\UserWallet;
-use App\Models\Transaction;
-use App\Constants\PaymentGatewayConst;
 use App\Constants\GlobalConst;
+use App\Constants\PaymentGatewayConst;
+use App\Http\Controllers\Controller;
+use App\Models\EarningsLog;
+use App\Models\InvestmentPlan;
+use App\Models\Transaction;
+use App\Models\UserInvestment;
+use App\Models\UserWallet;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Exception;
 
 class InvestmentController extends Controller
 {
@@ -31,11 +31,11 @@ class InvestmentController extends Controller
         $investments = $query->paginate(15)->withQueryString();
 
         $counts = [
-            'pending'   => UserInvestment::where('status', 'pending')->count(),
-            'active'    => UserInvestment::where('status', 'active')->count(),
+            'pending' => UserInvestment::where('status', 'pending')->count(),
+            'active' => UserInvestment::where('status', 'active')->count(),
             'completed' => UserInvestment::where('status', 'completed')->count(),
             'cancelled' => UserInvestment::where('status', 'cancelled')->count(),
-            'total'     => UserInvestment::count(),
+            'total' => UserInvestment::count(),
         ];
 
         return view('admin.sections.investments.index', compact('page_title', 'investments', 'counts'));
@@ -63,9 +63,9 @@ class InvestmentController extends Controller
             EarningsLog::firstOrCreate(
                 ['investment_id' => $investment->id, 'type' => 'pending'],
                 [
-                    'user_id'      => $investment->user_id,
-                    'amount'       => $profit,
-                    'credited_at'  => $investment->maturity_date,
+                    'user_id' => $investment->user_id,
+                    'amount' => $profit,
+                    'credited_at' => $investment->maturity_date,
                 ]
             );
 
@@ -74,6 +74,7 @@ class InvestmentController extends Controller
             return back()->with(['success' => ['Investment approved successfully!']]);
         } catch (Exception $e) {
             DB::rollBack();
+
             return back()->with(['error' => ['Something went wrong! Please try again.']]);
         }
     }
@@ -127,11 +128,11 @@ class InvestmentController extends Controller
                 $earning->save();
             } else {
                 EarningsLog::create([
-                    'user_id'      => $investment->user_id,
+                    'user_id' => $investment->user_id,
                     'investment_id' => $investment->id,
-                    'amount'       => $earned,
-                    'type'         => 'credited',
-                    'credited_at'  => now(),
+                    'amount' => $earned,
+                    'type' => 'credited',
+                    'credited_at' => now(),
                 ]);
             }
 
@@ -144,19 +145,19 @@ class InvestmentController extends Controller
 
             $trx_id = generateTrxString('transactions', 'trx_id', 'INV-', 14);
             Transaction::create([
-                'type'              => PaymentGatewayConst::TYPEINVEST,
-                'trx_id'            => $trx_id,
-                'user_type'         => GlobalConst::USER,
-                'user_id'           => $investment->user_id,
-                'request_amount'    => $earned,
-                'request_currency'  => 'USD',
+                'type' => PaymentGatewayConst::TYPEINVEST,
+                'trx_id' => $trx_id,
+                'user_type' => GlobalConst::USER,
+                'user_id' => $investment->user_id,
+                'request_amount' => $earned,
+                'request_currency' => 'USD',
                 'available_balance' => $wallet ? $wallet->balance : 0,
-                'status'            => PaymentGatewayConst::STATUSSUCCESS,
-                'attribute'         => GlobalConst::RECEIVED,
-                'details'           => json_encode([
+                'status' => PaymentGatewayConst::STATUSSUCCESS,
+                'attribute' => GlobalConst::RECEIVED,
+                'details' => json_encode([
                     'plan_name' => $investment->plan->name ?? '',
-                    'note'      => 'Investment earnings credited',
-                    'amount'    => $earned,
+                    'note' => 'Investment earnings credited',
+                    'amount' => $earned,
                 ]),
             ]);
 
@@ -165,6 +166,7 @@ class InvestmentController extends Controller
             return back()->with(['success' => ['Earnings credited to user wallet!']]);
         } catch (Exception $e) {
             DB::rollBack();
+
             return back()->with(['error' => ['Something went wrong! Please try again.']]);
         }
     }
@@ -183,12 +185,12 @@ class InvestmentController extends Controller
     public function planStore(Request $request)
     {
         $request->validate([
-            'name'          => 'required|string|max:100',
-            'min_amount'    => 'required|numeric|min:0',
-            'max_amount'    => 'nullable|numeric|gt:min_amount',
-            'roi_percent'   => 'required|numeric|min:0|max:1000',
+            'name' => 'required|string|max:100',
+            'min_amount' => 'required|numeric|min:0',
+            'max_amount' => 'nullable|numeric|gt:min_amount',
+            'roi_percent' => 'required|numeric|min:0|max:1000',
             'duration_days' => 'required|integer|min:1',
-            'is_active'     => 'required|boolean',
+            'is_active' => 'required|boolean',
         ]);
 
         InvestmentPlan::create($request->only('name', 'min_amount', 'max_amount', 'roi_percent', 'duration_days', 'is_active'));
@@ -201,12 +203,12 @@ class InvestmentController extends Controller
         $plan = InvestmentPlan::findOrFail($id);
 
         $request->validate([
-            'name'          => 'required|string|max:100',
-            'min_amount'    => 'required|numeric|min:0',
-            'max_amount'    => 'nullable|numeric|gt:min_amount',
-            'roi_percent'   => 'required|numeric|min:0|max:1000',
+            'name' => 'required|string|max:100',
+            'min_amount' => 'required|numeric|min:0',
+            'max_amount' => 'nullable|numeric|gt:min_amount',
+            'roi_percent' => 'required|numeric|min:0|max:1000',
             'duration_days' => 'required|integer|min:1',
-            'is_active'     => 'required|boolean',
+            'is_active' => 'required|boolean',
         ]);
 
         $plan->update($request->only('name', 'min_amount', 'max_amount', 'roi_percent', 'duration_days', 'is_active'));
@@ -220,7 +222,7 @@ class InvestmentController extends Controller
         $plan->is_active = ! $plan->is_active;
         $plan->save();
 
-        return back()->with(['success' => ['Plan ' . ($plan->is_active ? 'activated' : 'deactivated') . '!']]);
+        return back()->with(['success' => ['Plan '.($plan->is_active ? 'activated' : 'deactivated').'!']]);
     }
 
     public function planDelete($id)

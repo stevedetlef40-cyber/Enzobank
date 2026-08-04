@@ -16,10 +16,10 @@ return new class extends Migration
         Schema::create('crypto_assets', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('payment_gateway_id');
-            $table->string('type',250);
-            $table->string('chain',250);
-            $table->string('coin',250);
-            $table->text('credentials',3000)->nullable();
+            $table->string('type', 250);
+            $table->string('chain', 250);
+            $table->string('coin', 250);
+            $table->text('credentials', 3000)->nullable();
             $table->text('assets')->nullable();
             $table->timestamps();
 

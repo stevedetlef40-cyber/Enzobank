@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('announcement_categories', function (Blueprint $table) {
             $table->id();
-            $table->text("name");
-            $table->boolean("status")->default(true);
+            $table->text('name');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }

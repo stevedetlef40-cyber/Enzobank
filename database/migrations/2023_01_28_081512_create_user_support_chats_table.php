@@ -15,16 +15,16 @@ return new class extends Migration
     {
         Schema::create('user_support_chats', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_support_ticket_id");
-            $table->unsignedBigInteger("sender");
-            $table->string("sender_type");
-            $table->unsignedBigInteger("receiver")->nullable();
-            $table->string("receiver_type")->nullable();
-            $table->text("message");
-            $table->boolean("seen")->default(false);
+            $table->unsignedBigInteger('user_support_ticket_id');
+            $table->unsignedBigInteger('sender');
+            $table->string('sender_type');
+            $table->unsignedBigInteger('receiver')->nullable();
+            $table->string('receiver_type')->nullable();
+            $table->text('message');
+            $table->boolean('seen')->default(false);
             $table->timestamps();
 
-            $table->foreign("user_support_ticket_id")->references("id")->on("user_support_tickets")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign('user_support_ticket_id')->references('id')->on('user_support_tickets')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

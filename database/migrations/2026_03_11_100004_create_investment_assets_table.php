@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('symbol')->unique();
-            $table->enum('asset_type', ['stock','fund','bond','crypto','cash'])->default('stock');
+            $table->enum('asset_type', ['stock', 'fund', 'bond', 'crypto', 'cash'])->default('stock');
             $table->string('risk_level')->nullable();
             $table->decimal('current_price', 19, 6)->default(0);
             $table->boolean('status')->default(true);
@@ -25,4 +25,3 @@ return new class extends Migration
         Schema::dropIfExists('investment_assets');
     }
 };
-

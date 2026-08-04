@@ -12,14 +12,16 @@ class SetupKyc extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'fields'    => "object",
+        'fields' => 'object',
     ];
 
-    public function scopeUserKyc($query) {
-        return $query->where("user_type","USER")->active();
+    public function scopeUserKyc($query)
+    {
+        return $query->where('user_type', 'USER')->active();
     }
 
-    public function scopeActive($query) {
-        $query->where("status",\DB::raw('true'));
+    public function scopeActive($query)
+    {
+        $query->where('status', \DB::raw('true'));
     }
 }

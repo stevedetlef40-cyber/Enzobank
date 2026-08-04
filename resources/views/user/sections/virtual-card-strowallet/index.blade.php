@@ -288,8 +288,9 @@ $myCards = $myCards ?? collect([]);
 $firstCard = $myCards->first();
 $cardNumber = $firstCard->card_number ?? '4242424242424242';
 $cardName = strtoupper(auth()->user()->fullname ?? auth()->user()->username ?? 'CARD HOLDER');
-$expMonth = $firstCard->expiry_month ?? '12';
-$expYear = $firstCard->expiry_year ?? '28';
+$expMonth = $firstCard->expiry_month ?: '12';
+$expYear = $firstCard->expiry_year ?: '28';
+@php $expYear = strlen($expYear) === 4 ? substr($expYear, 2) : $expYear; @endphp
 $cvv = null; // never expose the stored (encrypted) CVV in the page payload
 $cvvMasked = $cvv ? '•••' : '—';
 $cardStatus = $firstCard->is_active ?? true;

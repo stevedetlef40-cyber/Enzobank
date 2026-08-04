@@ -1,6 +1,6 @@
 <?php
 
 return [
-    'status'    => false,
-    'point'     => '/',
+    'status' => false,
+    'point' => '/',
 ];

@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('beneficiaries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("transaction_method_id")->constrained('transaction_methods')->cascadeOnDelete();
-            $table->foreignId("user_id")->constrained('users')->nullable()->cascadeOnDelete();
+            $table->foreignId('transaction_method_id')->constrained('transaction_methods')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('users')->nullable()->cascadeOnDelete();
             $table->string('slug')->unique();
-            $table->text("info")->nullable();
+            $table->text('info')->nullable();
             $table->timestamps();
         });
     }

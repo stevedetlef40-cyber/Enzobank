@@ -15,24 +15,24 @@ class SetupPageSeeder extends Seeder
      */
     public function run()
     {
-        $pages              =  [
-            "Home"          => "/",
-            "About"         => "/about",
-            'Services'      => "/services",
-            "Web Journals"  => "/web-journals",
-            "Contact"       => "/contact"
+        $pages = [
+            'Home' => '/',
+            'About' => '/about',
+            'Services' => '/services',
+            'Web Journals' => '/web-journals',
+            'Contact' => '/contact',
         ];
-        
+
         $data = [];
-        foreach($pages as $item => $url) {
+        foreach ($pages as $item => $url) {
             $data[] = [
-                'slug'          => Str::slug($item),
-                'title'         => $item,
-                'url'           => $url,
-                'last_edit_by'  => 1,
-                'created_at'    => now(),
+                'slug' => Str::slug($item),
+                'title' => $item,
+                'url' => $url,
+                'last_edit_by' => 1,
+                'created_at' => now(),
             ];
-        }   
+        }
 
         SetupPage::insert($data);
     }

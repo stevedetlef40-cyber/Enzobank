@@ -10,26 +10,31 @@ class BankList extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
+
     protected $casts = [
         'admin_id' => 'integer',
-        'name'     => 'string',
-        'alias'    => 'string',
-        'status'   => 'integer',
+        'name' => 'string',
+        'alias' => 'string',
+        'status' => 'integer',
     ];
+
     protected $appends = [
         'editData',
     ];
-    public function getEditDataAttribute() {
+
+    public function getEditDataAttribute()
+    {
 
         $data = [
-            'id'     => $this->id,
-            'name'   => $this->name,
-            'alias'  => $this->alias,
+            'id' => $this->id,
+            'name' => $this->name,
+            'alias' => $this->alias,
             'status' => $this->status,
         ];
 
         return json_encode($data);
     }
+
     public function scopeActive($query)
     {
         return $query->where('status', \DB::raw('true'));
@@ -40,11 +45,13 @@ class BankList extends Model
         return $query->where('status', \DB::raw('false'));
     }
 
-    public function scopeSearch($query,$text) {
-        $query->Where("name","like","%".$text."%");
+    public function scopeSearch($query, $text)
+    {
+        $query->Where('name', 'like', '%'.$text.'%');
     }
 
-    public function branches(){
+    public function branches()
+    {
         return $this->hasMany(BankBranch::class);
     }
 }

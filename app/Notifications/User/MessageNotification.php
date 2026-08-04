@@ -45,7 +45,7 @@ class MessageNotification extends Notification
         $message = $data['message'];
 
         return (new MailMessage)
-                    ->line($message);
+            ->line($message);
     }
 
     /**

@@ -2,30 +2,30 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
-use Database\Seeders\User\UserSeeder;
-use Database\Seeders\Admin\RoleSeeder;
-use Database\Seeders\Admin\AdminSeeder;
-use Database\Seeders\Admin\CurrencySeeder;
-use Database\Seeders\Admin\LanguageSeeder;
-use Database\Seeders\Admin\SetupKycSeeder;
-use Database\Seeders\Admin\SetupSeoSeeder;
-use Database\Seeders\Admin\ExtensionSeeder;
-use Database\Seeders\Admin\SetupPageSeeder;
-use Database\Seeders\Admin\UsefulLinkSeeder;
-use Database\Seeders\Admin\AppSettingsSeeder;
 use Database\Seeders\Admin\AdminHasRoleSeeder;
+use Database\Seeders\Admin\AdminSeeder;
 use Database\Seeders\Admin\AnnouncementSeeder;
-use Database\Seeders\Admin\SiteSectionsSeeder;
-use Database\Seeders\Admin\BasicSettingsSeeder;
-use Database\Seeders\Admin\PaymentGatewaySeeder;
-use Database\Seeders\Admin\VirtualCardApiSeeder;
 use Database\Seeders\Admin\AppOnBoardScreenSeeder;
+use Database\Seeders\Admin\AppSettingsSeeder;
+use Database\Seeders\Admin\BasicSettingsSeeder;
+use Database\Seeders\Admin\CurrencySeeder;
+use Database\Seeders\Admin\ExtensionSeeder;
+use Database\Seeders\Admin\FreshBasicSettingsSeeder;
+use Database\Seeders\Admin\FundTransferSettingsSeeder;
+use Database\Seeders\Admin\LanguageSeeder;
+use Database\Seeders\Admin\PaymentGatewaySeeder;
+use Database\Seeders\Admin\RoleSeeder;
+use Database\Seeders\Admin\SetupKycSeeder;
+use Database\Seeders\Admin\SetupPageSeeder;
+use Database\Seeders\Admin\SetupSeoSeeder;
+use Database\Seeders\Admin\SiteSectionsSeeder;
 use Database\Seeders\Admin\SystemMaintenanceSeeder;
 use Database\Seeders\Admin\TransactionMethodSeeder;
-use Database\Seeders\Admin\FreshBasicSettingsSeeder;
 use Database\Seeders\Admin\TransactionSettingSeeder;
-use Database\Seeders\Admin\FundTransferSettingsSeeder;
+use Database\Seeders\Admin\UsefulLinkSeeder;
+use Database\Seeders\Admin\VirtualCardApiSeeder;
+use Database\Seeders\User\UserSeeder;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //fresh
+        // fresh
         $this->call([
             AdminSeeder::class,
             RoleSeeder::class,
@@ -58,10 +58,10 @@ class DatabaseSeeder extends Seeder
             FundTransferSettingsSeeder::class,
             VirtualCardApiSeeder::class,
             SystemMaintenanceSeeder::class,
-            AppOnBoardScreenSeeder::class
+            AppOnBoardScreenSeeder::class,
         ]);
 
-        //demo
+        // demo
         // $this->call([
         //     AdminSeeder::class,
         //     RoleSeeder::class,

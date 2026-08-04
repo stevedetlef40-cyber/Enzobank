@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        if (!Schema::hasTable('holidays')) {
+        if (! Schema::hasTable('holidays')) {
             Schema::create('holidays', function (Blueprint $table) {
                 $table->id();
                 $table->date('holiday_date')->unique();
@@ -25,4 +25,3 @@ return new class extends Migration
         Schema::dropIfExists('holidays');
     }
 };
-

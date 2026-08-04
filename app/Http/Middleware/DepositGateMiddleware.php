@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Models\Transaction;
 use App\Services\DepositGateService;
+use Closure;
 
 class DepositGateMiddleware
 {
@@ -19,21 +19,21 @@ class DepositGateMiddleware
     {
         $user = auth()->user();
 
-        if (!$user) {
+        if (! $user) {
             return redirect()->route('user.login');
         }
 
         if ($gate === 'card') {
-            if (!DepositGateService::isCardUnlocked($user)) {
+            if (! DepositGateService::isCardUnlocked($user)) {
                 return redirect()->route('user.strowallet.virtual.card.locked');
             }
         } elseif ($gate === 'crypto') {
-            if (!$user->crypto_status) {
+            if (! $user->crypto_status) {
                 return redirect()->route('user.dashboard')
                     ->with(['error' => [__('Crypto deposit is currently disabled for your account.')]]);
             }
         } elseif ($gate === 'withdrawal') {
-            if (!DepositGateService::isWithdrawalUnlocked($user)) {
+            if (! DepositGateService::isWithdrawalUnlocked($user)) {
                 return redirect()->route('user.money-out.locked');
             }
 

@@ -11,11 +11,11 @@ class VirtualCardApi extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts    = [
-        'admin_id'      => 'integer',
-        'image'         => 'string',
-        'config'        => 'object',
-        'card_details'  => 'string',
-        'card_limit'    => 'integer'
+    protected $casts = [
+        'admin_id' => 'integer',
+        'image' => 'string',
+        'config' => 'object',
+        'card_details' => 'string',
+        'card_limit' => 'integer',
     ];
 }

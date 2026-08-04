@@ -12,6 +12,6 @@ class UserKycData extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'data'      => 'object',
+        'data' => 'object',
     ];
 }

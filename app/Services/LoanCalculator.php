@@ -101,6 +101,7 @@ class LoanCalculator
     public function earlySettlementAmount(Loan $loan): float
     {
         $fee = ((float) $loan->early_settlement_fee_percent) / 100.0;
+
         return max(0.0, (float) $loan->balance_principal + (float) $loan->accrued_interest) * (1 + $fee);
     }
 
@@ -112,6 +113,7 @@ class LoanCalculator
         if ($freq === 'weekly') {
             return (int) ceil(($months * 30) / 7);
         }
+
         return $months;
     }
 
@@ -123,8 +125,10 @@ class LoanCalculator
         if ($freq === 'weekly') {
             return $annualRate / 52;
         }
+
         return $annualRate / 12;
     }
+
     public function computePeriodRate(float $annualRate, string $freq): float
     {
         return $this->periodRate($annualRate, $freq);
@@ -155,11 +159,14 @@ class LoanCalculator
             return $periods > 0 ? $principal / $periods : 0;
         }
         $f = pow(1 + $perRate, $periods);
+
         return ($principal * $perRate * $f) / ($f - 1);
     }
+
     public function computeAmortizedPayment(float $principal, float $annualRate, string $freq, int $periods): float
     {
         $perRate = $this->periodRate($annualRate, $freq);
+
         return $this->amortizedPayment($principal, $perRate, $periods);
     }
 
@@ -168,6 +175,7 @@ class LoanCalculator
         if ($remaining <= 0) {
             return $balance;
         }
+
         return $balance / $remaining;
     }
 
@@ -179,6 +187,7 @@ class LoanCalculator
         $pay = $this->amortizedPayment($balance, $perRate, $remaining);
         $interest = $balance * $perRate;
         $principal = max(0.0, $pay - $interest);
+
         return $principal;
     }
 
@@ -190,6 +199,7 @@ class LoanCalculator
         if ($freq === 'weekly') {
             return $start->copy()->addDays(7);
         }
+
         return $start->copy()->addMonthNoOverflow();
     }
 
@@ -201,6 +211,7 @@ class LoanCalculator
         if ($freq === 'weekly') {
             return $date->copy()->addDays(7);
         }
+
         return $date->copy()->addMonthNoOverflow();
     }
 }

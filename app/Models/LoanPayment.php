@@ -12,15 +12,15 @@ class LoanPayment extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'due_date'    => 'date',
-        'amount_due'  => 'decimal:4',
+        'due_date' => 'date',
+        'amount_due' => 'decimal:4',
         'amount_paid' => 'decimal:4',
         'principal_due' => 'decimal:4',
-        'interest_due'  => 'decimal:4',
-        'fee_due'       => 'decimal:4',
-        'principal_paid'=> 'decimal:4',
+        'interest_due' => 'decimal:4',
+        'fee_due' => 'decimal:4',
+        'principal_paid' => 'decimal:4',
         'interest_paid' => 'decimal:4',
-        'fee_paid'      => 'decimal:4',
+        'fee_paid' => 'decimal:4',
         'remaining_principal' => 'decimal:4',
     ];
 

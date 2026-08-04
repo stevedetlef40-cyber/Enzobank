@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('strowallet_virtual_cards', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger('user_id');
             $table->string('name_on_card');
             $table->string('card_id');
             $table->string('card_created_date');

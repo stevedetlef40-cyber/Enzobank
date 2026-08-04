@@ -15,12 +15,12 @@ return new class extends Migration
     {
         Schema::create('admin_roles', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("admin_id");
-            $table->string("name",60)->unique();
-            $table->boolean("status")->default(true);
+            $table->unsignedBigInteger('admin_id');
+            $table->string('name', 60)->unique();
+            $table->boolean('status')->default(true);
             $table->timestamps();
 
-            $table->foreign("admin_id")->references("id")->on("admins")->onDelete("cascade")->onUpdate("cascade");
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

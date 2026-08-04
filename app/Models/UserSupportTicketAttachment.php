@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class UserSupportTicketAttachment extends Model
 {
     use HasFactory;
+
     protected $guarded = ['id'];
 
     protected $casts = [
-        'attachment_info'       => 'object',
+        'attachment_info' => 'object',
     ];
 }

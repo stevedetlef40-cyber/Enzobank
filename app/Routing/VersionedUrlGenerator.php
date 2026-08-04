@@ -17,7 +17,7 @@ class VersionedUrlGenerator extends UrlGenerator
 
         $file = public_path($path);
         if (is_file($file)) {
-            $url .= (strpos($url, '?') !== false ? '&' : '?') . 'v=' . filemtime($file);
+            $url .= (strpos($url, '?') !== false ? '&' : '?').'v='.filemtime($file);
         }
 
         return $url;

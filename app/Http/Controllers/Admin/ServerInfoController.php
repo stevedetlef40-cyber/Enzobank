@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class ServerInfoController extends Controller
 {
@@ -14,7 +13,8 @@ class ServerInfoController extends Controller
      */
     public function index()
     {
-        $page_title = "Server Information";
+        $page_title = 'Server Information';
+
         return view('admin.sections.server-info.index', compact(
             'page_title',
         ));

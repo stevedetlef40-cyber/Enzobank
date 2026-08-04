@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('virtual_card_apis', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("admin_id");
+            $table->unsignedBigInteger('admin_id');
             $table->string('image')->nullable();
             $table->text('card_details')->nullable();
             $table->integer('card_limit')->default(3);

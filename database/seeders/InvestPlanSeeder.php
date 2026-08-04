@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\InvestmentPlan;
 use App\Models\CryptoWallet;
+use App\Models\InvestmentPlan;
 use Illuminate\Database\Seeder;
 
 class InvestPlanSeeder extends Seeder

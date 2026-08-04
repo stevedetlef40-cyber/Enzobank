@@ -1,13 +1,11 @@
 <?php
+
 namespace App\Http\Controllers\User;
-use Exception;
-use Carbon\Carbon;
-use App\Models\UserWallet;
-use App\Models\Transaction;
-use Illuminate\Http\Request;
+
 use App\Http\Controllers\Controller;
+use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Constants\PaymentGatewayConst;
 
 class DashboardController extends Controller
 {
@@ -16,7 +14,8 @@ class DashboardController extends Controller
         return redirect()->route('user.rise.home');
     }
 
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         $authSource = session('auth_source', 'web');
         Auth::logout();
         $request->session()->invalidate();
@@ -24,22 +23,26 @@ class DashboardController extends Controller
         if ($authSource === 'app') {
             return redirect()->route('app.login');
         }
+
         return redirect()->route('user.login');
     }
 
-    public function deleteAccount(Request $request) {
+    public function deleteAccount(Request $request)
+    {
         $user = auth()->user();
-        try{
+        try {
             $user->status = 0;
             $user->save();
             Auth::logout();
+
             return redirect()->route('index')->with(['success' => ['Your account deleted successfully!']]);
-        }catch(Exception $e) {
+        } catch (Exception $e) {
             return back()->with(['error' => ['Something Went Wrong! Please Try Again.']]);
         }
     }
 
-    public function checkPin(Request $request){
+    public function checkPin(Request $request)
+    {
         $pin = $request->pin;
         $user = auth()->user();
 
@@ -51,6 +54,7 @@ class DashboardController extends Controller
         if ($pin != $user->pin_code) {
             return response('0');
         }
+
         return response('1');
     }
 }

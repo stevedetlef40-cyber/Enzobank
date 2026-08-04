@@ -12,20 +12,22 @@ class HolidayController extends Controller
     {
         $page_title = __('Holidays');
         $holidays = Holiday::orderBy('holiday_date')->paginate(20);
-        return view('admin.sections.holidays.index', compact('page_title','holidays'));
+
+        return view('admin.sections.holidays.index', compact('page_title', 'holidays'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'holiday_date' => ['required','date'],
-            'name' => ['nullable','string','max:120'],
-            'region' => ['nullable','string','max:50'],
+            'holiday_date' => ['required', 'date'],
+            'name' => ['nullable', 'string', 'max:120'],
+            'region' => ['nullable', 'string', 'max:50'],
         ]);
         Holiday::updateOrCreate(
             ['holiday_date' => $request->holiday_date, 'region' => $request->region],
             ['name' => $request->name]
         );
+
         return back()->with('success', __('Holiday saved'));
     }
 
@@ -33,7 +35,7 @@ class HolidayController extends Controller
     {
         $h = Holiday::findOrFail($id);
         $h->delete();
+
         return back()->with('success', __('Holiday deleted'));
     }
 }
-

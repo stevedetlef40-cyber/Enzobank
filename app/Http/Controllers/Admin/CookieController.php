@@ -17,42 +17,42 @@ class CookieController extends Controller
      */
     public function index()
     {
-        $page_title = "GDPR Cookie";
-        $site_cookie = SiteSections::siteCookie();
+        $page_title = 'GDPR Cookie';
+        $site_cookie = SiteSections::siteCookie()->first();
 
-        return view('admin.sections.cookie.index',compact(
+        return view('admin.sections.cookie.index', compact(
             'page_title',
             'site_cookie',
         ));
     }
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request)
     {
-        $validator = Validator::make($request->all(),[
-            'status'    => 'required|numeric',
-            'link'      => 'required|string',
-            'desc'      => 'required|string|max:50000',
+        $validator = Validator::make($request->all(), [
+            'status' => 'required|numeric',
+            'link' => 'required|string',
+            'desc' => 'required|string|max:50000',
         ]);
 
         $validated = $validator->validate();
         $type = 'site_cookie';
 
         $status = [
-            '0'     => false,
-            '1'     => true,
+            '0' => false,
+            '1' => true,
         ];
         $validated['status'] = $status[$validated['status']];
 
         // Insert bata into batabase
-        try{
-            SiteSections::updateOrCreate(['key' => $type],['key' => $type , 'value' => $validated, 'status' => $validated['status']]);
-        }catch(Exception $e) {
+        try {
+            SiteSections::updateOrCreate(['key' => $type], ['key' => $type, 'value' => $validated, 'status' => $validated['status']]);
+        } catch (Exception $e) {
             return back()->with(['error' => ['Something went wrong! Please try again.']]);
         }
 

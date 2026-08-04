@@ -16,20 +16,20 @@ class PaymentGatewayCurrency extends Model
     protected $appends = [];
 
     protected $casts = [
-        'id'                        => 'integer',
-        'payment_gateway_id'        => 'integer',
-        'name'                      => 'string',
-        'alias'                     => 'string',
-        'currency_code'             => 'string',
-        'currency_symbol'           => 'string',
-        'image'                     => 'string',
-        'min_limit'                 => 'decimal:16',
-        'max_limit'                 => 'decimal:16',
-        'percent_charge'            => 'decimal:16',
-        'fixed_charge'              => 'decimal:16',
-        'rate'                      => 'decimal:16',
-        'created_at'                => 'date:Y-m-d',
-        'updated_at'                => 'date:Y-m-d',
+        'id' => 'integer',
+        'payment_gateway_id' => 'integer',
+        'name' => 'string',
+        'alias' => 'string',
+        'currency_code' => 'string',
+        'currency_symbol' => 'string',
+        'image' => 'string',
+        'min_limit' => 'decimal:16',
+        'max_limit' => 'decimal:16',
+        'percent_charge' => 'decimal:16',
+        'fixed_charge' => 'decimal:16',
+        'rate' => 'decimal:16',
+        'created_at' => 'date:Y-m-d',
+        'updated_at' => 'date:Y-m-d',
     ];
 
     /**
@@ -41,19 +41,26 @@ class PaymentGatewayCurrency extends Model
     public function getOnly($attributes)
     {
         $this->callable_data = $this->only($attributes);
+
         return $this;
     }
 
-    public function makeJson() {
+    public function makeJson()
+    {
         return json_encode($this->callable_data);
     }
 
-    public function gateway() {
-        return $this->belongsTo(PaymentGateway::class,"payment_gateway_id");
+    public function gateway()
+    {
+        return $this->belongsTo(PaymentGateway::class, 'payment_gateway_id');
     }
 
-    public function getCryptoAttribute() {
-        if($this->gateway->crypto == true) return true;
+    public function getCryptoAttribute()
+    {
+        if ($this->gateway->crypto == true) {
+            return true;
+        }
+
         return false;
     }
 

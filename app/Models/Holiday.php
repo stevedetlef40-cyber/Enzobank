@@ -17,4 +17,3 @@ class Holiday extends Model
         'region' => 'string',
     ];
 }
-

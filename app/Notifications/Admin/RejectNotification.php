@@ -43,13 +43,14 @@ class RejectNotification extends Notification
     {
         $fullname = $notifiable->fullname;
         $data = $this->data;
+
         return (new MailMessage)
-                    ->subject("Transaction Rejected")
-                    ->greeting("Hello ".$fullname . "!")
-                    ->line('Your transaction has been rejected by admin.')
-                    ->line("Transaction Id: ".$data->target)
-                    ->line("Reject Reason: ".$data->reason)
-                    ->line('Thank you for using our application!');
+            ->subject('Transaction Rejected')
+            ->greeting('Hello '.$fullname.'!')
+            ->line('Your transaction has been rejected by admin.')
+            ->line('Transaction Id: '.$data->target)
+            ->line('Reject Reason: '.$data->reason)
+            ->line('Thank you for using our application!');
     }
 
     /**

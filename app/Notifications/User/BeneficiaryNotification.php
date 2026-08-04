@@ -2,10 +2,10 @@
 
 namespace App\Notifications\User;
 
-use Illuminate\Bus\Queueable;
 use App\Constants\GlobalConst;
-use Illuminate\Notifications\Notification;
+use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
 class BeneficiaryNotification extends Notification
 {
@@ -17,12 +17,15 @@ class BeneficiaryNotification extends Notification
      * @return void
      */
     private $data;
+
     private $user;
+
     private $method;
+
     public function __construct($data, $user)
     {
-        $this->data   = $data;
-        $this->user   = $user;
+        $this->data = $data;
+        $this->user = $user;
     }
 
     /**
@@ -44,24 +47,24 @@ class BeneficiaryNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $data   = $this->data;
-        $user   = $this->user;
+        $data = $this->data;
+        $user = $this->user;
 
-        switch($data->beneficiary_subtype){
+        switch ($data->beneficiary_subtype) {
             case GlobalConst::TRX_ACCOUNT_NUMBER:
-                $full_name      = $data->account_holder_name;
-                $account_number = "The account number is ". $data->account_number;
+                $full_name = $data->account_holder_name;
+                $account_number = 'The account number is '.$data->account_number;
                 break;
             default:
-                $full_name      = $data->card_holder_name;
-                $account_number = "The card number is ". $data->account_number;
+                $full_name = $data->card_holder_name;
+                $account_number = 'The card number is '.$data->account_number;
         }
 
         return (new MailMessage)
-                    ->subject("Beneficiary Added")
-                    ->greeting("Hello ".$user->fullname." !")
-                    ->line("New Beneficiary Added For (".$data->method->name.") Beneficiary full name is ".$full_name." ".$account_number)
-                    ->line('Thank you for using our application!');
+            ->subject('Beneficiary Added')
+            ->greeting('Hello '.$user->fullname.' !')
+            ->line('New Beneficiary Added For ('.$data->method->name.') Beneficiary full name is '.$full_name.' '.$account_number)
+            ->line('Thank you for using our application!');
     }
 
     /**

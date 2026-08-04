@@ -1,45 +1,50 @@
 <?php
+
 namespace App\Http\Helpers;
 
-class Response {
-
-    public static function error($errors,$data = null, $status = 400) {
+class Response
+{
+    public static function error($errors, $data = null, $status = 400)
+    {
         $responseData = [
-            'message'   => [
-                'error'    => $errors,
+            'message' => [
+                'error' => $errors,
             ],
-            'data'      => $data,
-            'type'          => "error",
-        ];
-        
-        return response()->json($responseData,$status);
-    }
-
-    public static function success($success,$data = null,$status = 200) {
-        $responseData = [
-            'message'       => [
-                'success'   => $success,
-            ],
-            'data'          => $data,
-            'type'          => "success",
+            'data' => $data,
+            'type' => 'error',
         ];
 
-        return response()->json($responseData,$status);
+        return response()->json($responseData, $status);
     }
 
-    public static function warning($warning,$data = null,$status = 400) {
+    public static function success($success, $data = null, $status = 200)
+    {
         $responseData = [
-            'message'       => [
-                'error'     => $warning,
+            'message' => [
+                'success' => $success,
             ],
-            'data'          => $data,
-            'type'          => "warning",
+            'data' => $data,
+            'type' => 'success',
         ];
 
-        return response()->json($responseData,$status);
+        return response()->json($responseData, $status);
     }
+
+    public static function warning($warning, $data = null, $status = 400)
+    {
+        $responseData = [
+            'message' => [
+                'error' => $warning,
+            ],
+            'data' => $data,
+            'type' => 'warning',
+        ];
+
+        return response()->json($responseData, $status);
+    }
+
     public static function maintenance($message = 'Something Went Wrong', $data = null)
     {
-        return response()->json(['message' => $message,'data' => $data], 503);
+        return response()->json(['message' => $message, 'data' => $data], 503);
     }
 }

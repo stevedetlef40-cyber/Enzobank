@@ -2,18 +2,17 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
-use Illuminate\Http\Request;
 use App\Constants\GlobalConst;
 use App\Http\Helpers\Response;
 use App\Providers\Admin\BasicSettingsProvider;
+use Closure;
+use Illuminate\Http\Request;
 
 class KycVerificationGuard
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
@@ -21,27 +20,28 @@ class KycVerificationGuard
     {
         $basic_settings = BasicSettingsProvider::get();
         $guard = userGuard()['type'];
-        if( $guard === 'USER'){
+        if ($guard === 'USER') {
             $kyc_verification_status = $basic_settings->kyc_verification;
         }
-        if($kyc_verification_status) {
-            if($basic_settings->kyc_verification) {
+        if ($kyc_verification_status) {
+            if ($basic_settings->kyc_verification) {
                 $user = auth()->user();
-                if($user->kyc_verified != GlobalConst::APPROVED) {
+                if ($user->kyc_verified != GlobalConst::APPROVED) {
 
-                    $smg = "Please verify your KYC information before any withdrawal action";
-                    if($user->kyc_verified == GlobalConst::PENDING) {
-                        $smg = "Your KYC information is pending. Please wait for admin confirmation.";
+                    $smg = 'Please verify your KYC information before any withdrawal action';
+                    if ($user->kyc_verified == GlobalConst::PENDING) {
+                        $smg = 'Your KYC information is pending. Please wait for admin confirmation.';
                     }
-                    if(request()->expectsJson()) {
-                        return Response::error([$smg],[],400);
+                    if (request()->expectsJson()) {
+                        return Response::error([$smg], [], 400);
                     }
-                    if(auth()->guard("web")->check()) {
-                        return redirect()->route("user.kyc.index")->with(['warning' => [$smg]]);
+                    if (auth()->guard('web')->check()) {
+                        return redirect()->route('user.kyc.index')->with(['warning' => [$smg]]);
                     }
                 }
             }
         }
+
         return $next($request);
     }
 }

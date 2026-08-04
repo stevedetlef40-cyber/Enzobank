@@ -15,7 +15,7 @@ return new class extends Migration
             $table->decimal('quantity', 28, 10)->default(0);
             $table->decimal('avg_cost', 19, 6)->default(0);
             $table->timestamps();
-            $table->unique(['portfolio_id','investment_asset_id']);
+            $table->unique(['portfolio_id', 'investment_asset_id']);
         });
     }
 
@@ -24,4 +24,3 @@ return new class extends Migration
         Schema::dropIfExists('portfolio_holdings');
     }
 };
-

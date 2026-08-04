@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('site_sections', function (Blueprint $table) {
             $table->id();
-            $table->string('key',100);
+            $table->string('key', 100);
             $table->text('value');
             $table->boolean('status')->default(true);
             $table->integer('serialize')->nullable();

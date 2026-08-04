@@ -10,7 +10,6 @@ class PostgresConnection extends BasePostgresConnection
      * Prepare the query bindings for execution.
      * Overridden to fix PostgreSQL boolean handling.
      *
-     * @param  array  $bindings
      * @return array
      */
     public function prepareBindings(array $bindings)

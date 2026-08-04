@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use App\Models\Admin\Admin;
-use Illuminate\Support\Str;
 use App\Constants\GlobalConst;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Admin\Admin;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class TransactionMethod extends Model
 {
@@ -21,14 +21,16 @@ class TransactionMethod extends Model
         'status' => 'integer',
     ];
 
-    public function admin() {
-        return $this->belongsTo(Admin::class,"last_edit_by","id");
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class, 'last_edit_by', 'id');
     }
 
-    public function getEditDataAttribute() {
+    public function getEditDataAttribute()
+    {
         $data = [
-            'name'      => $this->name,
-            'slug'      => $this->slug,
+            'name' => $this->name,
+            'slug' => $this->slug,
         ];
 
         return json_encode($data);
@@ -39,28 +41,34 @@ class TransactionMethod extends Model
         return $query->where('status', \DB::raw('true'));
     }
 
-    public function isOwnBankTransfer() {
+    public function isOwnBankTransfer()
+    {
         $wallet_to_wallet_slug = Str::slug(GlobalConst::TRX_OWN_BANK_TRANSFER);
-        if($this->slug == $wallet_to_wallet_slug) {
+        if ($this->slug == $wallet_to_wallet_slug) {
             return true;
         }
+
         return false;
     }
 
-    public function isOtherBankTransfer() {
+    public function isOtherBankTransfer()
+    {
         $bank_slug = Str::slug(GlobalConst::TRX_OTHER_BANK_TRANSFER);
-        if($this->slug == $bank_slug) {
+        if ($this->slug == $bank_slug) {
             return true;
         }
+
         return false;
     }
 
-    public function getReadableNameAttribute() {
-        $divide_with_pipe = explode("|",$this->name);
+    public function getReadableNameAttribute()
+    {
+        $divide_with_pipe = explode('|', $this->name);
         $name = $divide_with_pipe[0];
-        if(isset($divide_with_pipe[1])) {
+        if (isset($divide_with_pipe[1])) {
             $name = ucwords($divide_with_pipe[0]);
         }
+
         return $name;
     }
 }

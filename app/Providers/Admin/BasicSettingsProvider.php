@@ -2,8 +2,8 @@
 
 namespace App\Providers\Admin;
 
-class BasicSettingsProvider {
-
+class BasicSettingsProvider
+{
     public $setting;
 
     public function __construct($settings = null)
@@ -11,11 +11,13 @@ class BasicSettingsProvider {
         $this->setting = $settings;
     }
 
-    public function set($settings) {
+    public function set($settings)
+    {
         return $this->setting = $settings;
     }
-    
-    public function getData() {
+
+    public function getData()
+    {
         $setting = $this->setting;
         // Treat an empty stdClass (view-share fallback) the same as null.
         if ($setting instanceof \stdClass && ! get_object_vars($setting)) {
@@ -24,6 +26,7 @@ class BasicSettingsProvider {
         if ($setting) {
             return $setting;
         }
+
         return self::fallbackSettings();
     }
 
@@ -34,25 +37,28 @@ class BasicSettingsProvider {
      * Gate defaults keep a fresh install open: registration allowed,
      * email OTP verification required, SSL not forced, notifications muted.
      */
-    public static function fallbackSettings() {
-        $fallback = new \stdClass();
+    public static function fallbackSettings()
+    {
+        $fallback = new \stdClass;
         foreach (self::FALLBACK_KEYS as $key) {
             $fallback->{$key} = null;
         }
-        $fallback->user_registration   = true;
-        $fallback->email_verification  = true;
-        $fallback->sms_verification    = false;
-        $fallback->kyc_verification    = false;
-        $fallback->secure_password     = false;
-        $fallback->agree_policy        = false;
-        $fallback->force_ssl           = false;
-        $fallback->email_notification  = false;
-        $fallback->push_notification   = false;
-        $fallback->mail_activity       = false;
+        $fallback->user_registration = true;
+        $fallback->email_verification = true;
+        $fallback->sms_verification = false;
+        $fallback->kyc_verification = false;
+        $fallback->secure_password = false;
+        $fallback->agree_policy = false;
+        $fallback->force_ssl = false;
+        $fallback->email_notification = false;
+        $fallback->push_notification = false;
+        $fallback->mail_activity = false;
+
         return $fallback;
     }
 
-    public static function get() {
+    public static function get()
+    {
         return app(BasicSettingsProvider::class)->getData();
     }
 

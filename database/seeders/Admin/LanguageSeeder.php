@@ -16,31 +16,31 @@ class LanguageSeeder extends Seeder
     {
         $data = [
             [
-                'name'          => "English",
-                'code'          => "en",
-                'status'        => true,
-                'last_edit_by'  => 1,
-                'created_at'    => now(),
-                'dir'           => "ltr",
+                'name' => 'English',
+                'code' => 'en',
+                'status' => true,
+                'last_edit_by' => 1,
+                'created_at' => now(),
+                'dir' => 'ltr',
             ],
             [
-                'name'          => "Spanish",
-                'code'          => "es",
-                'status'        => false,
-                'last_edit_by'  => 1,
-                'created_at'    => now(),
-                'dir'           => "ltr",
+                'name' => 'Spanish',
+                'code' => 'es',
+                'status' => false,
+                'last_edit_by' => 1,
+                'created_at' => now(),
+                'dir' => 'ltr',
             ],
             [
-                'name'          => "Arabic",
-                'code'          => "ar",
-                'status'        => false,
-                'last_edit_by'  => 1,
-                'created_at'    => now(),
-                'dir'           => "rtl",
-            ]
+                'name' => 'Arabic',
+                'code' => 'ar',
+                'status' => false,
+                'last_edit_by' => 1,
+                'created_at' => now(),
+                'dir' => 'rtl',
+            ],
         ];
 
-        Language::upsert($data,['code'],[]);
+        Language::upsert($data, ['code'], []);
     }
 }

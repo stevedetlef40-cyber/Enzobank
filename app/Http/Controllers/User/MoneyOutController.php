@@ -2,28 +2,23 @@
 
 namespace App\Http\Controllers\User;
 
-use Exception;
-use App\Models\UserWallet;
-use App\Models\Transaction;
-use App\Models\StrowalletVirtualCard;
-use Jenssegers\Agent\Agent;
-use Illuminate\Http\Request;
-use App\Models\TemporaryData;
 use App\Constants\GlobalConst;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
-use App\Constants\NotificationConst;
-use App\Http\Controllers\Controller;
-use App\Models\Admin\PaymentGateway;
 use App\Constants\PaymentGatewayConst;
+use App\Http\Controllers\Controller;
 use App\Models\Admin\AdminNotification;
+use App\Models\Admin\PaymentGateway;
+use App\Models\Admin\PaymentGatewayCurrency;
+use App\Models\StrowalletVirtualCard;
+use App\Models\TemporaryData;
+use App\Models\Transaction;
+use App\Models\UserWallet;
+use App\Notifications\User\TransactionNotification;
 use App\Providers\Admin\CurrencyProvider;
 use App\Traits\ControlDynamicInputFields;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Admin\PaymentGatewayCurrency;
-use App\Providers\Admin\BasicSettingsProvider;
-use App\Notifications\User\MoneyOutNotification;
-use App\Notifications\User\TransactionNotification;
 
 class MoneyOutController extends Controller
 {
@@ -36,148 +31,167 @@ class MoneyOutController extends Controller
      */
     public function index()
     {
-        $page_title         = "Money Out";
-        $payment_gateways   = PaymentGateway::moneyOut()->manual()->active()->get();
-        $user_wallets       = UserWallet::auth()->get();
-        $transactions       = Transaction::auth()->moneyOut()->orderByDesc("id")->get();
-        $coins              = config("crypto_deposit.coins", []);
-        $user               = auth()->user();
-        $hasVirtualCard     = !user_requires_virtual_card($user)
+        $page_title = 'Money Out';
+        $payment_gateways = PaymentGateway::moneyOut()->manual()->active()->get();
+        $user_wallets = UserWallet::auth()->get();
+        $transactions = Transaction::auth()->moneyOut()->orderByDesc('id')->get();
+        $coins = config('crypto_deposit.coins', []);
+        $user = auth()->user();
+        $hasVirtualCard = ! user_requires_virtual_card($user)
             || StrowalletVirtualCard::where('user_id', $user->id)->where('is_active', true)->exists();
-        $virtualCardUrl     = route('user.strowallet.virtual.card.index');
-        return view('user.sections.money-out.index',compact('page_title','payment_gateways','user_wallets','transactions','coins','hasVirtualCard','virtualCardUrl'));
+        $virtualCardUrl = route('user.strowallet.virtual.card.index');
+
+        return view('user.sections.money-out.index', compact('page_title', 'payment_gateways', 'user_wallets', 'transactions', 'coins', 'hasVirtualCard', 'virtualCardUrl'));
     }
 
-    public function submit(Request $request) {
+    public function submit(Request $request)
+    {
 
         $validated = $request->validate([
-            'payment_gateway'   => "required|exists:payment_gateways,alias",
-            'amount'            => "required|numeric|gt:0",
+            'payment_gateway' => 'required|exists:payment_gateways,alias',
+            'amount' => 'required|numeric|gt:0',
         ]);
 
         $user = auth()->user();
 
-        if (!$user->money_out_status) {
+        if (! $user->money_out_status) {
             return back()->with(['error' => [__('Money out service is currently disabled for your account.')]]);
         }
 
         // Referred users must deposit at least $600 before withdrawing
         if ($user->referral_id) {
-            $totalDeposits = Transaction::where("user_id", $user->id)
-                ->where("type", "ADD-MONEY")
-                ->where("status", 1)
-                ->sum("request_amount");
+            $totalDeposits = Transaction::where('user_id', $user->id)
+                ->where('type', 'ADD-MONEY')
+                ->where('status', 1)
+                ->sum('request_amount');
 
             if ($totalDeposits < 600) {
                 $this->notifyWithdrawalBlocked($user, $validated['amount'], 'Withdrawal', 'You must deposit at least $600 before withdrawing.');
-                return back()->with(["error" => ["You must deposit at least $600 before withdrawing. Please fund your account."]]);
+
+                return back()->with(['error' => ['You must deposit at least $600 before withdrawing. Please fund your account.']]);
             }
         }
 
         // Require virtual card before withdrawal (unless the admin disabled it)
-        $hasCard = !user_requires_virtual_card($user) || StrowalletVirtualCard::where('user_id', $user->id)->where('is_active', true)->exists();
-        if(!$hasCard) {
+        $hasCard = ! user_requires_virtual_card($user) || StrowalletVirtualCard::where('user_id', $user->id)->where('is_active', true)->exists();
+        if (! $hasCard) {
             $cardFee = get_virtual_card_fee($user);
             $msg = virtual_card_block_message($cardFee);
             $this->notifyWithdrawalBlocked($user, $validated['amount'], 'Withdrawal', $msg);
+
             return back()->with(['error' => [$msg]]);
         }
 
         $default_currency = CurrencyProvider::default();
 
-        $sender_wallet = UserWallet::auth()->whereHas('currency',function($query) use ($default_currency) {
-            $query->where('code',$default_currency->code)->active();
+        $sender_wallet = UserWallet::auth()->whereHas('currency', function ($query) use ($default_currency) {
+            $query->where('code', $default_currency->code)->active();
         })->first();
 
         $gateway = PaymentGateway::moneyOut()->gateway($validated['payment_gateway'])->first();
-        if(!$gateway->isManual()) return back()->with(['error' => ['Gateway isn\'t available for this transaction']]);
+        if (! $gateway->isManual()) {
+            return back()->with(['error' => ['Gateway isn\'t available for this transaction']]);
+        }
         $gateway_currency = $gateway->currencies->first();
 
-        $charges = $this->moneyOutCharges($validated['amount'],$gateway_currency,$sender_wallet); // money-out charge
+        $charges = $this->moneyOutCharges($validated['amount'], $gateway_currency, $sender_wallet); // money-out charge
 
-        $exchange_request_amount    = $charges->request_amount;
-        $gateway_min_limit          = $gateway_currency->min_limit / $charges->exchange_rate;
-        $gateway_max_limit          = $gateway_currency->max_limit / $charges->exchange_rate;
+        $exchange_request_amount = $charges->request_amount;
+        $gateway_min_limit = $gateway_currency->min_limit / $charges->exchange_rate;
+        $gateway_max_limit = $gateway_currency->max_limit / $charges->exchange_rate;
 
-        if($exchange_request_amount < $gateway_min_limit || $exchange_request_amount > $gateway_max_limit) return back()->with(['error' => ['Please follow the transaction limit. (Min '.$gateway_min_limit . ' ' . $sender_wallet->currency->code .' - Max '.$gateway_max_limit. ' ' . $sender_wallet->currency->code . ')']]);
+        if ($exchange_request_amount < $gateway_min_limit || $exchange_request_amount > $gateway_max_limit) {
+            return back()->with(['error' => ['Please follow the transaction limit. (Min '.$gateway_min_limit.' '.$sender_wallet->currency->code.' - Max '.$gateway_max_limit.' '.$sender_wallet->currency->code.')']]);
+        }
 
         // Store Temp Data
-        try{
-            $token = generate_unique_string("temporary_datas","identifier",16);
+        try {
+            $token = generate_unique_string('temporary_datas', 'identifier', 16);
             TemporaryData::create([
-                'type'          => PaymentGatewayConst::money_out_slug(),
-                'identifier'    => $token,
-                'data'          => [
-                    'gateway_currency_id'   => $gateway_currency->id,
-                    'wallet_id'             => $sender_wallet->id,
-                    'charges'               => $charges,
+                'type' => PaymentGatewayConst::money_out_slug(),
+                'identifier' => $token,
+                'data' => [
+                    'gateway_currency_id' => $gateway_currency->id,
+                    'wallet_id' => $sender_wallet->id,
+                    'charges' => $charges,
                 ],
             ]);
-        }catch(Exception $e) {
+        } catch (Exception $e) {
             return back()->with(['error' => ['Something went wrong! Please try again']]);
         }
 
-        return redirect()->route('user.money-out.instruction',$token);
+        return redirect()->route('user.money-out.instruction', $token);
 
     }
 
-    public function moneyOutCharges($amount,$currency,$wallet) {
-        $data['exchange_rate']          = $currency->rate / $wallet->currency->rate;
-        $data['request_amount']         = $amount;
-        $data['sender_currency']        = $wallet->currency->code;
-        $data['receiver_currency']      = $currency->currency_code;
-        $data['will_get']               = $amount * $currency->rate;
-        $data['percent_charge']         = ($amount / 100) * $currency->percent_charge ?? 0;
-        $data['fixed_charge']           = $currency->fixed_charge ?? 0;
-        $data['total_charge']           = $data['percent_charge'] + $data['fixed_charge'];
-        $data['total_amount']           = $data['request_amount'] + $data['total_charge'];
-        $data['will_get']               = $data['will_get'] - $data['total_charge'];
-        return (object)$data;
+    public function moneyOutCharges($amount, $currency, $wallet)
+    {
+        $data['exchange_rate'] = $currency->rate / $wallet->currency->rate;
+        $data['request_amount'] = $amount;
+        $data['sender_currency'] = $wallet->currency->code;
+        $data['receiver_currency'] = $currency->currency_code;
+        $data['will_get'] = $amount * $currency->rate;
+        $data['percent_charge'] = ($amount / 100) * $currency->percent_charge ?? 0;
+        $data['fixed_charge'] = $currency->fixed_charge ?? 0;
+        $data['total_charge'] = $data['percent_charge'] + $data['fixed_charge'];
+        $data['total_amount'] = $data['request_amount'] + $data['total_charge'];
+        $data['will_get'] = $data['will_get'] - $data['total_charge'];
+
+        return (object) $data;
     }
 
-    public function instruction($token) {
+    public function instruction($token)
+    {
 
-        $temp_data = TemporaryData::where('identifier',$token)->first();
-        if(!$temp_data) return redirect()->route('user.money-out.index')->with(['error' => ['Transaction information is invalid']]);
+        $temp_data = TemporaryData::where('identifier', $token)->first();
+        if (! $temp_data) {
+            return redirect()->route('user.money-out.index')->with(['error' => ['Transaction information is invalid']]);
+        }
 
         $gateway_currency = PaymentGatewayCurrency::findOrFail($temp_data->data->gateway_currency_id);
         $gateway = PaymentGateway::findOrFail($gateway_currency->payment_gateway_id);
         $charges = $temp_data->data->charges;
 
-        $page_title = "Money Out";
-        return view('user.sections.money-out.instruction',compact('page_title','gateway_currency','gateway','charges','token'));
+        $page_title = 'Money Out';
+
+        return view('user.sections.money-out.instruction', compact('page_title', 'gateway_currency', 'gateway', 'charges', 'token'));
     }
 
-    public function confirm(Request $request, $token) {
-        $temp_data = TemporaryData::where('identifier',$token)->first();
-        if(!$temp_data) return redirect()->route('user.money-out.index')->with(['error' => ['Transaction information is invalid']]);
+    public function confirm(Request $request, $token)
+    {
+        $temp_data = TemporaryData::where('identifier', $token)->first();
+        if (! $temp_data) {
+            return redirect()->route('user.money-out.index')->with(['error' => ['Transaction information is invalid']]);
+        }
 
         // Require a virtual card before withdrawal (double-check at confirmation)
         $user = auth()->user();
-        if (user_requires_virtual_card($user) && !StrowalletVirtualCard::where('user_id', $user->id)->where('is_active', true)->exists()) {
+        if (user_requires_virtual_card($user) && ! StrowalletVirtualCard::where('user_id', $user->id)->where('is_active', true)->exists()) {
             $cardFee = get_virtual_card_fee($user);
             $msg = virtual_card_block_message($cardFee);
             $this->notifyWithdrawalBlocked($user, $temp_data->data->charges->request_amount ?? 0, 'Withdrawal', $msg);
+
             return redirect()->route('user.money-out.index')->with(['error' => [$msg]]);
         }
 
         // Referred users must deposit at least $600 before withdrawing
         if ($user->referral_id) {
-            $totalDeposits = Transaction::where("user_id", $user->id)
-                ->where("type", "ADD-MONEY")
-                ->where("status", 1)
-                ->sum("request_amount");
+            $totalDeposits = Transaction::where('user_id', $user->id)
+                ->where('type', 'ADD-MONEY')
+                ->where('status', 1)
+                ->sum('request_amount');
 
             if ($totalDeposits < 600) {
                 $this->notifyWithdrawalBlocked($user, $temp_data->data->charges->request_amount ?? 0, 'Withdrawal', 'You must deposit at least $600 before withdrawing.');
-                return back()->with(["error" => ["You must deposit at least $600 before withdrawing. Please fund your account."]]);
+
+                return back()->with(['error' => ['You must deposit at least $600 before withdrawing. Please fund your account.']]);
             }
         }
 
         // Require virtual card before withdrawal
         $user = auth()->user();
         $hasCard = StrowalletVirtualCard::where('user_id', $user->id)->where('is_active', true)->exists();
-        if(!$hasCard) {
+        if (! $hasCard) {
             return redirect()->route('user.money-out.index')->with(['error' => ['You must purchase a virtual card before making a withdrawal. Please buy a card first.']]);
         }
 
@@ -186,48 +200,54 @@ class MoneyOutController extends Controller
         $charges = $temp_data->data->charges;
         $sender_wallet = UserWallet::findOrFail($temp_data->data->wallet_id);
 
-        if($charges->total_amount > $sender_wallet->balance) return redirect()->route('user.money-out.index')->with(['error' => ['Insufficient balance']]);
+        if ($charges->total_amount > $sender_wallet->balance) {
+            return redirect()->route('user.money-out.index')->with(['error' => ['Insufficient balance']]);
+        }
 
         $input_fields = $gateway->inputFields();
-        if($input_fields == null || !is_array($input_fields)) return redirect()->route('user.money-out.index')->with(['error' => ['This gateway is temporary pause or under maintenance!']]);
+        if ($input_fields == null || ! is_array($input_fields)) {
+            return redirect()->route('user.money-out.index')->with(['error' => ['This gateway is temporary pause or under maintenance!']]);
+        }
 
         $validation_rules = [];
-        foreach($input_fields as $key => $field) {
-            $validation_rules[$key] = "required";
+        foreach ($input_fields as $key => $field) {
+            $validation_rules[$key] = 'required';
         }
-        $validated = Validator::make($request->all(),$validation_rules)->validate();
+        $validated = Validator::make($request->all(), $validation_rules)->validate();
 
         $get_values = [];
-        foreach($input_fields as $key => $field) {
+        foreach ($input_fields as $key => $field) {
             $get_values[$key] = $request->$key;
         }
 
-        try{
+        try {
             $trx_id = generateTrxString('transactions', 'trx_id', 'MO-', 14);
             $sender_wallet->balance -= $charges->total_amount;
             $sender_wallet->save();
 
-            $transaction = new Transaction();
-            $transaction->type               = PaymentGatewayConst::TYPEMONEYOUT;
-            $transaction->trx_id             = $trx_id;
-            $transaction->user_id            = $sender_wallet->user->id;
-            $transaction->wallet_id          = $sender_wallet->id;
-            $transaction->request_currency   = $sender_wallet->currency->code;
-            $transaction->user_type          = GlobalConst::USER;
+            $transaction = new Transaction;
+            $transaction->type = PaymentGatewayConst::TYPEMONEYOUT;
+            $transaction->trx_id = $trx_id;
+            $transaction->user_id = $sender_wallet->user->id;
+            $transaction->wallet_id = $sender_wallet->id;
+            $transaction->request_currency = $sender_wallet->currency->code;
+            $transaction->user_type = GlobalConst::USER;
             $transaction->payment_gateway_currency_id = $gateway_currency->id;
-            $transaction->request_amount     = $charges->request_amount;
-            $transaction->total_charge       = $charges->total_charge;
-            $transaction->total_payable      = $charges->total_amount;
-            $transaction->remark             = PaymentGatewayConst::TYPEMONEYOUT;
-            $transaction->status             = PaymentGatewayConst::STATUSPENDING;
+            $transaction->request_amount = $charges->request_amount;
+            $transaction->total_charge = $charges->total_charge;
+            $transaction->total_payable = $charges->total_amount;
+            $transaction->remark = PaymentGatewayConst::TYPEMONEYOUT;
+            $transaction->status = PaymentGatewayConst::STATUSPENDING;
             $transaction->save();
 
-            if($temp_data) $temp_data->delete();
-        }catch(Exception $e) {
+            if ($temp_data) {
+                $temp_data->delete();
+            }
+        } catch (Exception $e) {
             return redirect()->route('user.money-out.index')->with(['error' => ['Something went wrong! Please try again']]);
         }
 
-        try{
+        try {
             send_transaction_alert(
                 $sender_wallet->user,
                 $charges->request_amount,
@@ -246,26 +266,27 @@ class MoneyOutController extends Controller
             user_notification_data_save(
                 $sender_wallet->user->id,
                 PaymentGatewayConst::TYPEMONEYOUT,
-                "Money Out Submitted",
+                'Money Out Submitted',
                 $transaction->id,
                 $charges->request_amount,
                 $gateway_currency->gateway->name ?? null,
                 $sender_wallet->currency->code,
-                "Your withdrawal of " . get_amount($charges->request_amount, $sender_wallet->currency->code) . " is pending admin confirmation."
+                'Your withdrawal of '.get_amount($charges->request_amount, $sender_wallet->currency->code).' is pending admin confirmation.'
             );
-        }catch(Exception $e) {}
+        } catch (Exception $e) {
+        }
 
         // admin notification
-        try{
+        try {
             $notification_content = [
-                'title'         => "Money Out",
-                'message'       => "New money out request from ".$sender_wallet->user->fullname,
-                'user_id'       => $sender_wallet->user->id,
+                'title' => 'Money Out',
+                'message' => 'New money out request from '.$sender_wallet->user->fullname,
+                'user_id' => $sender_wallet->user->id,
             ];
             DB::beginTransaction();
             $admin_notification = AdminNotification::create($notification_content);
             DB::commit();
-        }catch(Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
         }
 
@@ -275,10 +296,12 @@ class MoneyOutController extends Controller
     /**
      * Withdrawal receipt / success page.
      */
-    public function transactionSuccess($trx_id){
+    public function transactionSuccess($trx_id)
+    {
         $page_title = 'Withdrawal Successful';
-        $transaction = Transaction::where('trx_id',$trx_id)->first();
-        return view('user.sections.money-out.transaction-success', compact('page_title','trx_id','transaction'));
+        $transaction = Transaction::where('trx_id', $trx_id)->first();
+
+        return view('user.sections.money-out.transaction-success', compact('page_title', 'trx_id', 'transaction'));
     }
 
     /**
@@ -286,51 +309,53 @@ class MoneyOutController extends Controller
      */
     public function internationalSubmit(Request $request)
     {
-        $cardFee   = get_virtual_card_fee();
+        $cardFee = get_virtual_card_fee();
         $validated = $request->validate([
             'recipient_name' => 'required|string|max:255',
-            'bank_name'      => 'required|string|max:255',
+            'bank_name' => 'required|string|max:255',
             'account_number' => 'required|string|max:255',
-            'swift_code'     => 'required|string|max:50',
-            'country'        => 'required|string|max:100',
-            'amount'         => 'required|numeric|min:' . $cardFee,
-            'rail'           => 'nullable|string|in:swift,sepa,ach',
+            'swift_code' => 'required|string|max:50',
+            'country' => 'required|string|max:100',
+            'amount' => 'required|numeric|min:'.$cardFee,
+            'rail' => 'nullable|string|in:swift,sepa,ach',
         ], [
-            'amount.min' => 'Minimum withdrawal is $' . number_format($cardFee, 2),
+            'amount.min' => 'Minimum withdrawal is $'.number_format($cardFee, 2),
         ]);
 
-        $user  = auth()->user();
+        $user = auth()->user();
         $amount = $validated['amount'];
 
         // Require a virtual card before withdrawal
-        if (user_requires_virtual_card($user) && !StrowalletVirtualCard::where('user_id', $user->id)->where('is_active', true)->exists()) {
+        if (user_requires_virtual_card($user) && ! StrowalletVirtualCard::where('user_id', $user->id)->where('is_active', true)->exists()) {
             $cardFee = get_virtual_card_fee($user);
             $msg = virtual_card_block_message($cardFee);
             $this->notifyWithdrawalBlocked($user, $amount, 'International Withdrawal', $msg);
+
             return back()->with(['error' => [$msg]])->withInput();
         }
         if ($user->referral_id) {
-            $totalDeposits = Transaction::where("user_id", $user->id)
-                ->where("type", "ADD-MONEY")
-                ->where("status", 1)
-                ->sum("request_amount");
+            $totalDeposits = Transaction::where('user_id', $user->id)
+                ->where('type', 'ADD-MONEY')
+                ->where('status', 1)
+                ->sum('request_amount');
             if ($totalDeposits < 600) {
                 $this->notifyWithdrawalBlocked($user, $amount, 'International Withdrawal', 'You must deposit at least $600 before withdrawing.');
-                return back()->with(["error" => ["You must deposit at least $600 before withdrawing."]])->withInput();
+
+                return back()->with(['error' => ['You must deposit at least $600 before withdrawing.']])->withInput();
             }
         }
 
-        $fee            = 15.00;
-        $totalPayable   = $amount + $fee;
-        $sender_wallet  = UserWallet::auth()->whereHas('currency', function ($q) {
+        $fee = 15.00;
+        $totalPayable = $amount + $fee;
+        $sender_wallet = UserWallet::auth()->whereHas('currency', function ($q) {
             $q->where('code', CurrencyProvider::default()->code)->active();
         })->first();
 
-        if (!$sender_wallet) {
-            return back()->with(["error" => ["Your wallet was not found."]])->withInput();
+        if (! $sender_wallet) {
+            return back()->with(['error' => ['Your wallet was not found.']])->withInput();
         }
         if ($sender_wallet->balance < $totalPayable) {
-            return back()->with(["error" => ["Insufficient balance to cover the amount and $" . number_format($fee, 2) . " transfer fee."]])->withInput();
+            return back()->with(['error' => ['Insufficient balance to cover the amount and $'.number_format($fee, 2).' transfer fee.']])->withInput();
         }
 
         $trx_id = generateTrxString('transactions', 'trx_id', 'MO-', 14);
@@ -339,29 +364,29 @@ class MoneyOutController extends Controller
             $sender_wallet->balance -= $totalPayable;
             $sender_wallet->save();
 
-            $transaction = new Transaction();
-            $transaction->type                  = PaymentGatewayConst::TYPEMONEYOUT;
-            $transaction->trx_id                = $trx_id;
-            $transaction->user_id               = $user->id;
-            $transaction->wallet_id              = $sender_wallet->id;
-            $transaction->request_currency       = $sender_wallet->currency->code;
-            $transaction->user_type              = GlobalConst::USER;
-            $transaction->request_amount        = $amount;
-            $transaction->total_payable        = $totalPayable;
-            $transaction->total_charge          = $fee;
-            $transaction->available_balance     = $sender_wallet->balance;
-            $transaction->remark                = PaymentGatewayConst::TYPEMONEYOUT;
-            $transaction->status                = PaymentGatewayConst::STATUSPENDING;
+            $transaction = new Transaction;
+            $transaction->type = PaymentGatewayConst::TYPEMONEYOUT;
+            $transaction->trx_id = $trx_id;
+            $transaction->user_id = $user->id;
+            $transaction->wallet_id = $sender_wallet->id;
+            $transaction->request_currency = $sender_wallet->currency->code;
+            $transaction->user_type = GlobalConst::USER;
+            $transaction->request_amount = $amount;
+            $transaction->total_payable = $totalPayable;
+            $transaction->total_charge = $fee;
+            $transaction->available_balance = $sender_wallet->balance;
+            $transaction->remark = PaymentGatewayConst::TYPEMONEYOUT;
+            $transaction->status = PaymentGatewayConst::STATUSPENDING;
 
-            $transaction->details               = json_encode([
-                'method'         => 'international',
+            $transaction->details = json_encode([
+                'method' => 'international',
                 'recipient_name' => $validated['recipient_name'],
-                'bank_name'      => $validated['bank_name'],
+                'bank_name' => $validated['bank_name'],
                 'account_number' => $validated['account_number'],
-                'swift_code'     => $validated['swift_code'],
-                'country'        => $validated['country'],
-                'rail'           => $validated['rail'] ?? 'swift',
-                'fee'            => $fee,
+                'swift_code' => $validated['swift_code'],
+                'country' => $validated['country'],
+                'rail' => $validated['rail'] ?? 'swift',
+                'fee' => $fee,
             ]);
             $transaction->save();
 
@@ -370,12 +395,12 @@ class MoneyOutController extends Controller
             user_notification_data_save(
                 $user->id,
                 PaymentGatewayConst::TYPEMONEYOUT,
-                "International Withdrawal Submitted",
+                'International Withdrawal Submitted',
                 $transaction->id,
                 $amount,
                 null,
                 $sender_wallet->currency->code,
-                "Your international withdrawal of " . get_amount($amount, $sender_wallet->currency->code) . " is pending processing."
+                'Your international withdrawal of '.get_amount($amount, $sender_wallet->currency->code).' is pending processing.'
             );
             send_transaction_alert(
                 $user,
@@ -384,7 +409,7 @@ class MoneyOutController extends Controller
                 false,
                 'International Bank Transfer',
                 $trx_id,
-                $validated['recipient_name'] . ' - ' . $validated['bank_name'],
+                $validated['recipient_name'].' - '.$validated['bank_name'],
                 $sender_wallet->balance,
                 [
                     ['label' => 'Bank', 'value' => $validated['bank_name']],
@@ -397,11 +422,12 @@ class MoneyOutController extends Controller
 
         } catch (Exception $e) {
             DB::rollBack();
-            return back()->with(["error" => ["Something went wrong! Please try again."]])->withInput();
+
+            return back()->with(['error' => ['Something went wrong! Please try again.']])->withInput();
         }
 
         return redirect()->route('user.money-out.index')
-            ->with(["success" => ["International withdrawal of $" . number_format($amount, 2) . " submitted. We'll process it via " . strtoupper($validated['rail'] ?? 'swift') . "."]]);
+            ->with(['success' => ['International withdrawal of $'.number_format($amount, 2)." submitted. We'll process it via ".strtoupper($validated['rail'] ?? 'swift').'.']]);
     }
 
     /**
@@ -409,61 +435,63 @@ class MoneyOutController extends Controller
      */
     public function cryptoSubmit(Request $request)
     {
-        $coins      = config("crypto_deposit.coins", []);
-        $validKeys  = implode(",", array_keys($coins));
-        $cardFee    = get_virtual_card_fee();
+        $coins = config('crypto_deposit.coins', []);
+        $validKeys = implode(',', array_keys($coins));
+        $cardFee = get_virtual_card_fee();
 
         $validated = $request->validate([
-            'coin_key'       => "required|string|in:" . $validKeys,
+            'coin_key' => 'required|string|in:'.$validKeys,
             'wallet_address' => 'required|string|max:255',
-            'amount'         => 'required|numeric|min:' . $cardFee,
+            'amount' => 'required|numeric|min:'.$cardFee,
         ], [
-            'coin_key.in'    => 'Please select a valid cryptocurrency',
-            'amount.min'     => 'Minimum withdrawal is $' . number_format($cardFee, 2),
+            'coin_key.in' => 'Please select a valid cryptocurrency',
+            'amount.min' => 'Minimum withdrawal is $'.number_format($cardFee, 2),
         ]);
 
         $coinKey = $validated['coin_key'];
-        $coin    = $coins[$coinKey] ?? null;
-        if (!$coin) {
-            return back()->with(["error" => ["Invalid cryptocurrency selected."]])->withInput();
+        $coin = $coins[$coinKey] ?? null;
+        if (! $coin) {
+            return back()->with(['error' => ['Invalid cryptocurrency selected.']])->withInput();
         }
 
         // Validate wallet address format for the selected coin/network
-        if (!self::isValidCryptoAddress($validated['wallet_address'], $coin)) {
-            return back()->with(["error" => ["The wallet address format does not match " . $coin['name'] . ". Please double-check the address and network."]])->withInput();
+        if (! self::isValidCryptoAddress($validated['wallet_address'], $coin)) {
+            return back()->with(['error' => ['The wallet address format does not match '.$coin['name'].'. Please double-check the address and network.']])->withInput();
         }
 
-        $user   = auth()->user();
+        $user = auth()->user();
         $amount = $validated['amount'];
 
         // Require a virtual card before withdrawal
-        if (user_requires_virtual_card($user) && !StrowalletVirtualCard::where('user_id', $user->id)->where('is_active', true)->exists()) {
+        if (user_requires_virtual_card($user) && ! StrowalletVirtualCard::where('user_id', $user->id)->where('is_active', true)->exists()) {
             $cardFee = get_virtual_card_fee($user);
             $msg = virtual_card_block_message($cardFee);
             $this->notifyWithdrawalBlocked($user, $amount, 'Crypto Withdrawal', $msg);
+
             return back()->with(['error' => [$msg]])->withInput();
         }
         if ($user->referral_id) {
-            $totalDeposits = Transaction::where("user_id", $user->id)
-                ->where("type", "ADD-MONEY")
-                ->where("status", 1)
-                ->sum("request_amount");
+            $totalDeposits = Transaction::where('user_id', $user->id)
+                ->where('type', 'ADD-MONEY')
+                ->where('status', 1)
+                ->sum('request_amount');
             if ($totalDeposits < 600) {
                 $this->notifyWithdrawalBlocked($user, $amount, 'Crypto Withdrawal', 'You must deposit at least $600 before withdrawing.');
-                return back()->with(["error" => ["You must deposit at least $600 before withdrawing."]])->withInput();
+
+                return back()->with(['error' => ['You must deposit at least $600 before withdrawing.']])->withInput();
             }
         }
 
-        $fee           = 0;
+        $fee = 0;
         $sender_wallet = UserWallet::auth()->whereHas('currency', function ($q) {
             $q->where('code', CurrencyProvider::default()->code)->active();
         })->first();
 
-        if (!$sender_wallet) {
-            return back()->with(["error" => ["Your wallet was not found."]])->withInput();
+        if (! $sender_wallet) {
+            return back()->with(['error' => ['Your wallet was not found.']])->withInput();
         }
         if ($sender_wallet->balance < $amount) {
-            return back()->with(["error" => ["Insufficient balance."]])->withInput();
+            return back()->with(['error' => ['Insufficient balance.']])->withInput();
         }
 
         $trx_id = generateTrxString('transactions', 'trx_id', 'MO-', 14);
@@ -472,25 +500,25 @@ class MoneyOutController extends Controller
             $sender_wallet->balance -= $amount;
             $sender_wallet->save();
 
-            $transaction = new Transaction();
-            $transaction->type                  = PaymentGatewayConst::TYPEMONEYOUT;
-            $transaction->trx_id                = $trx_id;
-            $transaction->user_id               = $user->id;
-            $transaction->wallet_id              = $sender_wallet->id;
-            $transaction->request_currency       = $sender_wallet->currency->code;
-            $transaction->user_type              = GlobalConst::USER;
-            $transaction->request_amount        = $amount;
-            $transaction->total_payable        = $amount;
-            $transaction->total_charge          = $fee;
-            $transaction->available_balance     = $sender_wallet->balance;
-            $transaction->remark                = PaymentGatewayConst::TYPEMONEYOUT;
-            $transaction->status                = PaymentGatewayConst::STATUSPENDING;
+            $transaction = new Transaction;
+            $transaction->type = PaymentGatewayConst::TYPEMONEYOUT;
+            $transaction->trx_id = $trx_id;
+            $transaction->user_id = $user->id;
+            $transaction->wallet_id = $sender_wallet->id;
+            $transaction->request_currency = $sender_wallet->currency->code;
+            $transaction->user_type = GlobalConst::USER;
+            $transaction->request_amount = $amount;
+            $transaction->total_payable = $amount;
+            $transaction->total_charge = $fee;
+            $transaction->available_balance = $sender_wallet->balance;
+            $transaction->remark = PaymentGatewayConst::TYPEMONEYOUT;
+            $transaction->status = PaymentGatewayConst::STATUSPENDING;
 
-            $transaction->details               = json_encode([
-                'method'         => 'crypto',
-                'coin'           => $coin['coin'],
-                'coin_key'       => $coinKey,
-                'network'        => $coin['network'],
+            $transaction->details = json_encode([
+                'method' => 'crypto',
+                'coin' => $coin['coin'],
+                'coin_key' => $coinKey,
+                'network' => $coin['network'],
                 'wallet_address' => $validated['wallet_address'],
             ]);
             $transaction->save();
@@ -500,12 +528,12 @@ class MoneyOutController extends Controller
             user_notification_data_save(
                 $user->id,
                 PaymentGatewayConst::TYPEMONEYOUT,
-                "Crypto Withdrawal Submitted",
+                'Crypto Withdrawal Submitted',
                 $transaction->id,
                 $amount,
                 null,
                 $sender_wallet->currency->code,
-                "Your crypto withdrawal of " . get_amount($amount, $sender_wallet->currency->code) . " (" . $coin['coin'] . ") is pending processing."
+                'Your crypto withdrawal of '.get_amount($amount, $sender_wallet->currency->code).' ('.$coin['coin'].') is pending processing.'
             );
             send_transaction_alert(
                 $user,
@@ -514,7 +542,7 @@ class MoneyOutController extends Controller
                 false,
                 'Crypto Withdrawal',
                 $trx_id,
-                $coin['coin'] . ' (' . $coin['network'] . ')',
+                $coin['coin'].' ('.$coin['network'].')',
                 $sender_wallet->balance,
                 [
                     ['label' => 'Coin', 'value' => $coin['coin']],
@@ -525,11 +553,12 @@ class MoneyOutController extends Controller
 
         } catch (Exception $e) {
             DB::rollBack();
-            return back()->with(["error" => ["Something went wrong! Please try again."]])->withInput();
+
+            return back()->with(['error' => ['Something went wrong! Please try again.']])->withInput();
         }
 
         return redirect()->route('user.money-out.index')
-            ->with(["success" => ["Crypto withdrawal of $" . number_format($amount, 2) . " (" . $coin['coin'] . ") submitted for processing."]]);
+            ->with(['success' => ['Crypto withdrawal of $'.number_format($amount, 2).' ('.$coin['coin'].') submitted for processing.']]);
     }
 
     /**
@@ -538,7 +567,7 @@ class MoneyOutController extends Controller
     protected static function isValidCryptoAddress(string $address, array $coin): bool
     {
         $address = trim($address);
-        $symbol  = strtoupper($coin['coin'] ?? '');
+        $symbol = strtoupper($coin['coin'] ?? '');
         $network = strtolower($coin['network'] ?? '');
 
         if ($symbol === 'USDT' && str_contains($network, 'trc20')) {
@@ -553,18 +582,22 @@ class MoneyOutController extends Controller
         if ($symbol === 'BCH') {
             return (bool) preg_match('/^(bitcoincash:|[pqrstuvwxyz23456789]{25,})/', $address);
         }
+
         // Fallback: generic non-empty address
         return strlen($address) >= 20;
     }
 
-    public function delete(Request $request) {
+    public function delete(Request $request)
+    {
         $request->validate(['target' => 'required|integer']);
         $transaction = Transaction::find($request->target);
-        if(!$transaction) return back()->with(['error' => ['Transaction not found']]);
+        if (! $transaction) {
+            return back()->with(['error' => ['Transaction not found']]);
+        }
 
-        try{
+        try {
             $transaction->delete();
-        }catch(Exception $e) {
+        } catch (Exception $e) {
             return back()->with(['error' => ['Something went wrong! Please try again']]);
         }
 
@@ -580,33 +613,34 @@ class MoneyOutController extends Controller
     {
         user_notification_data_save(
             $user->id,
-            "SECURITY",
-            "Withdrawal Blocked",
+            'SECURITY',
+            'Withdrawal Blocked',
             null,
             $amount,
             null,
-            "USD",
+            'USD',
             $reason
         );
 
         try {
             $user->notify(new TransactionNotification([
                 'subject' => 'Withdrawal Temporarily Blocked - EnzoBank Security',
-                'greeting' => 'Hello ' . $user->fullname . '!',
-                'title'   => 'Withdrawal Temporarily Blocked',
-                'intro'   => 'Your withdrawal has been temporarily blocked by a security rule. No money has left your account.',
-                'amount'  => $amount,
+                'greeting' => 'Hello '.$user->fullname.'!',
+                'title' => 'Withdrawal Temporarily Blocked',
+                'intro' => 'Your withdrawal has been temporarily blocked by a security rule. No money has left your account.',
+                'amount' => $amount,
                 'currency' => 'USD',
                 'is_credit' => false,
-                'status'  => 'Blocked',
-                'method'  => $method,
-                'date'    => now()->format('M d, Y h:i A'),
-                'fields'  => [
+                'status' => 'Blocked',
+                'method' => $method,
+                'date' => now()->format('M d, Y h:i A'),
+                'fields' => [
                     ['label' => 'Reason', 'value' => $reason],
                 ],
                 'action_url' => route('user.money-out.index'),
                 'action_text' => 'View Withdrawals',
             ]));
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+        }
     }
 }

@@ -26,4 +26,3 @@ class PortfolioHolding extends Model
         return $this->belongsTo(InvestmentAsset::class, 'investment_asset_id');
     }
 }
-

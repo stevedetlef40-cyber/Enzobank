@@ -43,12 +43,13 @@ class ApprovedNotification extends Notification
     {
         $fullname = $notifiable->fullname;
         $data = $this->data;
+
         return (new MailMessage)
-                    ->subject("Transaction Approved")
-                    ->greeting("Hello ".$fullname . "!")
-                    ->line('Your transaction has been approved by admin.')
-                    ->line("Transaction Id: ".$data->target)
-                    ->line('Thank you for using our application!');
+            ->subject('Transaction Approved')
+            ->greeting('Hello '.$fullname.'!')
+            ->line('Your transaction has been approved by admin.')
+            ->line('Transaction Id: '.$data->target)
+            ->line('Thank you for using our application!');
     }
 
     /**

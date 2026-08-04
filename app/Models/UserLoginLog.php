@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserLoginLog extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'user_id',
         'ip',
@@ -19,6 +20,6 @@ class UserLoginLog extends Model
         'browser',
         'os',
         'timezone',
-        'first_name','created_at'
+        'first_name', 'created_at',
     ];
 }
