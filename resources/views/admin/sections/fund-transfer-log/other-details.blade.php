@@ -86,6 +86,26 @@
         </div>
     </div>
 
+    @if ($transaction->status == payment_gateway_const()::STATUSPENDING)
+    <div class="custom-card mt-3">
+        <div class="card-body">
+            @include('admin.components.button.custom',[
+                'type'          => "button",
+                'class'         => "approve-btn w-100",
+                'text'          => __("Approve"),
+                'permission'    => "admin.fund.transfer.log.approve",
+            ])
+
+            @include('admin.components.button.custom',[
+                'type'          => "button",
+                'class'         => "bg--danger reject-btn w-100",
+                'text'          => __("Reject"),
+                'permission'    => "admin.fund.transfer.log.reject",
+            ])
+        </div>
+    </div>
+    @endif
+
     @include('admin.components.modals.fund-transfer-reject',compact("transaction"))
 @endsection
 
