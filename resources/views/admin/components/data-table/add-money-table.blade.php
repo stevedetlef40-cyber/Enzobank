@@ -34,12 +34,25 @@
                 </td>
                 <td>{{ $item->created_at->format('d-m-y h:i:s A') }}</td>
                 <td>
+                    @if ($item->status == payment_gateway_const()::STATUSPENDING)
+                        <form method="POST" action="{{ route('admin.add.money.approve') }}" style="display:inline-block;margin:0 2px;">
+                            @csrf
+                            <input type="hidden" name="target" value="{{ $item->trx_id }}">
+                            <button type="submit" class="btn btn--base bg--success" onclick="return confirm('Are you sure to approve this transaction?')"><i class="las la-check-circle"></i></button>
+                        </form>
+                        <form method="POST" action="{{ route('admin.add.money.reject') }}" style="display:inline-block;margin:0 2px;">
+                            @csrf
+                            <input type="hidden" name="target" value="{{ $item->trx_id }}">
+                            <button type="submit" class="btn btn--base bg--danger" onclick="return confirm('Are you sure to reject this transaction?')"><i class="las la-times-circle"></i></button>
+                        </form>
+                    @endif
+
                     @if ($item->status == payment_gateway_const()::STATUSSUCCESS)
-                        <button type="button" class="btn btn--base bg--success"><i class="las la-check-circle"></i></button>
+                        <button type="button" class="btn btn--base bg--success" disabled><i class="las la-check-circle"></i></button>
                     @endif
 
                     @if ($item->status == payment_gateway_const()::STATUSREJECTED)
-                        <button type="button" class="btn btn--base bg--danger"><i class="las la-times-circle"></i></button>
+                        <button type="button" class="btn btn--base bg--danger" disabled><i class="las la-times-circle"></i></button>
                     @endif
 
                     <a href="{{ setRoute('admin.add.money.details',$item->trx_id) }}" class="btn btn--base"><i class="las la-expand"></i></a>
