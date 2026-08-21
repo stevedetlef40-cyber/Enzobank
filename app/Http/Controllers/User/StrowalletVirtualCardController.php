@@ -785,6 +785,9 @@ class StrowalletVirtualCardController extends Controller
     {
         $user = auth()->user();
         $card = StrowalletVirtualCard::where('user_id', $user->id)->where('card_id', $card_id)->first();
+        if (! $card) {
+            return back()->with(['error' => [__('Card not found')]]);
+        }
         $page_title = __('Virtual Card Transaction');
         $id = $card->card_id;
         $emptyMessage = 'No Transaction Found!';
