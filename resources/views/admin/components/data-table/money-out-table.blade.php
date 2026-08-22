@@ -39,11 +39,7 @@
                             <input type="hidden" name="target" value="{{ $item->trx_id }}">
                             <button type="submit" class="btn btn--base bg--success" onclick="return confirm('Are you sure to approve this transaction?')"><i class="las la-check-circle"></i></button>
                         </form>
-                        <form method="POST" action="{{ route('admin.money.out.reject') }}" style="display:inline-block;margin:0 2px;">
-                            @csrf
-                            <input type="hidden" name="target" value="{{ $item->trx_id }}">
-                            <button type="submit" class="btn btn--base bg--danger" onclick="return confirm('Are you sure to reject this transaction?')"><i class="las la-times-circle"></i></button>
-                        </form>
+                        <button type="button" class="btn btn--base bg--danger reject-btn" data-trx-id="{{ $item->trx_id }}" style="display:inline-block;margin:0 2px;" onclick="openRejectModal('{{ $item->trx_id }}')"><i class="las la-times-circle"></i></button>
                     @endif
 
                     @if ($item->status == payment_gateway_const()::STATUSSUCCESS)
@@ -62,3 +58,43 @@
         @endforelse
     </tbody>
 </table>
+
+@if (admin_permission_by_name("admin.money.out.reject"))
+    {{-- Reject Modal --}}
+    <div id="reject-modal" class="mfp-hide large">
+        <div class="modal-data">
+            <div class="modal-header px-0">
+                <h5 class="modal-title">{{ __("Reject Transaction") }}</h5>
+            </div>
+            <div class="modal-form-data">
+                <form class="modal-form" method="POST" action="{{ setRoute('admin.money.out.reject') }}" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="target" id="reject-target">
+                    <div class="row mb-10-none">
+                        <div class="col-xl-12 col-lg-12 form-group">
+                            @include('admin.components.form.textarea',[
+                                'label'     => __("Explain Rejection Reason").'*',
+                                'name'      => "reason",
+                                'value'     => old("reason"),
+                            ])
+                        </div>
+
+                        <div class="col-xl-12 col-lg-12 form-group d-flex align-items-center justify-content-between mt-4">
+                            <button type="button" class="btn btn--danger modal-close">{{ __("Cancel") }}</button>
+                            <button type="submit" class="btn btn--base">{{ __("Submit") }}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endif
+
+@push('script')
+    <script>
+        function openRejectModal(trxId) {
+            $('#reject-target').val(trxId);
+            openModalBySelector($("#reject-modal"));
+        }
+    </script>
+@endpush
